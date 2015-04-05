@@ -36,7 +36,7 @@ public class LoginService {
         String password = authForm.getPassword();
         try{
 
-            if(email != null || password != null){
+            if(email != null && password != null){
                 User user = userOperations.getUserByEmailAndPassword(email, passwordDigest(password));
                 if(user != null){
                     SecurityContext context = getSecurityContext(user);
@@ -62,7 +62,7 @@ public class LoginService {
     public void changePassword(AuthForm authForm, String newPassword) throws Exception{
         String email = authForm.getEmail();
         String password = authForm.getPassword();
-        if(email != null || password != null){
+        if(email != null && password != null && newPassword != null){
             User user = userOperations.getUserByEmailAndPassword(email, passwordDigest(password));
             if(user != null){
                 user.setPassword(passwordDigest(newPassword));
