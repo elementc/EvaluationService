@@ -89,9 +89,9 @@ public class UsersService {
 
     @POST
     @Path("createadminaccount")
-    public void createDummyAccount(String email, String password) throws Exception{
+    public void createDummyAccount(String email) throws Exception{
         User user = new User();
-        user.setPassword(passwordDigest(password));
+        user.setPassword(passwordDigest("password"));
         user.setEmail(email);
         user.setFullname("Admin Account");
         user.setIs_inspector(true);
