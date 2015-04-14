@@ -15,6 +15,7 @@ import javax.ws.rs.core.SecurityContext;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
+import java.util.HashMap;
 
 @Path(URIConstants.KEY_AUTH)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -41,6 +42,8 @@ public class LoginService {
                 if(user != null){
                     SecurityContext context = getSecurityContext(user);
                     request.getSession(true).setAttribute("session-security-context", context);
+                    user.setNeed_password_reset(false);
+                    userOperations.addOrUpdateUser(user);
                     return Response.ok(EntityToDTO.getUserDTO(user)).build();
                 }
             }
@@ -59,15 +62,20 @@ public class LoginService {
 
     @PUT
     @Path("changepassword")
-    public void changePassword(AuthForm authForm, String newPassword) throws Exception{
-        String email = authForm.getEmail();
-        String password = authForm.getPassword();
-        if(email != null && password != null && newPassword != null){
+    public void changePassword(HashMap<String, String> authForm) throws Exception{
+        String email = authForm.get("email");
+        String password = authForm.get("password");
+        String newPassword = authForm.get("newPassword");
+        if(email != null && password != null && newPassword != null && newPassword.trim().length() > 0){
             User user = userOperations.getUserByEmailAndPassword(email, passwordDigest(password));
             if(user != null){
                 user.setPassword(passwordDigest(newPassword));
                 userOperations.addOrUpdateUser(user);
+            }else {
+                throw new WebApplicationException(Response.notModified().build());
             }
+        }else {
+            throw new WebApplicationException(Response.notModified().build());
         }
     }
 

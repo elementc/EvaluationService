@@ -37,8 +37,8 @@ public class GroupsService {
 
     @GET
     public ArrayList<GroupDTO> getGroups() throws Exception{
-        if(securityContext == null || (!securityContext.isUserInRole("ADMIN") && !securityContext.isUserInRole("USER"))){
-            unauthorized("Permission denied!");
+        if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
+            unauthorized();
         }
         List<Group> groupEntities = groupOperations.getAllGroups();
         if(groupEntities == null){
@@ -54,8 +54,8 @@ public class GroupsService {
     @Path("{groupID}")
     @GET
     public GroupDTO getGroup(@PathParam("groupID") Integer groupID) throws Exception{
-        if(securityContext == null || (!securityContext.isUserInRole("ADMIN") && !securityContext.isUserInRole("USER"))){
-            unauthorized("Permission denied!");
+        if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
+            unauthorized();
         }
         return EntityToDTO.getGroupDTO(groupOperations.getGroup(groupID));
     }
@@ -65,7 +65,7 @@ public class GroupsService {
     @DELETE
     public void deleteGroup(@PathParam("groupID") Integer groupID) throws Exception{
         if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
-            unauthorized("Permission denied!");
+            unauthorized();
         }
         groupOperations.deleteGroup(groupID);
     }
@@ -73,7 +73,7 @@ public class GroupsService {
     @PUT
     public void updateGroup(GroupDTO groupDTO) throws Exception{
         if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
-            unauthorized("Permission denied!");
+            unauthorized();
         }
         groupOperations.addOrUpdateGroup(DTOToEntity.getGroupEntity(groupDTO));
     }
@@ -81,67 +81,15 @@ public class GroupsService {
     @POST
     public void addGroup(GroupDTO groupDTO) throws Exception{
         if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
-            unauthorized("Permission denied!");
+            unauthorized();
         }
         groupDTO.setCreated_on(new Timestamp(System.currentTimeMillis()));
         groupOperations.addOrUpdateGroup(DTOToEntity.getGroupEntity(groupDTO));
     }
 
-    @GET
-    @Path("GetGroupsByCourseID/{courseID}")
-    public List<GroupDTO> getGroupsByCourseID(@PathParam("courseID") Integer courseID) throws Exception{
-        if(securityContext == null || (!securityContext.isUserInRole("ADMIN") && !securityContext.isUserInRole("USER"))){
-            unauthorized("Permission denied!");
-        }
-        List<Group> groups = queryService.getGroupsByCourseID(courseID);
-        List<GroupDTO> groupDTOs = null;
-        if(groups != null){
-            groupDTOs = new ArrayList<GroupDTO>();
-            for (Group group : groups){
-                groupDTOs.add(EntityToDTO.getGroupDTO(group));
-            }
-        }
-        return groupDTOs;
-    }
 
-    @GET
-    @Path("GetGroupsByUserID/{userID}")
-    public List<GroupDTO> getGroupsByUserID(@PathParam("userID") Integer userID) throws Exception{
-        if(securityContext == null || (!securityContext.isUserInRole("ADMIN") && !securityContext.isUserInRole("USER"))){
-            unauthorized("Permission denied!");
-        }
-        List<Group> groups = queryService.getGroupsByUserID(userID);
-        List<GroupDTO> groupDTOs = null;
-        if(groups != null){
-            groupDTOs = new ArrayList<GroupDTO>();
-            for (Group group : groups){
-                groupDTOs.add(EntityToDTO.getGroupDTO(group));
-            }
-        }
-        return groupDTOs;
-    }
-
-    @GET
-    @Path("GetUsersByGroupID/{groupID}")
-    public List<UserDTO> getUsersByGroupID(@PathParam("groupID") Integer groupID) throws Exception{
-        if(securityContext == null || (!securityContext.isUserInRole("ADMIN") && !securityContext.isUserInRole("USER"))){
-            unauthorized("Permission denied!");
-        }
-        List<User> users = queryService.getUsersByGroupID(groupID);
-
-        List<UserDTO> userDTOs = null;
-
-        if(users != null){
-            userDTOs = new ArrayList<UserDTO>();
-            for (User user : users){
-                userDTOs.add(EntityToDTO.getUserDTO(user));
-            }
-        }
-        return userDTOs;
-    }
-
-    private void unauthorized(String response){
-        Response.ResponseBuilder builder = Response.status(Response.Status.FORBIDDEN).entity("{\"error\":\"" + response + "\"}");
+    private void unauthorized(){
+        Response.ResponseBuilder builder = Response.status(Response.Status.FORBIDDEN).entity("{\"error\":\"Only admins can access this service\"}");
         throw new WebApplicationException(builder.build());
     }
 }

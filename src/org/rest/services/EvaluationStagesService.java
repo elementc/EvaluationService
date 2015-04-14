@@ -33,8 +33,8 @@ public class EvaluationStagesService {
 
     @GET
     public ArrayList<EvaluationStageDTO> getEvaluationStages() throws Exception{
-        if(securityContext == null || (!securityContext.isUserInRole("ADMIN") && !securityContext.isUserInRole("USER"))){
-            unauthorized("Permission denied!");
+        if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
+            unauthorized();
         }
         List<EvaluationStage> evaluationStageEntities = evaluationStageOperations.getAllEvaluationStages();
         if(evaluationStageEntities == null){
@@ -50,8 +50,8 @@ public class EvaluationStagesService {
     @Path("{evaluationStageID}")
     @GET
     public EvaluationStageDTO getEvaluationStage(@PathParam("evaluationStageID") Integer evaluationStageID) throws Exception{
-        if(securityContext == null || (!securityContext.isUserInRole("ADMIN") && !securityContext.isUserInRole("USER"))){
-            unauthorized("Permission denied!");
+        if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
+            unauthorized();
         }
         return EntityToDTO.getEvaluationStageDTO(evaluationStageOperations.getEvaluationStage(evaluationStageID));
     }
@@ -61,7 +61,7 @@ public class EvaluationStagesService {
     @DELETE
     public void deleteEvaluationStage(@PathParam("evaluationStageID") Integer evaluationStageID) throws Exception{
         if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
-            unauthorized("Permission denied!");
+            unauthorized();
         }
         evaluationStageOperations.deleteEvaluationStage(evaluationStageID);
     }
@@ -69,7 +69,7 @@ public class EvaluationStagesService {
     @PUT
     public void updateEvaluationStage(EvaluationStageDTO evaluationStageDTO) throws Exception{
         if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
-            unauthorized("Permission denied!");
+            unauthorized();
         }
         evaluationStageOperations.addOrUpdateEvaluationStage(DTOToEntity.getEvaluationStageEntity(evaluationStageDTO));
     }
@@ -77,14 +77,14 @@ public class EvaluationStagesService {
     @POST
     public void addEvaluationStage(EvaluationStageDTO evaluationStageDTO) throws Exception{
         if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
-            unauthorized("Permission denied!");
+            unauthorized();
         }
         evaluationStageDTO.setCreated_on(new Timestamp(System.currentTimeMillis()));
         evaluationStageOperations.addOrUpdateEvaluationStage(DTOToEntity.getEvaluationStageEntity(evaluationStageDTO));
     }
 
-    private void unauthorized(String response){
-        Response.ResponseBuilder builder = Response.status(Response.Status.FORBIDDEN).entity("{\"error\":\"" + response + "\"}");
+    private void unauthorized(){
+        Response.ResponseBuilder builder = Response.status(Response.Status.FORBIDDEN).entity("{\"error\":\"Only admins can access this service\"}");
         throw new WebApplicationException(builder.build());
     }
 }

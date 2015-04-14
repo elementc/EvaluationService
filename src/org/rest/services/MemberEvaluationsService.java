@@ -26,20 +26,18 @@ import java.util.List;
 public class MemberEvaluationsService {
 
     private MemberEvaluationOperations memberEvaluationOperations;
-    private QueryService queryService;
 
     @Context
     private SecurityContext securityContext;
 
     public MemberEvaluationsService(){
         memberEvaluationOperations = new MemberEvaluationOperations();
-        queryService = new QueryService();
     }
 
     @GET
     public List<MemberEvaluationDTO> getMemberEvaluations() throws Exception{
-        if(securityContext == null || (!securityContext.isUserInRole("ADMIN") && !securityContext.isUserInRole("USER"))){
-            unauthorized("Permission denied!");
+        if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
+            unauthorized();
         }
         List<MemberEvaluation> memberEvaluations = memberEvaluationOperations.getAllMemberEvaluations();
         if(memberEvaluations == null){
@@ -55,8 +53,8 @@ public class MemberEvaluationsService {
     @Path("{memberEvaluationID}")
     @GET
     public MemberEvaluationDTO getMemberEvaluation(@PathParam("memberEvaluationID") Integer memberEvaluationID) throws Exception{
-        if(securityContext == null || (!securityContext.isUserInRole("ADMIN") && !securityContext.isUserInRole("USER"))){
-            unauthorized("Permission denied!");
+        if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
+            unauthorized();
         }
         return EntityToDTO.getMemberEvaluationDTO(memberEvaluationOperations.getMemberEvaluation(memberEvaluationID));
     }
@@ -66,7 +64,7 @@ public class MemberEvaluationsService {
     @DELETE
     public void deleteMemberEvaluation(@PathParam("memberEvaluationID") Integer memberEvaluationID) throws Exception{
         if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
-            unauthorized("Permission denied!");
+            unauthorized();
         }
         memberEvaluationOperations.deleteMemberEvaluation(memberEvaluationID);
     }
@@ -74,42 +72,24 @@ public class MemberEvaluationsService {
     @PUT
     public void updateMemberEvaluation(MemberEvaluationDTO memberEvaluation) throws Exception{
         if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
-            unauthorized("Permission denied!");
+            unauthorized();
         }
         memberEvaluationOperations.addOrUpdateMemberEvaluation(DTOToEntity.getMemberEvaluationEntity(memberEvaluation));
     }
 
     @POST
     public void addMemberEvaluation(MemberEvaluationDTO memberEvaluation) throws Exception{
-        if(securityContext == null || (!securityContext.isUserInRole("ADMIN") && !securityContext.isUserInRole("USER"))){
-            unauthorized("Permission denied!");
+        if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
+            unauthorized();
         }
         memberEvaluation.setCreated_on(new Timestamp(System.currentTimeMillis()));
         memberEvaluationOperations.addOrUpdateMemberEvaluation(DTOToEntity.getMemberEvaluationEntity(memberEvaluation));
     }
 
-    @GET
-    @Path("GetMemberEvaluationsByUserID/{userID}")
-    public List<MemberEvaluationDTO> getMemberEvaluationsByUserID(@PathParam("userID") Integer userID) throws Exception{
-        if(securityContext == null || (!securityContext.isUserInRole("ADMIN") && !securityContext.isUserInRole("USER"))){
-            unauthorized("Permission denied!");
-        }
-        List<MemberEvaluation> memberEvaluations = queryService.getMemberEvaluationsByUserID(userID);
 
-        List<MemberEvaluationDTO> memberEvaluationDTOs = null;
 
-        if(memberEvaluations != null){
-            memberEvaluationDTOs = new ArrayList<MemberEvaluationDTO>();
-            for (MemberEvaluation memberEvaluation : memberEvaluations){
-                memberEvaluationDTOs.add(EntityToDTO.getMemberEvaluationDTO(memberEvaluation));
-            }
-        }
-
-        return memberEvaluationDTOs;
-    }
-
-    private void unauthorized(String response){
-        Response.ResponseBuilder builder = Response.status(Response.Status.FORBIDDEN).entity("{\"error\":\"" + response + "\"}");
+    private void unauthorized(){
+        Response.ResponseBuilder builder = Response.status(Response.Status.FORBIDDEN).entity("{\"error\":\"Only admins can access this service\"}");
         throw new WebApplicationException(builder.build());
     }
 }

@@ -31,8 +31,8 @@ public class GroupMembersService {
 
     @GET
     public List<GroupMemberDTO> getGroupMembers() throws Exception{
-        if(securityContext == null || (!securityContext.isUserInRole("ADMIN") && !securityContext.isUserInRole("USER"))){
-            unauthorized("Permission denied!");
+        if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
+            unauthorized();
         }
         List<GroupMember> groupMembers = groupMemberOperations.getAllGroupMember();
         if(groupMembers == null){
@@ -48,8 +48,8 @@ public class GroupMembersService {
     @Path("{groupMemberID}")
     @GET
     public GroupMemberDTO getGroupMember(@PathParam("groupMemberID") Integer groupMemberID) throws Exception{
-        if(securityContext == null || (!securityContext.isUserInRole("ADMIN") && !securityContext.isUserInRole("USER"))){
-            unauthorized("Permission denied!");
+        if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
+            unauthorized();
         }
         return EntityToDTO.getGroupMemberDTO(groupMemberOperations.getGroupMember(groupMemberID));
     }
@@ -59,7 +59,7 @@ public class GroupMembersService {
     @DELETE
     public void deleteGroupMember(@PathParam("groupMemberID") Integer groupMemberID) throws Exception{
         if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
-            unauthorized("Permission denied!");
+            unauthorized();
         }
         groupMemberOperations.deleteGroupMember(groupMemberID);
     }
@@ -67,7 +67,7 @@ public class GroupMembersService {
     @PUT
     public void updateGroupMember(GroupMemberDTO groupMember) throws Exception{
         if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
-            unauthorized("Permission denied!");
+            unauthorized();
         }
         groupMemberOperations.addOrUpdateGroupMember(DTOToEntity.getGroupMemberEntity(groupMember));
     }
@@ -75,13 +75,13 @@ public class GroupMembersService {
     @POST
     public void addGroupMember(GroupMemberDTO groupMember) throws Exception{
         if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
-            unauthorized("Permission denied!");
+            unauthorized();
         }
         groupMemberOperations.addOrUpdateGroupMember(DTOToEntity.getGroupMemberEntity(groupMember));
     }
 
-    private void unauthorized(String response){
-        Response.ResponseBuilder builder = Response.status(Response.Status.FORBIDDEN).entity("{\"error\":\"" + response + "\"}");
+    private void unauthorized(){
+        Response.ResponseBuilder builder = Response.status(Response.Status.FORBIDDEN).entity("{\"error\":\"Only admins can access this service\"}");
         throw new WebApplicationException(builder.build());
     }
 }

@@ -26,22 +26,6 @@ public class StartUp {
         server.join();
     }
 
-
-
-//        try {
-//
-//            HttpServer server = createHttpServer();
-//            server.start();
-//            System.out.println("Press enter to stop the server. ");
-//            System.in.read();
-//            server.stop(0);
-//        } catch (IllegalArgumentException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//      }
-
     private static ServletHolder createServletHolder() throws IOException{
         ResourceConfig rc = getResourceConfig();
         rc.getContainerResponseFilters().add(new CORSFilter());

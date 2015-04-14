@@ -13,66 +13,6 @@ public class QueryService {
 
 	private Session session;
 
-    public User getUserByEmailAndPassword(String email, String password) throws Exception{
-        List<User> users = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-
-            Criteria criteria = session.createCriteria(User.class);
-
-
-            if (email != null) {
-                criteria.add(Expression.eq("email", email));
-            }
-            if (password != null) {
-                criteria.add(Expression.eq("password", password));
-            }
-
-            try{
-                users = criteria.list();
-            }catch (ObjectNotFoundException e){
-                users = null;
-            }
-        } catch (HibernateException e) {
-            throw new HibernateException(e);
-        } catch (Exception e) {
-            throw new Exception(e);
-        } finally {
-            session.close();
-        }
-
-        if(users != null && users.size() > 0){
-            return users.get(0);
-        }else{
-            return null;
-        }
-    }
-
-    public List<Group> getGroupsByCourseID(int courseID) throws Exception{
-        List<Group> groups;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-
-            Criteria criteria = session.createCriteria(Group.class);
-
-            criteria.add(Expression.eq("course_id", courseID));
-
-            try{
-                groups = criteria.list();
-            }catch (ObjectNotFoundException e){
-                groups = null;
-            }
-
-        } catch (HibernateException e) {
-            throw new HibernateException(e);
-        } catch (Exception e) {
-            throw new Exception(e);
-        } finally {
-            session.close();
-        }
-
-        return groups;
-    }
 
     public List<Group> getGroupsByUserID(int userID) throws Exception{
         ArrayList<Group> groups = null;
@@ -81,7 +21,7 @@ public class QueryService {
 
             Criteria criteria = session.createCriteria(GroupMember.class);
 
-            criteria.add(Expression.eq("user_id", userID));
+            criteria.add(Expression.eq("user.id", userID));
 
             List<GroupMember> groupMembers = null;
             try{
@@ -108,6 +48,24 @@ public class QueryService {
         return groups;
     }
 
+    public void updateUser(User user) throws Exception{
+        User org_user = getUserByUserID(user.getId());
+        user.setPassword(org_user.getPassword());
+        new UserOperations().addOrUpdateUser(user);
+    }
+
+    public void addMemberEvaluation(MemberEvaluation memberEvaluation) throws Exception{
+       new MemberEvaluationOperations().addOrUpdateMemberEvaluation(memberEvaluation);
+    }
+
+    public void addGroupEvaluation(GroupEvaluation groupEvaluation) throws Exception{
+        new GroupEvaluationOperations().addOrUpdateGroupEvaluation(groupEvaluation);
+    }
+
+    public User getUserByUserID(int userID) throws Exception{
+        return new UserOperations().getUser(userID);
+    }
+
     public List<User> getUsersByGroupID(int groupID) throws Exception{
         ArrayList<User> users = null;
         try {
@@ -115,7 +73,7 @@ public class QueryService {
 
             Criteria criteria = session.createCriteria(GroupMember.class);
 
-            criteria.add(Expression.eq("group_id", groupID));
+            criteria.add(Expression.eq("group.id", groupID));
 
             List<GroupMember> groupMembers = null;
             try{
@@ -151,7 +109,7 @@ public class QueryService {
 
             Criteria criteria = session.createCriteria(MemberEvaluation.class);
 
-            criteria.add(Expression.eq("evaluator_id", userID));
+            criteria.add(Expression.eq("evaluator.id", userID));
 
             try{
                 memberEvaluations = criteria.list();
@@ -178,7 +136,7 @@ public class QueryService {
 
             Criteria criteria = session.createCriteria(GroupEvaluation.class);
 
-            criteria.add(Expression.eq("evaluator_id", userID));
+            criteria.add(Expression.eq("evaluator.id", userID));
 
             try{
                 groupEvaluations = criteria.list();
@@ -204,7 +162,7 @@ public class QueryService {
 
             Criteria criteria = session.createCriteria(GroupMember.class);
 
-            criteria.add(Expression.eq("user_id", userID));
+            criteria.add(Expression.eq("user.id", userID));
 
             List<GroupMember> groupMembers = null;
 
@@ -231,5 +189,31 @@ public class QueryService {
         }
 
         return courses;
+    }
+
+    public List<EvaluationStage> getEvaluationStagesByCourseID(int courseID) throws Exception{
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+
+            Criteria criteria = session.createCriteria(EvaluationStage.class);
+
+            criteria.add(Expression.eq("course.id", courseID));
+
+            List<EvaluationStage> evaluationStages = null;
+
+            try{
+                evaluationStages = criteria.list();
+            }catch (ObjectNotFoundException e){
+                evaluationStages = null;
+            }
+            return evaluationStages;
+
+        } catch (HibernateException e) {
+            throw new HibernateException(e);
+        } catch (Exception e) {
+            throw new Exception(e);
+        } finally {
+            session.close();
+        }
     }
 }

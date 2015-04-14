@@ -23,72 +23,20 @@ import java.util.List;
 public class CoursesService {
 
     private CourseOperations courseOperations;
-    private QueryService queryService;
 
     @Context
     private SecurityContext securityContext;
 
     public CoursesService(){
         courseOperations = new CourseOperations();
-        queryService = new QueryService();
     }
 
     @GET
     public List<CourseDTO> getCourses() throws Exception{
-        if(securityContext == null || (!securityContext.isUserInRole("USER") && !securityContext.isUserInRole("ADMIN"))){
-            unauthorized("Permission denied!");
-        }
-        List<Course> courseEntities = courseOperations.getAllCourses();
-        if(courseEntities == null){
-            return null;
-        }
-        ArrayList<CourseDTO> courseDTOs = new ArrayList<CourseDTO>();
-        for(Course course : courseEntities){
-            courseDTOs.add(EntityToDTO.getCourseDTO(course));
-        }
-        return courseDTOs;
-    }
-
-    @Path("{courseID}")
-    @GET
-    public CourseDTO getCourse(@PathParam("courseID") Integer courseID) throws Exception{
-        if(securityContext == null || (!securityContext.isUserInRole("USER") && !securityContext.isUserInRole("ADMIN"))){
-            unauthorized("Permission denied!");
-        }
-        return EntityToDTO.getCourseDTO(courseOperations.getCourse(courseID));
-    }
-
-
-    @Path("{courseID}")
-    @DELETE
-    public void deleteCourse(@PathParam("courseID") Integer courseID) throws Exception{
         if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
-            unauthorized("Permission denied!");
+            unauthorized();
         }
-        courseOperations.deleteCourse(courseID);
-    }
-
-    @PUT
-    public void updateCourse(CourseDTO course) throws Exception{
-        if(securityContext == null || (!securityContext.isUserInRole("USER") && !securityContext.isUserInRole("ADMIN"))){
-            unauthorized("Permission denied!");
-        }
-        courseOperations.addOrUpdateCourse(DTOToEntity.getCourseEntity(course));
-    }
-
-    @POST
-    public void addCourse(CourseDTO course) throws Exception{
-        course.setCreated_on(new Timestamp(System.currentTimeMillis()));
-        courseOperations.addOrUpdateCourse(DTOToEntity.getCourseEntity(course));
-    }
-
-    @GET
-    @Path("GetCoursesByUserID/{userID}")
-    public List<CourseDTO> getCoursesByUserID(@PathParam("userID") Integer userID) throws Exception{
-        if(securityContext == null || (!securityContext.isUserInRole("USER") && !securityContext.isUserInRole("ADMIN"))){
-            unauthorized("Permission denied!");
-        }
-        List<Course> courses = queryService.getCoursesByUserID(userID);
+        List<Course> courses = courseOperations.getAllCourses();
         if(courses == null){
             return null;
         }
@@ -100,12 +48,47 @@ public class CoursesService {
                 courseDTOs.add(EntityToDTO.getCourseDTO(course));
             }
         }
-
         return courseDTOs;
     }
 
-    private void unauthorized(String response){
-        Response.ResponseBuilder builder = Response.status(Response.Status.FORBIDDEN).entity("{\"error\":\"" + response + "\"}");
+    @Path("{courseID}")
+    @GET
+    public CourseDTO getCourse(@PathParam("courseID") Integer courseID) throws Exception{
+        if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
+            unauthorized();
+        }
+        return EntityToDTO.getCourseDTO(courseOperations.getCourse(courseID));
+    }
+
+
+    @Path("{courseID}")
+    @DELETE
+    public void deleteCourse(@PathParam("courseID") Integer courseID) throws Exception{
+        if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
+            unauthorized();
+        }
+        courseOperations.deleteCourse(courseID);
+    }
+
+    @PUT
+    public void updateCourse(CourseDTO course) throws Exception{
+        if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
+            unauthorized();
+        }
+        courseOperations.addOrUpdateCourse(DTOToEntity.getCourseEntity(course));
+    }
+
+    @POST
+    public void addCourse(CourseDTO course) throws Exception{
+        if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
+            unauthorized();
+        }
+        course.setCreated_on(new Timestamp(System.currentTimeMillis()));
+        courseOperations.addOrUpdateCourse(DTOToEntity.getCourseEntity(course));
+    }
+
+    private void unauthorized(){
+        Response.ResponseBuilder builder = Response.status(Response.Status.FORBIDDEN).entity("{\"error\":\"Only admins can access this service\"}");
         throw new WebApplicationException(builder.build());
     }
 }

@@ -33,8 +33,8 @@ public class UsersService {
 
     @GET
     public ArrayList<UserDTO> getUsers() throws Exception{
-        if(securityContext == null || (!securityContext.isUserInRole("ADMIN") && !securityContext.isUserInRole("USER"))){
-            unauthorized("Permission denied!");
+        if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
+            unauthorized();
         }
 
         List<User> userEntities = userOperations.getAllUsers();
@@ -51,8 +51,8 @@ public class UsersService {
     @Path("{userID}")
     @GET
     public UserDTO getUser(@PathParam("userID") Integer userID) throws Exception{
-        if(securityContext == null || (!securityContext.isUserInRole("ADMIN") && !securityContext.isUserInRole("USER"))){
-            unauthorized("Permission denied!");
+        if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
+            unauthorized();
         }
         return EntityToDTO.getUserDTO(userOperations.getUser(userID));
     }
@@ -62,7 +62,7 @@ public class UsersService {
     @DELETE
     public void deleteUser(@PathParam("userID") Integer userID) throws Exception{
         if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
-            unauthorized("Permission denied!");
+            unauthorized();
         }
         userOperations.deleteUser(userID);
     }
@@ -70,7 +70,7 @@ public class UsersService {
     @PUT
     public void updateUser(UserDTO userDTO) throws Exception{
         if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
-            unauthorized("Permission denied!");
+            unauthorized();
         }
         User user = userOperations.getUser(userDTO.getId());
         userDTO.setPassword(user.getPassword());
@@ -80,7 +80,7 @@ public class UsersService {
     @POST
     public void addUser(UserDTO userDTO) throws Exception{
         if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
-            unauthorized("Permission denied!");
+            unauthorized();
         }
         userDTO.setCreated_on(new Timestamp(System.currentTimeMillis()));
         userDTO.setPassword(passwordDigest(userDTO.getPassword()));
@@ -108,8 +108,8 @@ public class UsersService {
         }
     }
 
-    private void unauthorized(String response){
-        Response.ResponseBuilder builder = Response.status(Response.Status.FORBIDDEN).entity("{\"error\":\"" + response + "\"}");
+    private void unauthorized(){
+        Response.ResponseBuilder builder = Response.status(Response.Status.FORBIDDEN).entity("{\"error\":\"Only admins can access this service\"}");
         throw new WebApplicationException(builder.build());
     }
 }
