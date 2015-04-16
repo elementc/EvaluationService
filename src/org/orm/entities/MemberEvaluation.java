@@ -13,7 +13,6 @@ public class MemberEvaluation implements java.io.Serializable{
 	@Column(name = "id")
 	private int id;
 
-	private String name;
     private String responsibilities;
     private String task_completeness;
     private String task_completeness_details;
@@ -32,18 +31,17 @@ public class MemberEvaluation implements java.io.Serializable{
     private User evaluator;
 
     @ManyToOne
-    @JoinColumn(name="evalutee_id")
-    private User evalutee;
+    @JoinColumn(name="evaluatee_id")
+    private User evaluatee;
 
     @ManyToOne
-    @JoinColumn(name="groups_id")
+    @JoinColumn(name="group_id")
     private Group group;
 
     public MemberEvaluation() {
     }
 
-    public MemberEvaluation(String name, String responsibilities, String task_completeness, String task_completeness_details, char participation, String participation_details, char grade, int percentage, EvaluationStage evalutionStage, Timestamp created_on, User evaluator, User evalutee, Group group) {
-        this.name = name;
+    public MemberEvaluation(String responsibilities, String task_completeness, String task_completeness_details, char participation, String participation_details, char grade, int percentage, EvaluationStage evalutionStage, Timestamp created_on, User evaluator, User evaluatee, Group group) {
         this.responsibilities = responsibilities;
         this.task_completeness = task_completeness;
         this.task_completeness_details = task_completeness_details;
@@ -54,7 +52,7 @@ public class MemberEvaluation implements java.io.Serializable{
         this.evalutionStage = evalutionStage;
         this.created_on = created_on;
         this.evaluator = evaluator;
-        this.evalutee = evalutee;
+        this.evaluatee = evaluatee;
         this.group = group;
     }
 
@@ -64,14 +62,6 @@ public class MemberEvaluation implements java.io.Serializable{
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getResponsibilities() {
@@ -154,12 +144,12 @@ public class MemberEvaluation implements java.io.Serializable{
         this.evaluator = evaluator;
     }
 
-    public User getEvalutee() {
-        return evalutee;
+    public User getEvaluatee() {
+        return evaluatee;
     }
 
-    public void setEvalutee(User evalutee) {
-        this.evalutee = evalutee;
+    public void setEvaluatee(User evalutee) {
+        this.evaluatee = evalutee;
     }
 
     public Group getGroup() {

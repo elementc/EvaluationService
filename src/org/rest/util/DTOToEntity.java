@@ -67,6 +67,7 @@ public class DTOToEntity {
         memberEvaluation.setParticipation_details(memberEvaluationDTO.getParticipation_details());
         memberEvaluation.setGrade(memberEvaluationDTO.getGrade());
         memberEvaluation.setCreated_on(memberEvaluationDTO.getCreated_on());
+        memberEvaluation.setPercentage(memberEvaluationDTO.getPercentage());
         EvaluationStage evaluationStage = new EvaluationStage();
         evaluationStage.setId(memberEvaluationDTO.getEvaluation_stage_id());
         memberEvaluation.setEvalutionStage(evaluationStage);
@@ -74,8 +75,8 @@ public class DTOToEntity {
         evaluator.setId(memberEvaluationDTO.getEvaluator_id());
         memberEvaluation.setEvaluator(evaluator);
         User evalutee = new User();
-        evalutee.setId(memberEvaluationDTO.getEvalutee_id());
-        memberEvaluation.setEvalutee(evalutee);
+        evalutee.setId(memberEvaluationDTO.getEvaluatee_id());
+        memberEvaluation.setEvaluatee(evalutee);
         Group group = new Group();
         group.setId(memberEvaluationDTO.getGroups_id());
         memberEvaluation.setGroup(group);

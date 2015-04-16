@@ -77,7 +77,7 @@ public class EntityToDTO {
         memberEvaluationDTO.setEvaluation_stage_id(memberEvaluation.getEvalutionStage().getId());
         memberEvaluationDTO.setCreated_on(memberEvaluation.getCreated_on());
         memberEvaluationDTO.setEvaluator_id(memberEvaluation.getEvaluator().getId());
-        memberEvaluationDTO.setEvalutee_id(memberEvaluation.getEvalutee().getId());
+        memberEvaluationDTO.setEvaluatee_id(memberEvaluation.getEvaluatee().getId());
         memberEvaluationDTO.setGroups_id(memberEvaluation.getGroup().getId());
         return memberEvaluationDTO;
     }

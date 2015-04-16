@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity  
-@Table(name= "evaluation_stage")
+@Table(name= "evaluation_stages")
 public class EvaluationStage implements java.io.Serializable{
 
 	@Id

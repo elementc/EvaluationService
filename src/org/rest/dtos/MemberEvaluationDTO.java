@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 
 public class MemberEvaluationDTO {
     private int id;
-    private String name;
     private String responsibilities;
     private String task_completeness;
     private String task_completeness_details;
@@ -15,16 +14,15 @@ public class MemberEvaluationDTO {
     private int evaluation_stage_id;
     private Timestamp created_on;
     private int evaluator_id;
-    private int evalutee_id;
+    private int evaluatee_id;
     private int groups_id;
 
     public MemberEvaluationDTO(){
 
     }
 
-    public MemberEvaluationDTO(int id, String name, String responsibilities, String task_completeness, String task_completeness_details, char participation, String participation_details, char grade, int percentage, int evaluation_stage_id, Timestamp created_on, int evaluator_id, int evalutee_id, int groups_id) {
+    public MemberEvaluationDTO(int id, String responsibilities, String task_completeness, String task_completeness_details, char participation, String participation_details, char grade, int percentage, int evaluation_stage_id, Timestamp created_on, int evaluator_id, int evaluatee_id, int groups_id) {
         this.id = id;
-        this.name = name;
         this.responsibilities = responsibilities;
         this.task_completeness = task_completeness;
         this.task_completeness_details = task_completeness_details;
@@ -35,7 +33,7 @@ public class MemberEvaluationDTO {
         this.evaluation_stage_id = evaluation_stage_id;
         this.created_on = created_on;
         this.evaluator_id = evaluator_id;
-        this.evalutee_id = evalutee_id;
+        this.evaluatee_id = evaluatee_id;
         this.groups_id = groups_id;
     }
 
@@ -45,14 +43,6 @@ public class MemberEvaluationDTO {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getResponsibilities() {
@@ -135,12 +125,12 @@ public class MemberEvaluationDTO {
         this.evaluator_id = evaluator_id;
     }
 
-    public int getEvalutee_id() {
-        return evalutee_id;
+    public int getEvaluatee_id() {
+        return evaluatee_id;
     }
 
-    public void setEvalutee_id(int evalutee_id) {
-        this.evalutee_id = evalutee_id;
+    public void setEvaluatee_id(int evaluatee_id) {
+        this.evaluatee_id = evaluatee_id;
     }
 
     public int getGroups_id() {

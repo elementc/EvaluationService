@@ -12,6 +12,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -217,12 +218,13 @@ public class MobileService {
                 if(groupMembers != null){
                     boolean isEvaluateeInGroup = false;
                     for(UserDTO user : groupMembers){
-                        if(user.getId() == memberEvaluationDTO.getEvalutee_id()){
+                        if(user.getId() == memberEvaluationDTO.getEvaluatee_id()){
                             isEvaluateeInGroup = true;
                             break;
                         }
                     }
                     if(isEvaluateeInGroup){
+                        memberEvaluationDTO.setCreated_on(new Timestamp(System.currentTimeMillis()));
                         queryService.addMemberEvaluation(DTOToEntity.getMemberEvaluationEntity(memberEvaluationDTO));
                     }else{
                         invalidRequest("Evaluator can not submit evaluation for user that is not in their group!");
@@ -272,6 +274,7 @@ public class MobileService {
         if(userID == groupEvaluationDTO.getEvaluator_id()){
             GroupDTO group = getGroup(groupEvaluationDTO.getGroup_id());
             if(group != null){
+                groupEvaluationDTO.setCreated_on(new Timestamp(System.currentTimeMillis()));
                 queryService.addGroupEvaluation(DTOToEntity.getGroupEvaluationEntity(groupEvaluationDTO));
             }else{
                 invalidRequest("User does not belong to the given group!");

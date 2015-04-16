@@ -2,7 +2,6 @@ package org.orm.services;
 
 import org.hibernate.*;
 import org.hibernate.criterion.Order;
-import org.orm.entities.GroupEvaluation;
 import org.orm.entities.MemberEvaluation;
 import org.orm.exceptions.EntityValidationException;
 import org.orm.util.HibernateUtil;
@@ -145,7 +144,7 @@ public class MemberEvaluationOperations {
 
 
     private void validateMemberEvaluation(MemberEvaluation memberEvaluation) throws EntityValidationException{
-        if(memberEvaluation.getCreated_on() == null || memberEvaluation.getEvaluator() == null || memberEvaluation.getEvalutee() == null || memberEvaluation.getEvalutionStage() == null || memberEvaluation.getParticipation_details() == null || memberEvaluation.getTask_completeness_details() == null || memberEvaluation.getGroup() == null || memberEvaluation.getName() == null){
+        if(memberEvaluation.getEvaluator() == null || memberEvaluation.getEvaluatee() == null || memberEvaluation.getEvalutionStage() == null || memberEvaluation.getParticipation_details() == null || memberEvaluation.getTask_completeness_details() == null || memberEvaluation.getGroup() == null){
             throw new EntityValidationException("MemberEvaluation object is missing required values!");
         }
     }
