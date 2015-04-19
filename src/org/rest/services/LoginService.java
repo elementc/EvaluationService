@@ -42,8 +42,6 @@ public class LoginService {
                 if(user != null){
                     SecurityContext context = getSecurityContext(user);
                     request.getSession(true).setAttribute("session-security-context", context);
-                    user.setNeed_password_reset(false);
-                    userOperations.addOrUpdateUser(user);
                     return Response.ok(EntityToDTO.getUserDTO(user)).build();
                 }
             }
@@ -70,6 +68,7 @@ public class LoginService {
             User user = userOperations.getUserByEmailAndPassword(email, passwordDigest(password));
             if(user != null){
                 user.setPassword(passwordDigest(newPassword));
+                user.setNeed_password_reset(false);
                 userOperations.addOrUpdateUser(user);
             }else {
                 throw new WebApplicationException(Response.notModified().build());

@@ -114,7 +114,7 @@ public class DTOToEntity {
         evaluator.setId(groupEvaluationDTO.getEvaluator_id());
         groupEvaluation.setEvaluator(evaluator);
         Group group = new Group();
-        group.setId(groupEvaluationDTO.getId());
+        group.setId(groupEvaluationDTO.getGroup_id());
         groupEvaluation.setGroup(group);
         return groupEvaluation;
     }
