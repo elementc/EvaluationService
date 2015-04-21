@@ -1,0 +1,28 @@
+<div>
+    <md-input-container style="width: 300px;">
+          <label>Filter Data</label>
+          <input ng-model="filter">
+    </md-input-container>
+    <!--md-button class="md-warn md-raised" ng-click = "go('')">Create New Group</md-button-->
+    <md-divider></md-divider>
+    <table class="md-table">
+        <thead>
+          <tr class="md-table-headers-row">
+              <th class="md-table-header">ID</th>
+              <th class="md-table-header">Evaluator ID</th>
+              <th class="md-table-header">Evaluator Name</th>
+              <th class="md-table-header">Group ID</th>
+              <th class="md-table-header">Group Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="ge in groupEvaluations | filter:filter" class="md-table-content-row" ng-click = "go(ge.id)">
+              <td class="md-table-content">{{ge.id}}</td>
+              <td class="md-table-content">{{ge.evaluator_id}}</td>
+              <td class="md-table-content">{{ge.evaluator = findUser(ge.evaluator_id)[0].fullname; ge.evaluator}}</td>
+              <td class="md-table-content">{{ge.group_id}}</td>
+              <td class="md-table-content">{{ge.group = findGroup(ge.group_id)[0].name; ge.group}}</td>
+          </tr>
+        </tbody>
+    </table>
+</div>

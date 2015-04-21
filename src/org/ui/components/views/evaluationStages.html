@@ -1,0 +1,32 @@
+<div>
+    <md-input-container style="width: 300px;">
+          <label>Filter Data</label>
+          <input ng-model="filter">
+    </md-input-container>
+    <md-button class="md-warn md-raised" ng-click = "go('')">Add Evaluation stage</md-button>
+    <md-divider></md-divider>
+    <table class="md-table">
+        <thead>
+          <tr class="md-table-headers-row">
+              <th class="md-table-header">ID</th>
+              <th class="md-table-header">Name</th>
+              <th class="md-table-header">Start Date</th>
+              <th class="md-table-header">End Date</th>
+              <th class="md-table-header">Is Open</th>
+              <th class="md-table-header">Course ID</th>
+              <th class="md-table-header">Course Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="es in evaluationStages | filter:filter" class="md-table-content-row" ng-click = "go(es.id)">
+              <td class="md-table-content">{{es.id}}</td>
+              <td class="md-table-content">{{es.name}}</td>
+              <td class="md-table-content">{{es.start_date}}</td>
+              <td class="md-table-content">{{es.end_date}}</td>
+              <td class="md-table-content"><md-checkbox ng-model="es.is_open" ng-disabled></md-checkbox></td>
+              <td class="md-table-content">{{es.course_id}}</td>
+              <td class="md-table-content">{{es.course = findCourse(es.course_id)[0].title; es.course}}</td>
+          </tr>
+        </tbody>
+    </table>
+</div>

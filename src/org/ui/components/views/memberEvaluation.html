@@ -1,0 +1,72 @@
+<md-content class="md-padding">
+    
+    <table class="md-table">
+        <tbody>
+            <tr class="md-table-content-row">
+                <td class="md-table-content">Responsibilities: </td>
+                <td class="md-table-content">{{memberEvaluation.responsibilities}}</td>
+            </tr>
+            
+            <tr class="md-table-content-row">
+                <td class="md-table-content">Task Completeness: </td>
+                <td class="md-table-content">{{memberEvaluation.task_completeness}}</td>
+            </tr>
+
+
+            <tr class="md-table-content-row">
+                <td class="md-table-content">Task Completeness Details: </td>
+                <td class="md-table-content">{{memberEvaluation.task_completeness_details}}</td>
+            </tr>
+            
+            <tr class="md-table-content-row">
+                <td class="md-table-content">Participation: </td>
+                <td class="md-table-content">{{memberEvaluation.participation}}</td>
+            </tr>
+
+
+            <tr class="md-table-content-row">
+                <td class="md-table-content">Participation Details: </td>
+                <td class="md-table-content">{{memberEvaluation.participation_details}}</td>
+            </tr>
+
+            
+            <tr class="md-table-content-row">
+                <td class="md-table-content">Grade: </td>
+                <td class="md-table-content">{{memberEvaluation.grade}}</td>
+            </tr>
+
+
+            <tr class="md-table-content-row">
+                <td class="md-table-content">Percentage: </td>
+                <td class="md-table-content">{{memberEvaluation.percentage}}</td>
+            </tr>
+
+
+            <tr class="md-table-content-row">
+                <td class="md-table-content">Evaluation Stage: </td>
+                <td class="md-table-content">{{evaluationStage.name}}</td>
+            </tr>
+
+
+            <tr class="md-table-content-row">
+                <td class="md-table-content">Evaluator: </td>
+                <td class="md-table-content">{{evaluator.fullname}}</td>
+            </tr>
+
+            <tr class="md-table-content-row">
+                <td class="md-table-content">Evaluatee: </td>
+                <td class="md-table-content">{{evaluatee.fullname}}</td>
+            </tr>
+
+            <tr class="md-table-content-row">
+                <td class="md-table-content">Group: </td>
+                <td class="md-table-content">{{group.name}}</td>
+            </tr>
+            
+        </tbody>
+    </table>
+    
+    <md-input-container flex>
+        <md-button class="md-raised md-warn" ng-click="delete()">Delete</md-button>
+    </md-input-container>
+</md-content>

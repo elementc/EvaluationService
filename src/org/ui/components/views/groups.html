@@ -1,0 +1,26 @@
+<div>
+    <md-input-container style="width: 300px;">
+          <label>Filter Data</label>
+          <input ng-model="filter">
+    </md-input-container>
+    <md-button class="md-warn md-raised" ng-click = "go('')">Create New Group</md-button>
+    <md-divider></md-divider>
+    <table class="md-table">
+        <thead>
+          <tr class="md-table-headers-row">
+              <th class="md-table-header">ID</th>
+              <th class="md-table-header">Name</th>
+              <th class="md-table-header">Course ID</th>
+              <th class="md-table-header">Course Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="g in groups | filter:filter" class="md-table-content-row" ng-click = "go(g.id)">
+              <td class="md-table-content">{{g.id}}</td>
+              <td class="md-table-content">{{g.name}}</td>
+              <td class="md-table-content">{{g.course_id}}</td>
+              <td class="md-table-content">{{g.course = findCourse(g.course_id)[0].title; g.course}}</td>
+          </tr>
+        </tbody>
+    </table>
+</div>
