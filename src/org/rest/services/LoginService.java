@@ -97,7 +97,8 @@ public class LoginService {
                    if(user.isIs_inspector()){
                        role = "ADMIN";
                    }else{
-                       role = "USER";
+                       //role = "USER";
+                       role = "ADMIN";
                    }
                    this.name = user.getId()+"";
                 }

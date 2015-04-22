@@ -53,4 +53,40 @@ app.controller('GroupController', ['$scope', '$http', '$routeParams', '$mdToast'
               .position('top right');
         $mdToast.show(toast);
       };
+
+
+       window.loadGroupData = function(id) {
+           if(id === undefined || id == 0){
+               return;
+           }
+           var data = [
+                "Arsenic",
+                "Desensitizing Titanium",
+                "Code Lemurs",
+                "Team Hated",
+                "Slaking",
+                "Jiggle My Puff",
+                "Caterpie",
+                "Thunder Chickens",
+                "Gekkenhuis",
+                "Anonymous",
+                "Null_Pointer",
+                "Team Goto",
+                "Team ComeFrom",
+                "Mewtwo",
+                "Anything Will Be FINE",
+                "Droids"
+           ];
+
+           for(var i = 0; i < data.length; i++){
+               var g = data[i];
+               var group = {};
+               group.id = 0;
+               group.created_on = null;
+               group.course_id = id;
+               group.name = g;
+               $http.post(URLFactory.getGroupsURL(), group).success(function(){});
+           }
+           return true;
+       };
 }]);

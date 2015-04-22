@@ -87,9 +87,12 @@ public class UsersService {
         userOperations.addOrUpdateUser(DTOToEntity.getUserEntity(userDTO));
     }
 
-    @POST
-    @Path("createadminaccount")
-    public void createDummyAccount(String email) throws Exception{
+    @GET
+    @Path("createadminaccount/{email}")
+    public void createDummyAccount(@PathParam("email")  String email) throws Exception{
+        if(email == null || email.length() == 0){
+            throw new Exception();
+        }
         User user = new User();
         user.setPassword(passwordDigest("password"));
         user.setEmail(email);
