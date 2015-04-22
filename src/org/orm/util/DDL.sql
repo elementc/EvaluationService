@@ -17,20 +17,20 @@ DROP TABLE courses;
 
 -- Create Table courses
 CREATE TABLE courses (
-	id INT UNSIGNED NOT NULL AUTO_INCREMENT, 
-	code VARCHAR(7), 
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	code VARCHAR(7),
 	title VARCHAR(50),
 	term VARCHAR(7),
 	`year` SMALLINT UNSIGNED,
 	created_on TIMESTAMP,
-	CONSTRAINT pk_course PRIMARY KEY (id) 
+	CONSTRAINT pk_course PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 DESCRIBE courses;
 
 -- Create Table groups
 CREATE TABLE groups (
-	id INT UNSIGNED NOT NULL AUTO_INCREMENT, 
-	name VARCHAR(50), 
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	name VARCHAR(50),
 	course_id INT UNSIGNED NOT NULL,
 	created_on TIMESTAMP,
 	CONSTRAINT pk_groups PRIMARY KEY(id),
@@ -42,9 +42,9 @@ DESCRIBE groups;
 
 -- Create Table users
 CREATE TABLE users (
-	id INT UNSIGNED NOT NULL AUTO_INCREMENT, 
-	email VARCHAR(255) NOT NULL, 
-	password VARCHAR(255) NOT NULL, 
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	email VARCHAR(255) NOT NULL,
+	password VARCHAR(255) NOT NULL,
 	need_password_reset BOOLEAN NOT NULL,
 	fullname VARCHAR(100) NOT NULL,
 	is_inspector BOOLEAN NOT NULL,
@@ -56,7 +56,7 @@ DESCRIBE users;
 
 -- Create Table group_members
 CREATE TABLE group_members (
-	id INT UNSIGNED NOT NULL AUTO_INCREMENT, 
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	group_id INT UNSIGNED NOT NULL,
 	user_id INT UNSIGNED NOT NULL,
 	created_on TIMESTAMP,
@@ -73,10 +73,10 @@ DESCRIBE group_members;
 
 -- Create Table evaluation_stages
 CREATE TABLE evaluation_stages (
-	id INT UNSIGNED NOT NULL AUTO_INCREMENT, 
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	course_id INT UNSIGNED NOT NULL,
-	title VARCHAR(100) NOT NULL, 
-	description VARCHAR(500), 
+	name VARCHAR(100) NOT NULL,
+	description VARCHAR(500),
 	start_date DATE NOT NULL,
 	end_date DATE NOT NULL,
 	is_open BOOLEAN NOT NULL,
@@ -91,11 +91,11 @@ DESCRIBE evaluation_stages;
 
 -- Create Table member_evaluations
 CREATE TABLE member_evaluations (
-	id INT UNSIGNED NOT NULL AUTO_INCREMENT, 
-	evaluation_stage_id INT UNSIGNED NOT NULL, 
-	group_id INT UNSIGNED NOT NULL, 
-	evaluator_id INT UNSIGNED NOT NULL, 
-	evaluatee_id INT UNSIGNED NOT NULL, 
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	evaluation_stage_id INT UNSIGNED NOT NULL,
+	group_id INT UNSIGNED NOT NULL,
+	evaluator_id INT UNSIGNED NOT NULL,
+	evaluatee_id INT UNSIGNED NOT NULL,
 	responsibilities VARCHAR(500) NOT NULL,
 	task_completeness ENUM('yes','no','most of them') NOT NULL,
 	task_completeness_details VARCHAR(500),
@@ -124,10 +124,10 @@ DESCRIBE member_evaluations;
 
 -- Create Table group_evaluation
 CREATE TABLE group_evaluations (
-	id INT UNSIGNED NOT NULL AUTO_INCREMENT, 
-	evaluation_stage_id INT UNSIGNED NOT NULL, 
-	group_id INT UNSIGNED NOT NULL, 
-	evaluator_id INT UNSIGNED NOT NULL, 
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	evaluation_stage_id INT UNSIGNED NOT NULL,
+	group_id INT UNSIGNED NOT NULL,
+	evaluator_id INT UNSIGNED NOT NULL,
 	goals ENUM('1','2','3','4','5') NOT NULL,
 	goals_details VARCHAR(500),
 	openness ENUM('1','2','3','4','5') NOT NULL,
@@ -159,7 +159,7 @@ CREATE TABLE group_evaluations (
 	CONSTRAINT fk_group_evaluations_users_evaluator FOREIGN KEY (evaluator_id)
       REFERENCES users(id)
       ON UPDATE CASCADE ON DELETE CASCADE,
-	CONSTRAINT uk_group_evaluations 
+	CONSTRAINT uk_group_evaluations
 	  UNIQUE (evaluation_stage_id, group_id, evaluator_id)
 ) ENGINE=InnoDB;
 DESCRIBE group_evaluations;
