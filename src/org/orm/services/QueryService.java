@@ -42,7 +42,7 @@ public class QueryService {
         } catch (Exception e) {
             throw new Exception(e);
         } finally {
-            session.close();
+            session.clear();session.close();
         }
 
         return groups;
@@ -95,7 +95,7 @@ public class QueryService {
         } catch (Exception e) {
             throw new Exception(e);
         } finally {
-            session.close();
+            session.clear();session.close();
         }
 
         return users;
@@ -122,7 +122,7 @@ public class QueryService {
         } catch (Exception e) {
             throw new Exception(e);
         } finally {
-            session.close();
+            session.clear();session.close();
         }
 
         return memberEvaluations;
@@ -149,7 +149,7 @@ public class QueryService {
         } catch (Exception e) {
             throw new Exception(e);
         } finally {
-            session.close();
+            session.clear();session.close();
         }
 
         return groupEvaluations;
@@ -185,7 +185,7 @@ public class QueryService {
         } catch (Exception e) {
             throw new Exception(e);
         } finally {
-            session.close();
+            session.clear();session.close();
         }
 
         return courses;
@@ -213,7 +213,7 @@ public class QueryService {
         } catch (Exception e) {
             throw new Exception(e);
         } finally {
-            session.close();
+            session.clear();session.close();
         }
     }
 }
