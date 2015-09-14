@@ -151,6 +151,35 @@ public class UserOperations {
 		return userAccount;
 	}
 
+    public User getUserByEmail(String email) throws Exception{
+        List<User> users = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+
+            Criteria criteria = session.createCriteria(User.class);
+
+
+            if (email != null) {
+                criteria.add(Expression.eq("email", email));
+            }
+
+            users = criteria.list();
+
+        } catch (HibernateException e) {
+            throw new HibernateException(e);
+        } catch (Exception e) {
+            throw new Exception(e);
+        } finally {
+            session.close();
+        }
+
+        if(users != null && users.size() > 0){
+            return users.get(0);
+        }else{
+            return null;
+        }
+    }
+
     public User getUserByEmailAndPassword(String email, String password) throws Exception{
         List<User> users = null;
         try {

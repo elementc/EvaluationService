@@ -1,5 +1,6 @@
 package org.rest.services;
 
+import com.sun.org.apache.xml.internal.security.utils.Base64;
 import org.orm.entities.User;
 import org.orm.services.UserOperations;
 import org.rest.dtos.UserDTO;
@@ -20,7 +21,7 @@ import java.util.List;
 @Path(URIConstants.KEY_USERS)
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class UsersService {
+public class UsersService{
 
     private UserOperations userOperations;
 
@@ -77,6 +78,23 @@ public class UsersService {
         userOperations.addOrUpdateUser(DTOToEntity.getUserEntity(userDTO));
     }
 
+    @GET
+    @Path("resetpassword/{email}")
+    public void resetPassword(@PathParam("email") String email) throws Exception{
+        if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
+            unauthorized();
+        }
+
+        User user = userOperations.getUserByEmail(email);
+        if(user != null){
+            user.setPassword(UsersService.passwordDigest("password"));
+            user.setNeed_password_reset(false);
+            userOperations.addOrUpdateUser(user);
+        }else {
+            throw new WebApplicationException(Response.notModified().build());
+        }
+    }
+
     @POST
     public void addUser(UserDTO userDTO) throws Exception{
         if(securityContext == null || !securityContext.isUserInRole("ADMIN")){
@@ -87,25 +105,9 @@ public class UsersService {
         userOperations.addOrUpdateUser(DTOToEntity.getUserEntity(userDTO));
     }
 
-    @GET
-    @Path("createadminaccount/{email}")
-    public void createDummyAccount(@PathParam("email")  String email) throws Exception{
-        if(email == null || email.length() == 0){
-            throw new Exception();
-        }
-        User user = new User();
-        user.setPassword(passwordDigest("password"));
-        user.setEmail(email);
-        user.setFullname("Admin Account");
-        user.setIs_inspector(true);
-        user.setCreated_on(new Timestamp(System.currentTimeMillis()));
-        user.setNeed_password_reset(false);
-        userOperations.addOrUpdateUser(user);
-    }
-
-    private String passwordDigest(String password){
+    public static String passwordDigest(String password){
         try{
-            return new String(MessageDigest.getInstance("SHA-256").digest(password.getBytes()));
+            return Base64.encode(MessageDigest.getInstance("SHA-256").digest(password.getBytes()));
         }catch (NoSuchAlgorithmException e){
             return password;
         }

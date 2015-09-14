@@ -2,6 +2,7 @@ package org.rest.services;
 
 import org.orm.entities.*;
 import org.orm.services.QueryService;
+import org.orm.services.UserOperations;
 import org.rest.dtos.*;
 import org.rest.util.DTOToEntity;
 import org.rest.util.EntityToDTO;
@@ -40,8 +41,9 @@ public class MobileService {
         return EntityToDTO.getUserDTO(queryService.getUserByUserID(userID));
     }
 
+
     @POST
-    @Path("user/update")
+    @Path("user")
     public void updateUser(UserDTO userDTO) throws Exception{
         if(securityContext == null || (!securityContext.isUserInRole("USER") && !securityContext.isUserInRole("ADMIN"))){
             unauthorized();
@@ -49,10 +51,25 @@ public class MobileService {
         int userID = Integer.parseInt(securityContext.getUserPrincipal().getName());
 
         if(userDTO.getId() == userID){
-            queryService.updateUser(DTOToEntity.getUserEntity(userDTO));
+            if(userDTO.getPassword() != null && userDTO.getPassword().trim().length() > 0){
+                userDTO.setPassword(UsersService.passwordDigest(userDTO.getPassword()));
+                queryService.updateUser(DTOToEntity.getUserEntity(userDTO), true);
+            }else{
+                queryService.updateUser(DTOToEntity.getUserEntity(userDTO), false);
+            }
         }else{
             invalidRequest("user can only update its information");
         }
+    }
+
+    @POST
+    @Path("user/signup")
+    public void signupUser(UserDTO userDTO) throws Exception{
+        userDTO.setCreated_on(new Timestamp(System.currentTimeMillis()));
+        userDTO.setIs_inspector(false);
+        userDTO.setNeed_password_reset(false);
+        userDTO.setPassword(UsersService.passwordDigest(userDTO.getPassword()));
+        queryService.addUser(DTOToEntity.getUserEntity(userDTO));
     }
 
     @GET

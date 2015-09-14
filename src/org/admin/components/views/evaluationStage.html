@@ -1,0 +1,34 @@
+<md-content class="md-padding">
+    <form name="userForm">
+        <md-input-container flex>
+          <label>Name</label>
+          <input ng-model="evaluationStage.name">
+        </md-input-container>
+        <md-input-container flex>
+          <label>Description</label>
+          <input ng-model="evaluationStage.description">
+        </md-input-container>
+        <md-input-container flex>
+          <label>Start Date</label>
+          <input type="date" ng-model="evaluationStage.start_date">
+        </md-input-container>
+        <md-input-container flex>
+          <label>End Date</label>
+          <input type="date" ng-model="evaluationStage.end_date">
+        </md-input-container>
+        <md-checkbox ng-model="evaluationStage.is_open">Is Open</md-checkbox>
+        <label>Course: </label>
+        <md-select ng-model="evaluationStage.course_id" placeholder="Select Course">
+                <md-option ng-value="course.id" ng-repeat="course in courses | orderBy:'title'">{{course.title}}</md-option>               
+        </md-select>
+    </form>
+    
+    <div layout layout-sm="column">
+        <md-input-container flex>
+          <md-button class="md-raised md-primary" ng-click="save()">Save</md-button>
+        </md-input-container>
+        <md-input-container flex>
+          <md-button class="md-raised md-warn" ng-if="!isNew" ng-click="delete()">Delete</md-button>
+        </md-input-container>
+    </div>
+  </md-content>

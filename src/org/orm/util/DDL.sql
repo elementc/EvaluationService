@@ -166,7 +166,7 @@ DESCRIBE group_evaluations;
 
 -- Insert one record in courses table
 INSERT INTO courses (code, title, term, `year`)
-  VALUES ('SWE5002','Software Engineering 2','Spring',2015);
+  VALUES ('CSE2410','Introduction to Software Engineering','Fall',2015);
 
 COMMIT;   
 

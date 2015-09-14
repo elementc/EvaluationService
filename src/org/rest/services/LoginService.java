@@ -38,7 +38,7 @@ public class LoginService {
         try{
 
             if(email != null && password != null){
-                User user = userOperations.getUserByEmailAndPassword(email, passwordDigest(password));
+                User user = userOperations.getUserByEmailAndPassword(email, UsersService.passwordDigest(password));
                 if(user != null){
                     SecurityContext context = getSecurityContext(user);
                     request.getSession(true).setAttribute("session-security-context", context);
@@ -65,9 +65,9 @@ public class LoginService {
         String password = authForm.get("password");
         String newPassword = authForm.get("newPassword");
         if(email != null && password != null && newPassword != null && newPassword.trim().length() > 0){
-            User user = userOperations.getUserByEmailAndPassword(email, passwordDigest(password));
+            User user = userOperations.getUserByEmailAndPassword(email, UsersService.passwordDigest(password));
             if(user != null){
-                user.setPassword(passwordDigest(newPassword));
+                user.setPassword(UsersService.passwordDigest(newPassword));
                 user.setNeed_password_reset(false);
                 userOperations.addOrUpdateUser(user);
             }else {
@@ -75,14 +75,6 @@ public class LoginService {
             }
         }else {
             throw new WebApplicationException(Response.notModified().build());
-        }
-    }
-
-    private String passwordDigest(String password){
-        try{
-            return new String(MessageDigest.getInstance("SHA-256").digest(password.getBytes()));
-        }catch (NoSuchAlgorithmException e){
-            return password;
         }
     }
 

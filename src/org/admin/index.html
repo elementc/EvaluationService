@@ -1,0 +1,74 @@
+<html lang="en" ng-app="Evaluations">
+  <head>
+    <!--base href="/" /-->
+      <link rel="stylesheet" href="./css/angular-material.css">
+      <link rel="stylesheet" href="./components/css/app.css">
+      <link rel="stylesheet" href="./components/css/table.css">
+    <title>Student Evaluations</title>
+  </head>
+  <body layout="column" ng-controller="IndexController">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <span class="title" ng-click="go('/')">Student Evaluations</span>
+            <span flex></span>
+            <span class="title" ng-click="logout()">Logout</span>
+        </div>        
+    </md-toolbar>
+    <div layout="row" flex>
+      <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('gt-sm')">
+        <md-content flex>
+          <ul id="cbp-ntaccordion" class="accordion">
+            <li>
+              <h4 ng-click="go('courses')" ng-cloak>Courses</h4>
+            </li>
+            <li>
+              <h4 ng-click="go('users')" ng-cloak>Users</h4>
+            </li>
+            <li>
+              <h4 ng-click="go('groups')" ng-cloak>Groups</h4>
+            </li>
+              <li>
+              <h4 ng-click="go('group_members')" ng-cloak>Group Members</h4>
+            </li>
+            <li>
+              <h4 ng-click="go('evaluation_stages')" ng-cloak>Evaluation Stages</h4>
+            </li>
+            <li>
+              <h4 ng-click="go('member_evaluations')" ng-cloak>Member Evaluations</h4>
+            </li>
+            <li>
+              <h4 ng-click="go('group_evaluations')" ng-cloak>Group Evaluations</h4>
+            </li>
+          </ul>
+        </md-content>
+      </md-sidenav>
+      <md-content ng-view md-scroll-y="" flex="" class="md-padding ng-scope md-default-theme"></md-content>
+
+    </div>
+    <script src="./js/angular.min.js"></script>
+    <script src="./js/angular-animate.min.js"></script>
+    <script src="./js/angular-aria.min.js"></script>
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/angular-material.js"></script>
+    <script src="./js/angular-route.min.js"></script>
+
+    <script src="./app.js"></script>
+    <script src="./components/controllers/index.js"></script>
+    <script src="./components/controllers/dashboard.js"></script>
+    <script src="./components/controllers/users.js"></script>
+    <script src="./components/controllers/user.js"></script>
+    <script src="./components/controllers/courses.js"></script>
+    <script src="./components/controllers/course.js"></script>
+    <script src="./components/controllers/groups.js"></script>
+    <script src="./components/controllers/group.js"></script>
+    <script src="./components/controllers/groupMember.js"></script>
+    <script src="./components/controllers/groupMembers.js"></script>
+    <script src="./components/controllers/evaluationStages.js"></script>
+    <script src="./components/controllers/evaluationStage.js"></script>
+    <script src="./components/controllers/memberEvaluations.js"></script>
+    <script src="./components/controllers/memberEvaluation.js"></script>
+    <script src="./components/controllers/groupEvaluations.js"></script>
+    <script src="./components/controllers/groupEvaluation.js"></script>
+    <script src="./components/services/URLFactory.js"></script>
+  </body>
+</html>

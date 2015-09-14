@@ -3,7 +3,7 @@ app.controller('DashboardController', ['$scope', '$http', '$mdToast', '$location
     $scope.login = function(){
         $http.post(URLFactory.getAuthURL(), $scope.authForm).success(function(user){
             showToast('User logged in successfully!');
-            $location.path( 'user');
+            $location.path( 'user/' + user.id);
         }).error(function(){
             showToast('Login failed!');
             $scope.authForm = {};
@@ -17,9 +17,5 @@ app.controller('DashboardController', ['$scope', '$http', '$mdToast', '$location
               .position('top right');
         $mdToast.show(toast);
       };
-    };
-
-    $scope.signup = function(){
-        $location.path( 'signup/');
     };
 }]);

@@ -48,9 +48,15 @@ public class QueryService {
         return groups;
     }
 
-    public void updateUser(User user) throws Exception{
-        User org_user = getUserByUserID(user.getId());
-        user.setPassword(org_user.getPassword());
+    public void updateUser(User user, boolean updatePassword) throws Exception{
+        if(!updatePassword){
+            User org_user = getUserByUserID(user.getId());
+            user.setPassword(org_user.getPassword());
+        }
+        new UserOperations().addOrUpdateUser(user);
+    }
+
+    public void addUser(User user) throws Exception{
         new UserOperations().addOrUpdateUser(user);
     }
 
