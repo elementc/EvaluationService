@@ -30,6 +30,7 @@ public class StartUp {
         ServletContextHandler context = new ServletContextHandler(server, "/", ServletContextHandler.SESSIONS);
         context.addServlet(sh, "/evaluationsapi/*");
         context.addServlet(startUp.buildUIServletHolder(), "/evaluationsui/*");
+        context.addServlet(startUp.buildAdminServletHolder(), "/evaluationsadmin/*");
         server.start();
         server.join();
     }
@@ -46,6 +47,16 @@ public class StartUp {
         ServletHolder sh = new ServletHolder("EvaluationsUI", defaultServlet);
         //below is a trick to allow loading static resources from the jar file
         String resourceDir = this.getClass().getClassLoader().getResource("org/ui").toExternalForm();
+        sh.setInitParameter("resourceBase", resourceDir);
+        sh.setInitParameter("pathInfoOnly", "true");
+        return sh;
+    }
+
+    private ServletHolder buildAdminServletHolder(){
+        DefaultServlet defaultServlet = new DefaultServlet();
+        ServletHolder sh = new ServletHolder("EvaluationsAdmin", defaultServlet);
+        //below is a trick to allow loading static resources from the jar file
+        String resourceDir = this.getClass().getClassLoader().getResource("org/admin").toExternalForm();
         sh.setInitParameter("resourceBase", resourceDir);
         sh.setInitParameter("pathInfoOnly", "true");
         return sh;
