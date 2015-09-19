@@ -1,0 +1,22 @@
+
+<h2 style="text-align: center">Select Group & Phase</h2>
+<form class="form-signin" name="homeForm">
+    <table style="border: double; width: 100%; background-color: #337AB7; border-color:black; color: white">
+        <tr>
+            <th style="border: double; border-color:black; " >Group</th>
+            <td style="border: double;border-color:black; ">
+                <select ng-model="selectedGroup" required ng-options="group.name for group in groups" ng-change="changeGroup()"></select></td>
+        </tr>
+        <tr>
+            <th style="border: double;border-color:black; ">Evaluation Phase</th>
+            <td style="border: double;border-color:black; ">
+                <select ng-if='isGroupSelected=="yes"' placeholder="Select Phase" ng-model="selectedPhase" required
+                        ng-options="phase.name for phase in phases"></select></td>
+        </tr>
+    </table>
+    <br>
+    <button ng-click="submit()"  class="btn btn-lg btn-primary btn-block">Submit</button>
+    <span style="text-align:center; display:block;text-decoration:underline;">
+      <a ng-href="#/{{myPathVariable}}"style="color: blue;">Manage Groups</a>
+</span>
+</form>

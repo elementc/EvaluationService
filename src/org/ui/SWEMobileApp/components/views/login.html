@@ -1,0 +1,13 @@
+
+<h2 style="text-align: center">Login</h2>
+
+<form class="form-signin" name="loginForm" ng-submit="login(loginForm.$valid)">
+    <input ng-model="email" type="email" name="email" class="form-control" placeholder="Email address" required
+           autofocus>
+    <input ng-model="password" type="password" name="password" class="form-control" placeholder="Password" required>
+
+    <button type="submit" class="btn btn-lg btn-primary btn-block">SignIn</button>
+<span style="text-align:center; display:block;text-decoration:underline;">
+      <a href="#" style="color: blue;  "> Change Password</a>
+</span>
+</form>

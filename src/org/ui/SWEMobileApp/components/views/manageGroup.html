@@ -1,0 +1,68 @@
+<h2 style="text-align: center">Manage Groups</h2>
+
+<form class="form-signin" name="groupForm">
+    <i>Click on any of the tab below:</i>
+    <section>
+        <ul class="nav nav-pills" ng-init="tab = 1">
+            <li ng-class="{active:tab===1}"><a href ng-click="tab = 1">Current Status</a></li>
+            <li ng-class="{active:tab===2}"><a href ng-click="tab = 2">Subscribe</a></li>
+            <li ng-class="{active:tab===3}"><a href ng-click="tab = 3">Create New Group</a></li>
+        </ul>
+    </section>
+    <br>
+
+    <div ng-show="tab === 1">
+        <table style="border: double; width: 100%; background-color: #337AB7; border-color:black; color: white">
+            <tr>
+                <th style="text-align: center;border: double; border-color:black; ">Course</th>
+                <th style="text-align: center;border: double;border-color:black; ">Group</th>
+            </tr>
+            <tr  ng-repeat="x in dbgroups">
+                <td style="text-align: center;border: double;border-color:black; ">{{x.course}}</td>
+                <td style="text-align: center;border: double;border-color:black; ">{{x.group}}</td>
+            </tr>
+
+        </table>
+    </div>
+
+    <div ng-show="tab === 2">
+        <table style="border: double; width: 100%; background-color: #337AB7; border-color:black; color: white">
+            <tr>
+                <th style="text-align: center;border: double; border-color:black; ">Course</th>
+                <th style="text-align: center;border: double;border-color:black; ">
+                    <select ng-model="selectedCourse" placeholder="Select Course" required ng-options="course.name for course in courses" ng-change="changeCourse()"></select>
+                </th>
+            </tr>
+            <tr >
+                <th style="text-align: center;border: double;border-color:black; ">Group</th>
+                <th style="text-align: center;border: double;border-color:black; ">
+                    <select ng-if='isCourseSelected=="yes"' placeholder="Select Group" ng-model="selectedGroup" required ng-options="group.name for group in groups"></select></th>
+            </tr>
+
+        </table>
+        <br><br>
+        <button ng-click="subscribe()" class="btn btn-lg btn-primary btn-block">Subscribe</button>
+    </div>
+
+    <div ng-show="tab === 3">
+        <table style="border: double; width: 100%; background-color: #337AB7; border-color:black; color: white">
+            <tr>
+                <th style="text-align: center;border: double; border-color:black; ">Course</th>
+                <td style="border: double;border-color:black; ">
+                    <select ng-model="selectedCourse" required ng-options="course.name for course in courses"></select>
+                </td>
+            </tr>
+            <tr>
+                <th style="text-align: center;border: double;border-color:black; ">Group</th>
+                <td style="border: double;border-color:black; ">
+                    <input ng-model="groupName" type="text" class="form-control" placeholder="Enter Group Name"
+                           required></td>
+            </tr>
+
+        </table>
+        <br><br>
+        <button ng-click="create()" class="btn btn-lg btn-primary btn-block">Create Group</button>
+    </div>
+
+
+</form>

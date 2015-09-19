@@ -1,0 +1,67 @@
+<html lang="en" ng-app="Evaluations">
+  <head>
+    <!--base href="/" /-->
+
+      <link rel="stylesheet" href="./components/css/app.css">
+
+    <link href="./components/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./components/css/forms.css" rel="stylesheet">
+
+    <title>Student Evaluations</title>
+  </head>
+  <body layout="column" ng-controller="IndexController">
+  <!--  <md-toolbar>
+        <div class="md-toolbar-tools">
+            <span class="title" ng-click="go('/login')">Student Evaluations</span>
+            <span flex></span>
+            <span class="title" ng-click="logout()">Logout</span>
+        </div>        
+    </md-toolbar> -->
+  <div id="toolbar"></div>
+    <div layout="row" flex>
+      <!--<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('gt-sm')">-->
+        <!--<md-content flex>-->
+          <!--<ul id="cbp-ntaccordion" class="accordion">-->
+            <!--<li>-->
+              <!--<h4 ng-click="go('courses')" ng-cloak>Courses</h4>-->
+            <!--</li>-->
+            <!--<li>-->
+              <!--<h4 ng-click="go('users')" ng-cloak>Users</h4>-->
+            <!--</li>-->
+            <!--<li>-->
+              <!--<h4 ng-click="go('groups')" ng-cloak>Groups</h4>-->
+            <!--</li>-->
+              <!--<li>-->
+              <!--<h4 ng-click="go('group_members')" ng-cloak>Group Members</h4>-->
+            <!--</li>-->
+            <!--<li>-->
+              <!--<h4 ng-click="go('evaluation_stages')" ng-cloak>Evaluation Stages</h4>-->
+            <!--</li>-->
+            <!--<li>-->
+              <!--<h4 ng-click="go('member_evaluations')" ng-cloak>Member Evaluations</h4>-->
+            <!--</li>-->
+            <!--<li>-->
+              <!--<h4 ng-click="go('group_evaluations')" ng-cloak>Group Evaluations</h4>-->
+            <!--</li>-->
+          <!--</ul>-->
+        <!--</md-content>-->
+      <!--</md-sidenav>-->
+      <md-content ng-view md-scroll-y="" flex="" class="md-padding ng-scope md-default-theme"></md-content>
+
+    </div>
+    <script src="./js/angular.min.js"></script>
+    <script src="./js/angular-animate.min.js"></script>
+    <script src="./js/angular-aria.min.js"></script>
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/angular-material.js"></script>
+    <script src="./js/angular-route.min.js"></script>
+
+    <script src="./app.js"></script>
+    <script src="./components/controllers/index.js"></script>
+   <script src="./components/controllers/login.js"></script>
+    <script src="components/controllers/evaluation.js"></script>
+    <script src="components/controllers/managegroup.js"></script>
+    <script src="components/controllers/home.js"></script>
+    <script src="./components/services/URLFactory.js"></script>
+  </body>
+</html>

@@ -1,0 +1,105 @@
+<h2 style="text-align: center">Evaluation</h2>
+
+<form class="form-signin" name="evaluationForm">
+    <i>Click on any of the tab below:</i>
+    <section>
+        <ul class="nav nav-pills" ng-init="tab = 1">
+            <li ng-class="{active:tab===1}"><a href ng-click="tab = 1">Self Evaluation</a></li>
+            <li ng-class="{active:tab===2}"><a href ng-click="tab = 2">Other Member</a></li>
+            <li ng-class="{active:tab===3}"><a href ng-click="tab = 3">Group Evaluation</a></li>
+        </ul>
+    </section>
+    <br>
+
+    <!--Self Evaluation Section-->
+    <div ng-show="tab === 1">
+    <label> 1. Mention your responsibilities within the group</label><br>
+    <input ng-model="se.responsibility" type="text" class="form-control" required autofocus>
+
+    <label> 2. Did you complete all of the tasks assigned to you?</label><br>
+    <input type="radio" id="yes" name="task" value="yes" ng-model="task"/>Yes<br>
+    <input type="radio" id="no" name="task" value="no" ng-model="task"/>No<br>
+    <input type="radio" id="mostofthem" name="task" value="mostofthem" ng-model="task"/>Most of them<br>
+
+    <div ng-show="isShown('no') || isShown('mostofthem')">
+        Explain why you could not complete all of the assigned tasks.<br>
+        <input ng-model="taskreason" type="text" class="form-control">
+
+    </div>
+    <br>
+    <label> 3. How would you rate your participation in the group?</label><br>
+    <input type="radio" name="participation" value="one" ng-model="participation"/> Incredibly involved in each phase of
+    this project.<br>
+    <input type="radio" name="participation" value="two" ng-model="participation"/> Completed all work assigned to me,
+    but was not otherwise involved.<br>
+    <input type="radio" name="participation" value="three" ng-model="participation"/> Completed most of the work
+    assigned to me but other group members contributed more than I
+    did.<br>
+    <input type="radio" name="participation" value="four" ng-model="participation"/> Did not contribute to the group
+    project.
+
+    <div ng-show="isShownParticipation('two') || isShownParticipation('three') || isShownParticipation('four')">
+        Defend your answer to #3.<br>
+        <input ng-model="participationreason" type="text" class="form-control">
+    </div>
+    <br>
+    <label> 4. Enter Grade</label>
+    <input ng-model="grade" type="text" placeholder="Group can be A, B, C,D or F" class="form-control" maxlength="1" up required>
+
+    <label> 5. Enter Percentage</label><br>
+    <input ng-model="percentage" type="number" class="form-control" required max="100" min="0"><br>
+    <button ng-click="save()" name="save" class="btn btn-lg btn-primary btn-block">Save Evaluation</button>
+</div>
+
+    <!--Other Member Evaluation Section-->
+    <div ng-show="tab === 2">
+        <table style="border: double; width: 100%; background-color: #337AB7; border-color:black; color: white">
+            <tr>
+                <th style="text-align: center;border: double; border-color:black; ">Member</th>
+                <th style="text-align: center;border: double;border-color:black; ">
+                    <select ng-model="selectedMember" required ng-options="member.name for member in members" ng-change="changeMember()"></select>
+                </th>
+            </tr>
+
+
+        </table>
+        <div ng-if='isMemberSelected=="yes"'>
+        <label> 1. Mention this member responsibilities within the group</label><br>
+        <input ng-model="se.responsibility" type="text" class="form-control" required autofocus>
+
+        <label> 2. Did he completed all of the assigned tasks?</label><br>
+        <input type="radio" id="yes" name="task" value="yes" ng-model="task"/>Yes<br>
+        <input type="radio" id="no" name="task" value="no" ng-model="task"/>No<br>
+        <input type="radio" id="mostofthem" name="task" value="mostofthem" ng-model="task"/>Most of them<br>
+
+        <div ng-show="isShown('no') || isShown('mostofthem')">
+            Explain why he could not complete all of the assigned tasks.<br>
+            <input ng-model="taskreason" type="text" class="form-control">
+
+        </div>
+        <br>
+        <label> 3. How would you rate his/her participation in the group?</label><br>
+        <input type="radio" name="participation" value="one" ng-model="participation"/> Incredibly involved in each phase of
+        this project.<br>
+        <input type="radio" name="participation" value="two" ng-model="participation"/> Completed all work assigned to him,
+        but was not otherwise involved.<br>
+        <input type="radio" name="participation" value="three" ng-model="participation"/> Completed most of the work
+        assigned but other group members contributed more than him.
+       <br>
+        <input type="radio" name="participation" value="four" ng-model="participation"/> Did not contribute to the group
+        project.
+
+        <div ng-show="isShownParticipation('two') || isShownParticipation('three') || isShownParticipation('four')">
+            Defend your answer to #3.<br>
+            <input ng-model="participationreason" type="text" class="form-control">
+        </div>
+        <br>
+        <label> 4. Enter Grade</label>
+        <input ng-model="grade" type="text" placeholder="Group can be A, B, C,D or F" class="form-control" required maxlength="1">
+
+        <label> 5. Enter Percentage</label><br>
+        <input ng-model="percentage" type="number" class="form-control"  max="100" min="0" required><br>
+        <button ng-click="save()"type="submit" name="save" class="btn btn-lg btn-primary btn-block">Save Evaluation</button>
+    </div></div>
+
+</form>
