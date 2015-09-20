@@ -1,16 +1,18 @@
-/**
- * Created by anitadevi on 9/10/15.
- */
-
 app.controller('HomeController', ['$scope', '$http', '$routeParams', '$mdToast', '$location', 'URLFactory',
     function ($scope, $http, $routeParams, $mdToast, $location, URLFactory) {
 
-        $scope.groups = [{name: 'Group-A', id: 1}, {name: 'Group-B', id: 2}, {name: 'Group-C', id: 3}];
+        $scope.groups = [];
+
+        $http.get(URLFactory.getGroupsURL()).success(function(groups){
+            $scope.groups = groups;
+        }).error(function(){
+            showToast('Error occurred while getting list of groups!');
+        });
 
 
-        $scope.phases = [{name: 'Phase-1', id: 1}, {name: 'Phase-2', id: 2}, {name: 'Phase-3', id: 3}];
+        $scope.phases = []; //[{name: 'Phase-1', id: 1}, {name: 'Phase-2', id: 2}, {name: 'Phase-3', id: 3}];
         $scope.submit = function () {
-            $location.path( 'evaluation/');
+            //$location.path( 'evaluation/');
 
         };
 

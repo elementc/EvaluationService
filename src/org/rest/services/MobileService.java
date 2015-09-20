@@ -96,6 +96,28 @@ public class MobileService {
     }
 
     @GET
+    @Path("allcourses")
+    public List<CourseDTO> getAllCourses() throws Exception{
+        if(securityContext == null || (!securityContext.isUserInRole("USER") && !securityContext.isUserInRole("ADMIN"))){
+            unauthorized();
+        }
+
+        List<Course> courses = queryService.getCourses();
+        if(courses == null){
+            return null;
+        }
+        List<CourseDTO> courseDTOs = null;
+
+        if(courses != null){
+            courseDTOs = new ArrayList<CourseDTO>();
+            for (Course course : courses){
+                courseDTOs.add(EntityToDTO.getCourseDTO(course));
+            }
+        }
+        return courseDTOs;
+    }
+
+    @GET
     @Path("courses/{courseID}")
     public CourseDTO getCourse(@PathParam("courseID") Integer courseID) throws Exception{
         if(securityContext == null || (!securityContext.isUserInRole("USER") && !securityContext.isUserInRole("ADMIN"))){
@@ -176,6 +198,24 @@ public class MobileService {
             }
         }
         return null;
+    }
+
+    @GET
+    @Path("groups/bycourseid/{courseID}")
+    public List<GroupDTO> getGroupByCourseID(@PathParam("courseID") Integer courseID) throws Exception{
+        if(securityContext == null || (!securityContext.isUserInRole("USER") && !securityContext.isUserInRole("ADMIN"))){
+            unauthorized();
+        }
+
+        List<Group> groups = queryService.getGroupsByCouseID(courseID);
+        List<GroupDTO> groupDTOs = null;
+        if(groups != null){
+            groupDTOs = new ArrayList<GroupDTO>();
+            for (Group group : groups){
+                groupDTOs.add(EntityToDTO.getGroupDTO(group));
+            }
+        }
+        return groupDTOs;
     }
 
     @GET

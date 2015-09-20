@@ -19,5 +19,29 @@ app.factory('URLFactory', [function(){
         return factory.getUserURL() + "signup/"
     };
 
+    factory.getGroupsURL = function(){
+        return factory.getMobileServiceURL() + "groups/";
+    };
+
+    factory.getCoursesURL = function(){
+        return factory.getMobileServiceURL() + "courses/";
+    };
+
+    factory.getAllCoursesURL = function(){
+        return factory.getMobileServiceURL() + "allcourses/";
+    };
+
+    factory.getCourseURL = function(id){
+        return factory.getCoursesURL() + id + '/';
+    };
+
+    factory.getGroupsURL = function(){
+        return factory.getMobileServiceURL() + "groups/";
+    };
+
+    factory.getGroupsByCourseURL = function(id){
+        return factory.getGroupsURL() + "bycourseid/" + id + "/";
+    };
+
     return factory;
 }]);

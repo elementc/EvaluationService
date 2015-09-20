@@ -2,6 +2,7 @@ package org.orm.services;
 
 import org.hibernate.*;
 import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Order;
 import org.orm.entities.*;
 import org.orm.util.HibernateUtil;
 
@@ -161,6 +162,57 @@ public class QueryService {
         return groupEvaluations;
     }
 
+    public List<Course> getCourses() throws Exception{
+        List<Course> courseList = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            Criteria criteria = session.createCriteria(Course.class);
+
+            criteria.addOrder(Order.asc("id"));
+
+            try{
+                courseList = criteria.list();
+            }catch (ObjectNotFoundException e){
+                courseList = null;
+            }
+
+        } catch (HibernateException e) {
+            throw new HibernateException(e);
+        } catch (Exception e) {
+            throw new Exception(e);
+        } finally {
+            session.close();
+        }
+        return courseList;
+    }
+
+    public List<Group> getGroupsByCouseID(int courseID) throws Exception{
+        List<Group> groups = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+
+            Criteria criteria = session.createCriteria(Group.class);
+
+            criteria.add(Expression.eq("course.id", courseID));
+
+
+            try{
+                groups = criteria.list();
+            }catch (ObjectNotFoundException e){
+                groups = null;
+            }
+
+        } catch (HibernateException e) {
+            throw new HibernateException(e);
+        } catch (Exception e) {
+            throw new Exception(e);
+        } finally {
+            session.clear();session.close();
+        }
+
+        return groups;
+    }
+
     public List<Course> getCoursesByUserID(int userID) throws Exception{
         ArrayList<Course> courses = null;
         try {
@@ -196,6 +248,7 @@ public class QueryService {
 
         return courses;
     }
+
 
     public List<EvaluationStage> getEvaluationStagesByCourseID(int courseID) throws Exception{
         try {

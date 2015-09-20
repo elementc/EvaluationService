@@ -28,19 +28,23 @@ app.config(['$routeProvider' , '$locationProvider', '$httpProvider', '$mdTheming
         templateUrl: 'components/views/login.html',
             controller: 'LoginController'
     }).when('/home',
-        {
-            templateUrl: 'components/views/home.html',
-            controller: 'HomeController'
-        }).when('/group',
-        {
-            templateUrl: 'components/views/managegroup.html',
-            controller: 'GroupController'
-        }).when('/evaluation',
-        {
-            templateUrl: 'components/views/evaluation.html',
-            controller: 'SEController'
-        }).otherwise(
-        {
-            redirectTo: '/'
-        });
+    {
+        templateUrl: 'components/views/home.html',
+        controller: 'HomeController'
+    }).when('/signup',
+    {
+        templateUrl: 'components/views/signup.html',
+        controller: 'SignupController'
+    }).when('/group',
+    {
+        templateUrl: 'components/views/managegroup.html',
+        controller: 'GroupController'
+    }).when('/evaluation',
+    {
+        templateUrl: 'components/views/evaluation.html',
+        controller: 'SEController'
+    }).otherwise(
+    {
+        redirectTo: '/'
+    });
 }]);

@@ -17,9 +17,9 @@
                 <th style="text-align: center;border: double; border-color:black; ">Course</th>
                 <th style="text-align: center;border: double;border-color:black; ">Group</th>
             </tr>
-            <tr  ng-repeat="x in dbgroups">
-                <td style="text-align: center;border: double;border-color:black; ">{{x.course}}</td>
-                <td style="text-align: center;border: double;border-color:black; ">{{x.group}}</td>
+            <tr  ng-repeat="x in groups">
+                <td style="text-align: center;border: double;border-color:black; ">{{x.course.title}}</td>
+                <td style="text-align: center;border: double;border-color:black; ">{{x.name}}</td>
             </tr>
 
         </table>
@@ -30,7 +30,7 @@
             <tr>
                 <th style="text-align: center;border: double; border-color:black; ">Course</th>
                 <th style="text-align: center;border: double;border-color:black; ">
-                    <select ng-model="selectedCourse" placeholder="Select Course" required ng-options="course.name for course in courses" ng-change="changeCourse()"></select>
+                    <select ng-model="selectedCourse" placeholder="Select Course" required ng-options="course.title for course in courses" ng-change="changeCourse()"></select>
                 </th>
             </tr>
             <tr >
@@ -49,7 +49,7 @@
             <tr>
                 <th style="text-align: center;border: double; border-color:black; ">Course</th>
                 <td style="border: double;border-color:black; ">
-                    <select ng-model="selectedCourse" required ng-options="course.name for course in courses"></select>
+                    <select ng-model="selectedCourse" required ng-options="course.title for course in courses"></select>
                 </td>
             </tr>
             <tr>
