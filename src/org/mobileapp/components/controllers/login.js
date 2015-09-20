@@ -7,6 +7,5 @@ app.controller('LoginController', ['$scope', '$http', '$routeParams', '$mdToast'
             $location.path( 'home/');
 
         }
-
     };
 }]);

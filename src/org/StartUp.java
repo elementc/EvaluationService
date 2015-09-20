@@ -46,7 +46,7 @@ public class StartUp {
         DefaultServlet defaultServlet = new DefaultServlet();
         ServletHolder sh = new ServletHolder("EvaluationsUI", defaultServlet);
         //below is a trick to allow loading static resources from the jar file
-        String resourceDir = this.getClass().getClassLoader().getResource("org/ui").toExternalForm();
+        String resourceDir = this.getClass().getClassLoader().getResource("org/mobileapp").toExternalForm();
         sh.setInitParameter("resourceBase", resourceDir);
         sh.setInitParameter("pathInfoOnly", "true");
         return sh;
