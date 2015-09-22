@@ -33,10 +33,10 @@
                     <select ng-model="selectedCourse" placeholder="Select Course" required ng-options="course.title for course in courses" ng-change="changeCourse()"></select>
                 </th>
             </tr>
-            <tr >
+            <tr>
                 <th style="text-align: center;border: double;border-color:black; ">Group</th>
                 <th style="text-align: center;border: double;border-color:black; ">
-                    <select ng-if='isCourseSelected=="yes"' placeholder="Select Group" ng-model="selectedGroup" required ng-options="group.name for group in groups"></select></th>
+                    <select placeholder="Select Group" ng-model="selectedGroup" required ng-options="group.name for group in coursegroups"></select></th>
             </tr>
 
         </table>

@@ -201,6 +201,37 @@ public class MobileService {
     }
 
     @GET
+    @Path("groups/subscribe/{groupID}")
+    public void subscribeToGroup(@PathParam("groupID") Integer groupID) throws Exception{
+        if(securityContext == null || (!securityContext.isUserInRole("USER") && !securityContext.isUserInRole("ADMIN"))){
+            unauthorized();
+        }
+        int userID = Integer.parseInt(securityContext.getUserPrincipal().getName());
+
+        GroupMemberDTO groupMemberDTO = new GroupMemberDTO();
+        groupMemberDTO.setGroup_id(groupID);
+        groupMemberDTO.setUser_id(userID);
+        groupMemberDTO.setId(0);
+
+        queryService.addGroupMember(DTOToEntity.getGroupMemberEntity(groupMemberDTO));
+    }
+
+
+    @GET
+    @Path("groups/creategroup/{groupname}/{courseID}")
+    public void createGroup(@PathParam("groupname") String groupname, @PathParam("courseID") Integer courseID) throws Exception{
+        if(securityContext == null || (!securityContext.isUserInRole("USER") && !securityContext.isUserInRole("ADMIN"))){
+            unauthorized();
+        }
+
+        GroupDTO groupDTO = new GroupDTO();
+        groupDTO.setCourse_id(courseID);
+        groupDTO.setName(groupname);
+        groupDTO.setCreated_on(new Timestamp(System.currentTimeMillis()));
+        queryService.addGroup(DTOToEntity.getGroupEntity(groupDTO));
+    }
+
+    @GET
     @Path("groups/bycourseid/{courseID}")
     public List<GroupDTO> getGroupByCourseID(@PathParam("courseID") Integer courseID) throws Exception{
         if(securityContext == null || (!securityContext.isUserInRole("USER") && !securityContext.isUserInRole("ADMIN"))){

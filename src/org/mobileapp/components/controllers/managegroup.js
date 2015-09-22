@@ -2,23 +2,24 @@
 app.controller('GroupController', ['$scope', '$http', '$routeParams', '$mdToast', '$location', 'URLFactory',
     function ($scope, $http, $routeParams, $mdToast, $location, URLFactory) {
         $scope.courses = [];
-
+        //$scope.coursegroups = [];
         $scope.groups = [];
 
         $http.get(URLFactory.getGroupsURL()).success(function(groups){
             $scope.groups = groups;
             for (var i = 0; i < $scope.groups.length; i++){
-                var group = $scope.groups[i];
-                $http.get(URLFactory.getCourseURL(group.course_id)).success(function(course) {
-                    group.course = course;
-                });
+                addCourse($scope.groups[i]);
+
             }
         }).error(function(){
             showToast('Error occurred while getting list of groups!');
         });
 
-        $scope.dbgroups = [{course: 'SWE-5001', group: 'Group-A'}, {course: 'SWE-5002', group: 'Group-B'}, {course: 'Testing-1', group:'Group-C'}];
-
+        var addCourse = function(group){
+            $http.get(URLFactory.getCourseURL(group.course_id)).success(function(course) {
+                group.course = course;
+            });
+        };
 
         $http.get(URLFactory.getAllCoursesURL()).success(function(courses) {
             $scope.courses = courses;
@@ -26,17 +27,38 @@ app.controller('GroupController', ['$scope', '$http', '$routeParams', '$mdToast'
 
 
         $scope.subscribe = function () {
-            $location.path( 'home/');
-
+            if ($scope.selectedGroup !== null){
+                $http.get(URLFactory.getGroupsSubscribeURL($scope.selectedGroup.id)).success(function(){
+                    showToast('Subscribed to group!');
+                    $location.path( 'home/');
+                });
+            }
         };
+
         $scope.changeCourse = function() {
-            $scope.isCourseSelected="yes"
-        }
+            $http.get(URLFactory.getGroupsByCourseURL($scope.selectedCourse.id)).success(function(groups) {
+                $scope.coursegroups = groups;
+            });
+        };
+
         $scope.create = function () {
+            if ($scope.selectedCourse !== null && $scope.groupName !== "" && $scope.groupName !== undefined){
+                $http.get(URLFactory.getCreateGroupURL($scope.selectedCourse.id, $scope.groupName)).success(function(){
+                    $location.path( 'home/');
+                });
+            }
             $location.path( 'home/');
 
         };
 
+        var showToast = function(content) {
+            var toast = $mdToast.simple()
+                .content(content)
+                .action('OK')
+                .highlightAction(false)
+                .position('top right');
+            $mdToast.show(toast);
+        };
 
     }]);
 

@@ -19,7 +19,7 @@ public class QueryService {
         ArrayList<Group> groups = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-
+            session.clear();
             Criteria criteria = session.createCriteria(GroupMember.class);
 
             criteria.add(Expression.eq("user.id", userID));
@@ -77,6 +77,7 @@ public class QueryService {
         ArrayList<User> users = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
+            session.clear();
 
             Criteria criteria = session.createCriteria(GroupMember.class);
 
@@ -113,6 +114,7 @@ public class QueryService {
 
         try{
             session = HibernateUtil.getSessionFactory().openSession();
+            session.clear();
 
             Criteria criteria = session.createCriteria(MemberEvaluation.class);
 
@@ -140,6 +142,7 @@ public class QueryService {
 
         try{
             session = HibernateUtil.getSessionFactory().openSession();
+            session.clear();
 
             Criteria criteria = session.createCriteria(GroupEvaluation.class);
 
@@ -166,6 +169,7 @@ public class QueryService {
         List<Course> courseList = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
+            session.clear();
             Criteria criteria = session.createCriteria(Course.class);
 
             criteria.addOrder(Order.asc("id"));
@@ -190,6 +194,7 @@ public class QueryService {
         List<Group> groups = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
+            session.clear();
 
             Criteria criteria = session.createCriteria(Group.class);
 
@@ -217,6 +222,7 @@ public class QueryService {
         ArrayList<Course> courses = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
+            session.clear();
 
             Criteria criteria = session.createCriteria(GroupMember.class);
 
@@ -253,6 +259,7 @@ public class QueryService {
     public List<EvaluationStage> getEvaluationStagesByCourseID(int courseID) throws Exception{
         try {
             session = HibernateUtil.getSessionFactory().openSession();
+            session.clear();
 
             Criteria criteria = session.createCriteria(EvaluationStage.class);
 
@@ -274,5 +281,13 @@ public class QueryService {
         } finally {
             session.clear();session.close();
         }
+    }
+
+    public void addGroupMember(GroupMember groupMember) throws Exception{
+        new GroupMemberOperations().addOrUpdateGroupMember(groupMember);
+    }
+
+    public void addGroup(Group group) throws Exception{
+        new GroupOperations().addOrUpdateGroup(group);
     }
 }

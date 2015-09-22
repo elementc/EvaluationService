@@ -43,5 +43,13 @@ app.factory('URLFactory', [function(){
         return factory.getGroupsURL() + "bycourseid/" + id + "/";
     };
 
+    factory.getGroupsSubscribeURL = function(id){
+        return factory.getGroupsURL() + "subscribe/" + id + "/";
+    };
+
+    factory.getCreateGroupURL = function(courseid, groupName){
+        return factory.getGroupsURL() + "creategroup/" + groupName + "/" + courseid + "/";
+    };
+
     return factory;
 }]);
