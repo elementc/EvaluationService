@@ -21,6 +21,7 @@ public class EvaluationStageOperations {
         validateEvaluationStage(evaluationStage);
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			transaction = session.beginTransaction();
             if(evaluationStage.getId() != 0){
                 session.update(evaluationStage);
@@ -50,6 +51,7 @@ public class EvaluationStageOperations {
 		try {
 			EvaluationStage evaluationStage = getEvaluationStage(evaluationStageID);
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			transaction = session.beginTransaction();
 			session.delete(evaluationStage);
 			transaction.commit();
@@ -76,6 +78,7 @@ public class EvaluationStageOperations {
 		List<EvaluationStage> evaluationStageList = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			Criteria criteria = session.createCriteria(EvaluationStage.class);
 
 			criteria.addOrder(Order.asc("id"));
@@ -102,6 +105,7 @@ public class EvaluationStageOperations {
 		List<EvaluationStage> evaluationStageList = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			Criteria criteria = session.createCriteria(EvaluationStage.class);
 
 			if (maxRows > 0)
@@ -131,7 +135,7 @@ public class EvaluationStageOperations {
 		EvaluationStage evaluationStage = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-
+			session.clear();
 			evaluationStage = (EvaluationStage) session.get(EvaluationStage.class, evaluationStageID);
 
 		} catch (HibernateException e) {

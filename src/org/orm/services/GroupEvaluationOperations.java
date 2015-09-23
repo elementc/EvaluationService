@@ -21,6 +21,7 @@ public class GroupEvaluationOperations {
         validateGroupEvaluation(groupEvaluation);
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			transaction = session.beginTransaction();
             if(groupEvaluation.getId() != 0){
                 session.update(groupEvaluation);
@@ -50,6 +51,7 @@ public class GroupEvaluationOperations {
 		try {
 			GroupEvaluation groupEvaluation = getGroupEvaluation(groupEvaluationID);
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			transaction = session.beginTransaction();
 			session.delete(groupEvaluation);
 			transaction.commit();
@@ -76,6 +78,7 @@ public class GroupEvaluationOperations {
 		List<GroupEvaluation> groupEvaluationsList = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			Criteria criteria = session.createCriteria(GroupEvaluation.class);
 
 			criteria.addOrder(Order.asc("id"));
@@ -102,6 +105,7 @@ public class GroupEvaluationOperations {
 		List<GroupEvaluation> groupEvaluationsList = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			Criteria criteria = session.createCriteria(GroupEvaluation.class);
 
 			if (maxRows > 0)
@@ -131,7 +135,7 @@ public class GroupEvaluationOperations {
 		GroupEvaluation groupEvaluation = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-
+			session.clear();
 			groupEvaluation = (GroupEvaluation) session.get(GroupEvaluation.class,
 					groupEvaluationID);
 

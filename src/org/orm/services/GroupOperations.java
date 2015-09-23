@@ -20,6 +20,7 @@ public class GroupOperations {
         validateGroup(group);
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			transaction = session.beginTransaction();
             if(group.getId() != 0){
                 session.update(group);
@@ -49,6 +50,7 @@ public class GroupOperations {
 		try {
 			Group group = getGroup(groupID);
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			transaction = session.beginTransaction();
 			session.delete(group);
 			transaction.commit();
@@ -75,6 +77,7 @@ public class GroupOperations {
 		List<Group> groupsList = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			Criteria criteria = session.createCriteria(Group.class);
 
 			//criteria.addOrder(Order.asc("id"));
@@ -101,6 +104,7 @@ public class GroupOperations {
 		List<Group> groupsList = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			Criteria criteria = session.createCriteria(Group.class);
 
 			if (maxRows > 0)
@@ -130,7 +134,7 @@ public class GroupOperations {
 		Group group = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-
+			session.clear();
 			group = (Group) session.get(Group.class,
 					groupID);
 

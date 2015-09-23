@@ -20,6 +20,7 @@ public class MemberEvaluationOperations {
         validateMemberEvaluation(memberEvaluation);
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			transaction = session.beginTransaction();
             if(memberEvaluation.getId() != 0){
                 session.update(memberEvaluation);
@@ -49,6 +50,7 @@ public class MemberEvaluationOperations {
 		try {
 			MemberEvaluation memberEvaluation = getMemberEvaluation(memberEvaluationID);
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			transaction = session.beginTransaction();
 			session.delete(memberEvaluation);
 			transaction.commit();
@@ -75,6 +77,7 @@ public class MemberEvaluationOperations {
 		List<MemberEvaluation> memberEvaluationsList = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			Criteria criteria = session.createCriteria(MemberEvaluation.class);
 
 			criteria.addOrder(Order.asc("id"));
@@ -100,6 +103,7 @@ public class MemberEvaluationOperations {
 		List<MemberEvaluation> memberEvaluationsList = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			Criteria criteria = session.createCriteria(MemberEvaluation.class);
 
 			if (maxRows > 0)
@@ -128,6 +132,7 @@ public class MemberEvaluationOperations {
 		MemberEvaluation memberEvaluation = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 
 			memberEvaluation = (MemberEvaluation) session.get(MemberEvaluation.class,
 					memberEvaluationID);

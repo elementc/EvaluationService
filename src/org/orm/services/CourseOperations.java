@@ -20,6 +20,7 @@ public class CourseOperations {
         validateCourse(course);
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			transaction = session.beginTransaction();
             if(course.getId() != 0){
                 session.update(course);
@@ -49,6 +50,7 @@ public class CourseOperations {
 		try {
 			Course course = getCourse(courseID);
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			transaction = session.beginTransaction();
 			session.delete(course);
 			transaction.commit();
@@ -75,6 +77,7 @@ public class CourseOperations {
 		List<Course> courseList = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			Criteria criteria = session.createCriteria(Course.class);
 
 			criteria.addOrder(Order.asc("id"));
@@ -101,6 +104,7 @@ public class CourseOperations {
 		List<Course> courseList = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			Criteria criteria = session.createCriteria(Course.class);
 
 			if (maxRows > 0)
@@ -130,6 +134,7 @@ public class CourseOperations {
 		Course course = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 
 			course = (Course) session.get(Course.class, courseID);
 

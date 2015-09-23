@@ -27,6 +27,7 @@ public class UserOperations {
 
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			transaction = session.beginTransaction();
             if(user.getId() != 0){
                 session.update(user);
@@ -56,6 +57,7 @@ public class UserOperations {
 		try {
 			User user = getUser(userID);
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			transaction = session.beginTransaction();
 			session.delete(user);
 			transaction.commit();
@@ -82,6 +84,7 @@ public class UserOperations {
 		List<User> usersList = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			Criteria criteria = session.createCriteria(User.class);
 
 			criteria.addOrder(Order.asc("id"));
@@ -108,6 +111,7 @@ public class UserOperations {
 		List<User> usersList = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			Criteria criteria = session.createCriteria(User.class);
 
 			if (maxRows > 0)
@@ -137,7 +141,7 @@ public class UserOperations {
 		User userAccount = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-
+			session.clear();
 			userAccount = (User) session.get(User.class,
 					userID);
 
@@ -155,7 +159,7 @@ public class UserOperations {
         List<User> users = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-
+			session.clear();
             Criteria criteria = session.createCriteria(User.class);
 
 
@@ -184,7 +188,7 @@ public class UserOperations {
         List<User> users = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-
+			session.clear();
             Criteria criteria = session.createCriteria(User.class);
 
 

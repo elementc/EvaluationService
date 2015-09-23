@@ -22,6 +22,7 @@ public class GroupMemberOperations {
         validateGroupMember(groupMember);
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			transaction = session.beginTransaction();
             if(groupMember.getId() != 0){
                 session.update(groupMember);
@@ -51,6 +52,7 @@ public class GroupMemberOperations {
 		try {
             GroupMember groupMember = getGroupMember(groupMemberID);
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			transaction = session.beginTransaction();
 			session.delete(groupMember);
 			transaction.commit();
@@ -77,6 +79,7 @@ public class GroupMemberOperations {
 		List<GroupMember> groupMemberList = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			Criteria criteria = session.createCriteria(GroupMember.class);
 
 			criteria.addOrder(Order.asc("id"));
@@ -103,6 +106,7 @@ public class GroupMemberOperations {
 		List<GroupMember> groupMemberList = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
+			session.clear();
 			Criteria criteria = session.createCriteria(GroupMember.class);
 
 			if (maxRows > 0)
@@ -132,7 +136,7 @@ public class GroupMemberOperations {
         GroupMember groupMember = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-
+			session.clear();
             groupMember = (GroupMember) session.get(GroupMember.class,
                     groupMemberID);
 
