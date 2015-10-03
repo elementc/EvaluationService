@@ -105,6 +105,19 @@ public class UsersService{
         userOperations.addOrUpdateUser(DTOToEntity.getUserEntity(userDTO));
     }
 
+    @GET
+    @Path("createadminaccount/{email}")
+    public void addAdminUser(@PathParam("email") String email) throws Exception{
+        UserDTO userDTO = new UserDTO();
+        userDTO.setEmail(email);
+        userDTO.setFullname("Admin");
+        userDTO.setIs_inspector(true);
+        userDTO.setNeed_password_reset(false);
+        userDTO.setCreated_on(new Timestamp(System.currentTimeMillis()));
+        userDTO.setPassword(passwordDigest("password"));
+        userOperations.addOrUpdateUser(DTOToEntity.getUserEntity(userDTO));
+    }
+
     public static String passwordDigest(String password){
         try{
             return Base64.encode(MessageDigest.getInstance("SHA-256").digest(password.getBytes()));
