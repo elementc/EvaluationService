@@ -9,18 +9,20 @@ app.controller('SignupController', ['$scope', '$http', '$routeParams', '$mdToast
 
 
         $scope.save = function(){
-
             if($scope.user.password !== $scope.confirmPassword){
                 showToast("Passwords do not match");
             }else{
                 $http.post(URLFactory.getUserSignupURL(), $scope.user).success(function(){
                     showToast('User created successfully!');
                     $location.path('/');
-                }).error(function(){
-                    showToast('Error creating user!');
+                }).error(function(e){
+                    if(e !== null && e.error !== undefined){
+                        showToast(e.error);
+                    }else{
+                        showToast('Internal Server Error. Contact Administrator!');
+                    }
                 });
             }
-
         };
 
         var showToast = function(content) {

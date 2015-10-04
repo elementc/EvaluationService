@@ -1,13 +1,35 @@
+<md-content flex layout-padding style="text-align:center;">
 
-<h2 style="text-align: center">Login</h2>
+    <md-card style="text-align:left; width:500px; margin:auto;">
+        <md-toolbar>
+            <div class="md-toolbar-tools" style="background: #eee; color:#000">
+                <label>Sign up</label>
+            </div>
+        </md-toolbar>
+        <md-content flex layout-padding>
+            <form name="signupForm">
+                <md-input-container flex>
+                    <label>Full Name</label>
+                    <input ng-model="user.fullname" type="text" required>
+                </md-input-container>
 
-<form class="form-signin" name="loginForm">
-    <input ng-model="user.fullname" class="form-control" placeholder="Full Name" required
-           autofocus>
-    <input ng-model="user.email" type="email" name="email" class="form-control" placeholder="Email address" required
-           autofocus>
-    <input ng-model="user.password" type="password" name="password" class="form-control" placeholder="Password" required>
-    <input ng-model="confirmPassword" type="password" name="password" class="form-control" placeholder="Confirm Password" required>
+                <md-input-container flex>
+                    <label>Email</label>
+                    <input ng-model="user.email" type="email" required>
+                </md-input-container>
 
-    <button type="submit" class="btn btn-lg btn-primary btn-block" ng-click="save()">Sign up</button>
-</form>
+                <md-input-container flex>
+                    <label>Password</label>
+                    <input ng-model="user.password" type="password" required>
+                </md-input-container>
+
+                <md-input-container flex>
+                    <label>Confirm</label>
+                    <input ng-model="confirmPassword" type="password" required>
+                </md-input-container>
+                <br>
+                <md-button class="md-primary md-raised" ng-disabled="signupForm.$invalid" ng-click="save()">Sign up</md-button>
+            </form>
+        </md-content>
+    </md-card>
+</md-content>

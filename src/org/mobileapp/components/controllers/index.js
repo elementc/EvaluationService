@@ -8,5 +8,5 @@ app.controller('IndexController', ['$scope', '$location', '$http', 'URLFactory' 
         $http.put(URLFactory.getAuthURL()).success(function(){
              $location.path('/');
        });
-    }
+    };
 }]);

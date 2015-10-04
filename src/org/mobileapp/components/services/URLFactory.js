@@ -51,5 +51,9 @@ app.factory('URLFactory', [function(){
         return factory.getGroupsURL() + "creategroup/" + groupName + "/" + courseid + "/";
     };
 
+    factory.getEvaluationStagesURL = function(courseid){
+        return factory.getCourseURL(courseid) + "evaluation_stages" + '/';
+    };
+
     return factory;
 }]);

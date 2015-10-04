@@ -42,7 +42,7 @@ app.config(['$routeProvider' , '$locationProvider', '$httpProvider', '$mdTheming
     }).when('/evaluation',
     {
         templateUrl: 'components/views/evaluation.html',
-        controller: 'SEController'
+        controller: 'EvaluationController'
     }).otherwise(
     {
         redirectTo: '/'

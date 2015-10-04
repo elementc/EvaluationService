@@ -1,68 +1,65 @@
-<h2 style="text-align: center">Manage Groups</h2>
+<md-content flex layout-padding style="text-align:center;">
 
-<form class="form-signin" name="groupForm">
-    <i>Click on any of the tab below:</i>
-    <section>
-        <ul class="nav nav-pills" ng-init="tab = 1">
-            <li ng-class="{active:tab===1}"><a href ng-click="tab = 1">Current Status</a></li>
-            <li ng-class="{active:tab===2}"><a href ng-click="tab = 2">Subscribe</a></li>
-            <li ng-class="{active:tab===3}"><a href ng-click="tab = 3">Create New Group</a></li>
-        </ul>
-    </section>
-    <br>
+    <md-card style="text-align:left; width:500px; margin:auto;">
+        <md-toolbar>
+            <div class="md-toolbar-tools" style="background: #eee; color:#000">
+                <label>Manage Groups</label>
+            </div>
+        </md-toolbar>
+        <md-content flex layout-padding>
 
-    <div ng-show="tab === 1">
-        <table style="border: double; width: 100%; background-color: #337AB7; border-color:black; color: white">
-            <tr>
-                <th style="text-align: center;border: double; border-color:black; ">Course</th>
-                <th style="text-align: center;border: double;border-color:black; ">Group</th>
-            </tr>
-            <tr  ng-repeat="x in groups">
-                <td style="text-align: center;border: double;border-color:black; ">{{x.course.title}}</td>
-                <td style="text-align: center;border: double;border-color:black; ">{{x.name}}</td>
-            </tr>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="Current Groups">
+                    <md-content class="md-padding">
+                        <table class="md-table" style="text-align: center;">
+                            <tr class="md-table-content-row">
+                                <th class="md-table-header">Course</th>
+                                <th class="md-table-header">Group</th>
+                            </tr>
+                            <tr  ng-repeat="x in groups">
+                                <td class="md-table-content">{{x.course.title}}</td>
+                                <td class="md-table-content">{{x.name}}</td>
+                            </tr>
+                        </table>
+                    </md-content>
+                </md-tab>
 
-        </table>
-    </div>
+                <md-tab label="Subscribe">
+                    <md-content class="md-padding">
+                        <label>Course</label>
+                        <md-select ng-model="subscribe.selectedCourse" ng-change="changeCourse()">
+                            <md-option ng-repeat="course in courses" ng-value="course">
+                                {{course.title}}
+                            </md-option>
+                        </md-select>
+                        <br><br>
+                        <label>Group</label>
+                        <md-select ng-model="subscribe.selectedGroup">
+                            <md-option ng-repeat="group in coursegroups" ng-value="group">
+                                {{group.name}}
+                            </md-option>
+                        </md-select><br><br>
+                        <md-button ng-click="subscribe()" class="md-primary md-raised">Subscribe</md-button>
+                    </md-content>
+                </md-tab>
 
-    <div ng-show="tab === 2">
-        <table style="border: double; width: 100%; background-color: #337AB7; border-color:black; color: white">
-            <tr>
-                <th style="text-align: center;border: double; border-color:black; ">Course</th>
-                <th style="text-align: center;border: double;border-color:black; ">
-                    <select ng-model="selectedCourse" placeholder="Select Course" required ng-options="course.title for course in courses" ng-change="changeCourse()"></select>
-                </th>
-            </tr>
-            <tr>
-                <th style="text-align: center;border: double;border-color:black; ">Group</th>
-                <th style="text-align: center;border: double;border-color:black; ">
-                    <select placeholder="Select Group" ng-model="selectedGroup" required ng-options="group.name for group in coursegroups"></select></th>
-            </tr>
-
-        </table>
-        <br><br>
-        <button ng-click="subscribe()" class="btn btn-lg btn-primary btn-block">Subscribe</button>
-    </div>
-
-    <div ng-show="tab === 3">
-        <table style="border: double; width: 100%; background-color: #337AB7; border-color:black; color: white">
-            <tr>
-                <th style="text-align: center;border: double; border-color:black; ">Course</th>
-                <td style="border: double;border-color:black; ">
-                    <select ng-model="selectedCourse" required ng-options="course.title for course in courses"></select>
-                </td>
-            </tr>
-            <tr>
-                <th style="text-align: center;border: double;border-color:black; ">Group</th>
-                <td style="border: double;border-color:black; ">
-                    <input ng-model="groupName" type="text" class="form-control" placeholder="Enter Group Name"
-                           required></td>
-            </tr>
-
-        </table>
-        <br><br>
-        <button ng-click="create()" class="btn btn-lg btn-primary btn-block">Create Group</button>
-    </div>
-
-
-</form>
+                <md-tab label="Create Group">
+                    <md-content class="md-padding">
+                        <label>Course</label>
+                        <md-select ng-model="create.selectedCourse">
+                            <md-option ng-repeat="course in courses" ng-value="course">
+                                {{course.title}}
+                            </md-option>
+                        </md-select>
+                        <br><br>
+                        <md-input-container flex>
+                            <label>Group Name</label>
+                            <input ng-model="create.groupName">
+                        </md-input-container>
+                        <md-button ng-click="create()" class="md-primary md-raised">Create Group</md-button>
+                    </md-content>
+                </md-tab>
+            </md-tabs>
+        </md-content>
+    </md-card>
+</md-content>
