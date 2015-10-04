@@ -292,7 +292,7 @@ public class MobileService {
     }
 
     @POST
-    @Path("member_evaluations/add")
+    @Path("member_evaluations")
     public void addMemberEvaluation(MemberEvaluationDTO memberEvaluationDTO) throws Exception{
         if(securityContext == null || (!securityContext.isUserInRole("ADMIN") && !securityContext.isUserInRole("USER"))){
             unauthorized();
@@ -352,7 +352,7 @@ public class MobileService {
 
 
     @POST
-    @Path("group_evaluations/add")
+    @Path("group_evaluations")
     public void getGroupEvaluations(GroupEvaluationDTO groupEvaluationDTO) throws Exception{
         if(securityContext == null || (!securityContext.isUserInRole("ADMIN") && !securityContext.isUserInRole("USER"))){
             unauthorized();

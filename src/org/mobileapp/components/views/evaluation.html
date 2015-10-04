@@ -11,17 +11,17 @@
             <md-tabs md-dynamic-height md-border-bottom>
                 <md-tab label="Self">
                     <md-content class="md-padding">
-                        <div style="overflow: auto; height:100%;">
+                        <form name="selfForm" style="overflow: auto; height:100%;">
                             <md-input-container>
                                 <label>1. Mention your responsibilities within the group</label>
-                                <textarea ng-model="self.responsibility" class="form-control" required></textarea>
+                                <textarea ng-model="self.responsibilities" class="form-control" required></textarea>
                             </md-input-container>
 
                             <label>2. Did you complete all of the tasks assigned to you?</label>
-                            <md-radio-group ng-model="self.task_completeness">
+                            <md-radio-group ng-model="self.task_completeness" required>
                                 <md-radio-button value="yes">Yes</md-radio-button>
                                 <md-radio-button value="no"> No </md-radio-button>
-                                <md-radio-button value="mostofthem">Most Of Them</md-radio-button>
+                                <md-radio-button value="most of them">Most Of Them</md-radio-button>
                             </md-radio-group>
 
                             <md-input-container>
@@ -30,11 +30,11 @@
                             </md-input-container>
 
                             <label> 3. How would you rate your participation in the group?</label>
-                            <md-radio-group ng-model="self.participation">
-                                <md-radio-button value="Incredibly involved in each phase of this project">Incredibly involved in each phase of this project</md-radio-button>
-                                <md-radio-button value="Completed all work assigned to me, but was not otherwise involved"> Completed all work assigned to me, but was not otherwise involved </md-radio-button>
-                                <md-radio-button value="Completed most of the work assigned to me but other group members contributed more than I did">Completed most of the work assigned to me but other group members contributed more than I did</md-radio-button>
-                                <md-radio-button value="Did not contribute to the group project">Did not contribute to the group project</md-radio-button>
+                            <md-radio-group ng-model="self.participation" required>
+                                <md-radio-button value="1">Incredibly involved in each phase of this project</md-radio-button>
+                                <md-radio-button value="2"> Completed all work assigned to me, but was not otherwise involved </md-radio-button>
+                                <md-radio-button value="3">Completed most of the work assigned to me but other group members contributed more than I did</md-radio-button>
+                                <md-radio-button value="4">Did not contribute to the group project</md-radio-button>
                             </md-radio-group>
 
                             <md-input-container>
@@ -43,12 +43,12 @@
                             </md-input-container>
 
                             <label>4. Enter Grade</label>
-                            <md-radio-group ng-model="self.grade">
-                                <md-radio-button value="A">A</md-radio-button>
-                                <md-radio-button value="B">B</md-radio-button>
-                                <md-radio-button value="C">C</md-radio-button>
-                                <md-radio-button value="D">D</md-radio-button>
-                                <md-radio-button value="F">F</md-radio-button>
+                            <md-radio-group ng-model="self.grade" required>
+                                <md-radio-button value='A'>A</md-radio-button>
+                                <md-radio-button value='B'>B</md-radio-button>
+                                <md-radio-button value='C'>C</md-radio-button>
+                                <md-radio-button value='D'>D</md-radio-button>
+                                <md-radio-button value='F'>F</md-radio-button>
                             </md-radio-group>
 
                             <md-input-container>
@@ -56,24 +56,31 @@
                                 <input ng-model="self.percentage" type="number" class="form-control" required max="100" min="0"><br>
                             </md-input-container>
 
-                            <md-button ng-click="submitSelf()" name="save" class="md-primary md-raised">Submit</md-button>
+                            <md-button ng-click="submitSelf()" name="save" ng-disabled="selfForm.$invalid" class="md-primary md-raised">Submit</md-button>
                             <br><br><br>
-                        </div>
+                        </form>
                     </md-content>
                 </md-tab>
                 <md-tab label="Member">
                     <md-content class="md-padding">
-                        <div style="overflow: auto; height:100%;">
+                        <form name="memberForm" style="overflow: auto; height:100%;">
+                            <label>Course</label>
+                            <md-select ng-model="selected.groupMember" required>
+                                <md-option ng-repeat="groupMember in groupMembers" ng-value="groupMember" ng-if="groupMember.email !== user.email">
+                                    {{groupMember.fullname}}
+                                </md-option>
+                            </md-select>
+
                             <md-input-container>
                                 <label>1. Mention your responsibilities within the group</label>
-                                <textarea ng-model="member.responsibility" class="form-control" required></textarea>
+                                <textarea ng-model="member.responsibilities" class="form-control" required></textarea>
                             </md-input-container>
 
                             <label>2. Did you complete all of the tasks assigned to you?</label>
-                            <md-radio-group ng-model="member.task_completeness">
+                            <md-radio-group ng-model="member.task_completeness" required>
                                 <md-radio-button value="yes">Yes</md-radio-button>
                                 <md-radio-button value="no"> No </md-radio-button>
-                                <md-radio-button value="mostofthem">Most Of Them</md-radio-button>
+                                <md-radio-button value="most of them">Most Of Them</md-radio-button>
                             </md-radio-group>
 
                             <md-input-container>
@@ -82,11 +89,11 @@
                             </md-input-container>
 
                             <label> 3. How would you rate your participation in the group?</label>
-                            <md-radio-group ng-model="member.participation">
-                                <md-radio-button value="Incredibly involved in each phase of this project">Incredibly involved in each phase of this project</md-radio-button>
-                                <md-radio-button value="Completed all work assigned to me, but was not otherwise involved"> Completed all work assigned to me, but was not otherwise involved </md-radio-button>
-                                <md-radio-button value="Completed most of the work assigned to me but other group members contributed more than I did">Completed most of the work assigned to me but other group members contributed more than I did</md-radio-button>
-                                <md-radio-button value="Did not contribute to the group project">Did not contribute to the group project</md-radio-button>
+                            <md-radio-group ng-model="member.participation" required>
+                                <md-radio-button value="1">Incredibly involved in each phase of this project</md-radio-button>
+                                <md-radio-button value="2"> Completed all work assigned to me, but was not otherwise involved </md-radio-button>
+                                <md-radio-button value="3">Completed most of the work assigned to me but other group members contributed more than I did</md-radio-button>
+                                <md-radio-button value="4">Did not contribute to the group project</md-radio-button>
                             </md-radio-group>
 
                             <md-input-container>
@@ -95,7 +102,7 @@
                             </md-input-container>
 
                             <label>4. Enter Grade</label>
-                            <md-radio-group ng-model="member.grade">
+                            <md-radio-group ng-model="member.grade" required>
                                 <md-radio-button value="A">A</md-radio-button>
                                 <md-radio-button value="B">B</md-radio-button>
                                 <md-radio-button value="C">C</md-radio-button>
@@ -108,9 +115,9 @@
                                 <input ng-model="member.percentage" type="number" class="form-control" required max="100" min="0"><br>
                             </md-input-container>
 
-                            <md-button ng-click="submitMember()" name="save" class="md-primary md-raised">Submit</md-button>
+                            <md-button ng-click="submitMember()" ng-disabled="memberForm.$invalid" name="save" class="md-primary md-raised">Submit</md-button>
                             <br><br><br>
-                        </div>
+                        </form>
                     </md-content>
                 </md-tab>
                 <md-tab label="Group">

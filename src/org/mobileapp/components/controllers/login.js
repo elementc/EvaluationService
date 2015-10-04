@@ -1,5 +1,5 @@
-app.controller('LoginController', ['$scope', '$http', '$routeParams', '$mdToast', '$location', 'URLFactory',
-    function ($scope, $http, $routeParams, $mdToast, $location, URLFactory) {
+app.controller('LoginController', ['$rootScope', '$scope', '$http', '$routeParams', '$mdToast', '$location', 'URLFactory',
+    function ($rootScope, $scope, $http, $routeParams, $mdToast, $location, URLFactory) {
 
     $scope.signup = function(){
         $location.path( 'signup/');
@@ -11,8 +11,18 @@ app.controller('LoginController', ['$scope', '$http', '$routeParams', '$mdToast'
 
     $scope.login = function(){
         $http.post(URLFactory.getAuthURL(), $scope.loginform).success(function(){
-            showToast('User logged in successfully!');
-            $location.path('home/');
+            $http.get(URLFactory.getUserURL()).success(function (e) {
+                $rootScope.user = e;
+                showToast('User logged in successfully!');
+                $location.path('home/');
+            }).error(function(e){
+                if(e !== null && e.error !== undefined){
+                    showToast(e.error);
+                }else{
+                    showToast('Internal Server Error. Contact Administrator!');
+                }
+            });
+
         }).error(function(e){
             if(e !== null && e.error !== undefined){
                 showToast(e.error);

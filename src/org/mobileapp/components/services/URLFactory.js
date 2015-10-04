@@ -35,10 +35,6 @@ app.factory('URLFactory', [function(){
         return factory.getCoursesURL() + id + '/';
     };
 
-    factory.getGroupsURL = function(){
-        return factory.getMobileServiceURL() + "groups/";
-    };
-
     factory.getGroupsByCourseURL = function(id){
         return factory.getGroupsURL() + "bycourseid/" + id + "/";
     };
@@ -53,6 +49,18 @@ app.factory('URLFactory', [function(){
 
     factory.getEvaluationStagesURL = function(courseid){
         return factory.getCourseURL(courseid) + "evaluation_stages" + '/';
+    };
+
+    factory.getMemberEvaluationsURL = function(courseid){
+        return factory.getMobileServiceURL() + "member_evaluations" + '/';
+    };
+
+    factory.getGroupURL = function(id){
+        return factory.getGroupsURL() + id + '/';
+    };
+
+    factory.getGroupMembersURL = function(groupid){
+        return factory.getGroupURL(groupid) + "users" + '/';
     };
 
     return factory;

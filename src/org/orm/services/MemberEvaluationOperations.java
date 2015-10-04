@@ -149,7 +149,7 @@ public class MemberEvaluationOperations {
 
 
     private void validateMemberEvaluation(MemberEvaluation memberEvaluation) throws EntityValidationException{
-        if(memberEvaluation.getEvaluator() == null || memberEvaluation.getEvaluatee() == null || memberEvaluation.getEvalutionStage() == null || memberEvaluation.getParticipation_details() == null || memberEvaluation.getTask_completeness_details() == null || memberEvaluation.getGroup() == null){
+        if(memberEvaluation.getEvaluator() == null || memberEvaluation.getEvaluatee() == null || memberEvaluation.getEvalutionStage() == null || memberEvaluation.getGroup() == null){
             throw new EntityValidationException("MemberEvaluation object is missing required values!");
         }
     }
