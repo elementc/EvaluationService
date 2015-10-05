@@ -37,7 +37,7 @@ app.config(['$routeProvider' , '$locationProvider', '$httpProvider', '$mdTheming
         controller: 'SignupController'
     }).when('/group',
     {
-        templateUrl: 'components/views/managegroup.html',
+        templateUrl: 'components/views/manageGroup.html',
         controller: 'GroupController'
     }).when('/evaluation',
     {
