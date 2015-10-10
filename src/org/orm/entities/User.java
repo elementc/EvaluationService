@@ -88,4 +88,23 @@ public class User implements java.io.Serializable{
     public void setCreated_on(Timestamp created_on) {
         this.created_on = created_on;
     }
+
+    public String getValidationError(){
+        if(email == null || email.trim().length() == 0){
+            return "Missing user's email address";
+        }
+
+        if(fullname == null || fullname.trim().length() == 0){
+            return "Missing user's name";
+        }
+
+        if(password == null || password.trim().length() == 0){
+            return "Missing user's password";
+        }
+
+        if(created_on == null){
+            return "Missing user creation timestamp";
+        }
+        return null;
+    }
 }

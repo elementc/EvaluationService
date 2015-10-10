@@ -64,7 +64,7 @@
                 <md-tab label="Member">
                     <md-content class="md-padding">
                         <form name="memberForm" style="overflow: auto; height:100%;">
-                            <label>Course</label>
+                            <label>Member:</label>
                             <md-select ng-model="selected.groupMember" required>
                                 <md-option ng-repeat="groupMember in groupMembers" ng-value="groupMember" ng-if="groupMember.email !== user.email">
                                     {{groupMember.fullname}}
@@ -122,7 +122,144 @@
                 </md-tab>
                 <md-tab label="Group">
                     <md-content class="md-padding">
-                        Coming Soon!
+                        <form name="groupForm" style="overflow: auto; height:100%;">
+                            <label>Goals</label><br>
+                            <md-radio-group ng-model="groupEvaluation.goals" required>
+                                <md-radio-button value="1">1</md-radio-button>
+                                <md-radio-button value="2">2</md-radio-button>
+                                <md-radio-button value="3">3</md-radio-button>
+                                <md-radio-button value="4">4</md-radio-button>
+                                <md-radio-button value="5">5</md-radio-button>
+                            </md-radio-group>
+                            <md-input-container>
+                                <label>Explanation</label>
+                                <textarea ng-model="groupEvaluation.goals_details"></textarea>
+                            </md-input-container>
+
+
+                            <label>Openness</label><br>
+                            <md-radio-group ng-model="groupEvaluation.openness" required>
+                                <md-radio-button value="1">1</md-radio-button>
+                                <md-radio-button value="2">2</md-radio-button>
+                                <md-radio-button value="3">3</md-radio-button>
+                                <md-radio-button value="4">4</md-radio-button>
+                                <md-radio-button value="5">5</md-radio-button>
+                            </md-radio-group>
+                            <md-input-container>
+                                <label>Explanation</label>
+                                <textarea ng-model="groupEvaluation.openness_details"></textarea>
+                            </md-input-container>
+
+                            <label>Mutual Trust</label><br>
+                            <md-radio-group ng-model="groupEvaluation.mutual_trust" required>
+                                <md-radio-button value="1">1</md-radio-button>
+                                <md-radio-button value="2">2</md-radio-button>
+                                <md-radio-button value="3">3</md-radio-button>
+                                <md-radio-button value="4">4</md-radio-button>
+                                <md-radio-button value="5">5</md-radio-button>
+                            </md-radio-group>
+                            <md-input-container>
+                                <label>Explanation</label>
+                                <textarea ng-model="groupEvaluation.mutual_trust_details"></textarea>
+                            </md-input-container>
+
+                            <label>Attitude Towards Difference</label><br>
+                            <md-radio-group ng-model="groupEvaluation.difference_attitude" required>
+                                <md-radio-button value="1">1</md-radio-button>
+                                <md-radio-button value="2">2</md-radio-button>
+                                <md-radio-button value="3">3</md-radio-button>
+                                <md-radio-button value="4">4</md-radio-button>
+                                <md-radio-button value="5">5</md-radio-button>
+                            </md-radio-group>
+                            <md-input-container>
+                                <label>Explanation</label>
+                                <textarea ng-model="groupEvaluation.difference_attitude_details"></textarea>
+                            </md-input-container>
+
+                            <label>Support</label><br>
+                            <md-radio-group ng-model="groupEvaluation.support" required>
+                                <md-radio-button value="1">1</md-radio-button>
+                                <md-radio-button value="2">2</md-radio-button>
+                                <md-radio-button value="3">3</md-radio-button>
+                                <md-radio-button value="4">4</md-radio-button>
+                                <md-radio-button value="5">5</md-radio-button>
+                            </md-radio-group>
+                            <md-input-container>
+                                <label>Explanation</label>
+                                <textarea ng-model="groupEvaluation.support_details"></textarea>
+                            </md-input-container>
+
+                            <label>Participation</label><br>
+                            <md-radio-group ng-model="groupEvaluation.participation" required>
+                                <md-radio-button value="1">1</md-radio-button>
+                                <md-radio-button value="2">2</md-radio-button>
+                                <md-radio-button value="3">3</md-radio-button>
+                                <md-radio-button value="4">4</md-radio-button>
+                                <md-radio-button value="5">5</md-radio-button>
+                            </md-radio-group>
+                            <md-input-container>
+                                <label>Explanation</label>
+                                <textarea ng-model="groupEvaluation.participation_details"></textarea>
+                            </md-input-container>
+
+                            <label>Decision Making</label><br>
+                            <md-radio-group ng-model="groupEvaluation.decision_making" required>
+                                <md-radio-button value="1">1</md-radio-button>
+                                <md-radio-button value="2">2</md-radio-button>
+                                <md-radio-button value="3">3</md-radio-button>
+                                <md-radio-button value="4">4</md-radio-button>
+                                <md-radio-button value="5">5</md-radio-button>
+                            </md-radio-group>
+                            <md-input-container>
+                                <label>Explanation</label>
+                                <textarea ng-model="groupEvaluation.decision_making_details"></textarea>
+                            </md-input-container>
+
+
+                            <label>Flexibility</label><br>
+                            <md-radio-group ng-model="groupEvaluation.flexibility" required>
+                                <md-radio-button value="1">1</md-radio-button>
+                                <md-radio-button value="2">2</md-radio-button>
+                                <md-radio-button value="3">3</md-radio-button>
+                                <md-radio-button value="4">4</md-radio-button>
+                                <md-radio-button value="5">5</md-radio-button>
+                            </md-radio-group>
+                            <md-input-container>
+                                <label>Explanation</label>
+                                <textarea ng-model="groupEvaluation.flexibility_details"></textarea>
+                            </md-input-container>
+
+
+                            <label>Use of Member Resources</label><br>
+                            <md-radio-group ng-model="groupEvaluation.resource_use" required>
+                                <md-radio-button value="1">1</md-radio-button>
+                                <md-radio-button value="2">2</md-radio-button>
+                                <md-radio-button value="3">3</md-radio-button>
+                                <md-radio-button value="4">4</md-radio-button>
+                                <md-radio-button value="5">5</md-radio-button>
+                            </md-radio-group>
+                            <md-input-container>
+                                <label>Explanation</label>
+                                <textarea ng-model="groupEvaluation.resource_use_details"></textarea>
+                            </md-input-container>
+
+                            <label>Grade</label>
+                            <md-radio-group ng-model="groupEvaluation.grade" required>
+                                <md-radio-button value="A">A</md-radio-button>
+                                <md-radio-button value="B">B</md-radio-button>
+                                <md-radio-button value="C">C</md-radio-button>
+                                <md-radio-button value="D">D</md-radio-button>
+                                <md-radio-button value="F">F</md-radio-button>
+                            </md-radio-group>
+
+                            <md-input-container>
+                                <label>Percentage</label><br>
+                                <input ng-model="groupEvaluation.percentage" type="number" class="form-control" required max="100" min="0"><br>
+                            </md-input-container>
+
+                            <md-button ng-click="submitGroup()" ng-disabled="groupForm.$invalid" name="save" class="md-primary md-raised">Submit</md-button>
+                            <br><br><br>
+                        </form>
                     </md-content>
                 </md-tab>
             </md-tabs>

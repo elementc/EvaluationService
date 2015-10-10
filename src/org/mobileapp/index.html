@@ -14,8 +14,9 @@
   <body layout="column" ng-controller="IndexController">
     <md-toolbar>
         <div class="md-toolbar-tools">
-            <span class="title" ng-click="go('/login')">Student Evaluations</span>
+            <span class="title" style="cursor: pointer;" ng-click="go('/home')">Student Evaluations</span>
             <span flex></span>
+            <span class="title" style="cursor: pointer;" ng-click="logout()" ng-show="showLogout">Logout</span>
         </div>
     </md-toolbar>
     <div layout="row" flex>

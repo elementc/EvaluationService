@@ -217,9 +217,10 @@ public class UserOperations {
     }
 
     private void validateUser(User user) throws EntityValidationException{
-        if(user.getEmail() == null || user.getPassword() == null || user.getFullname() == null || user.getCreated_on() == null){
-            throw new EntityValidationException("User object is missing required values!");
-        }
+		String validationError = user.getValidationError();
+		if(validationError != null){
+			throw new EntityValidationException(validationError);
+		}
     }
 
 }

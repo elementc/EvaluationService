@@ -73,6 +73,10 @@ public class QueryService {
         return new UserOperations().getUser(userID);
     }
 
+    public User getUserByEmail(String email) throws Exception{
+        return new UserOperations().getUserByEmail(email);
+    }
+
     public List<User> getUsersByGroupID(int groupID) throws Exception{
         ArrayList<User> users = null;
         try {

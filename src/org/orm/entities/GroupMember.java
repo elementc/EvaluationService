@@ -51,4 +51,16 @@ public class GroupMember implements java.io.Serializable{
     public void setUser(User user) {
         this.user = user;
     }
+
+    public String getValidationError(){
+
+        if(group == null || group.getId() == 0){
+            return "Missing group that this user belongs to";
+        }
+
+        if(user == null || user.getId() == 0){
+            return "Missing user that belongs to this group";
+        }
+        return null;
+    }
 }

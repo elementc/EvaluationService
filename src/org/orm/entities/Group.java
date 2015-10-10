@@ -61,4 +61,19 @@ public class Group implements java.io.Serializable{
     public void setCreated_on(Timestamp created_on) {
         this.created_on = created_on;
     }
+
+    public String getValidationError(){
+        if(name == null || name.trim().length() == 0){
+            return "Missing group name";
+        }
+
+        if(course == null || course.getId() == 0){
+            return "Missing course that this group belongs to";
+        }
+
+        if(created_on == null){
+            return "Missing group creation timestamp";
+        }
+        return null;
+    }
 }

@@ -51,6 +51,12 @@ public class MobileService {
         int userID = Integer.parseInt(securityContext.getUserPrincipal().getName());
 
         if(userDTO.getId() == userID){
+
+            User userCheck = queryService.getUserByEmail(userDTO.getEmail());
+            if(userCheck != null && userCheck.getId() != userDTO.getId()){
+                invalidRequest("user already exist with that email address");
+            }
+
             if(userDTO.getPassword() != null && userDTO.getPassword().trim().length() > 0){
                 userDTO.setPassword(UsersService.passwordDigest(userDTO.getPassword()));
                 queryService.updateUser(DTOToEntity.getUserEntity(userDTO), true);
@@ -65,6 +71,7 @@ public class MobileService {
     @POST
     @Path("user/signup")
     public void signupUser(UserDTO userDTO) throws Exception{
+
         userDTO.setCreated_on(new Timestamp(System.currentTimeMillis()));
         userDTO.setIs_inspector(false);
         userDTO.setNeed_password_reset(false);
@@ -83,16 +90,13 @@ public class MobileService {
         List<Course> courses = queryService.getCoursesByUserID(userID);
         if(courses == null){
             return null;
-        }
-        List<CourseDTO> courseDTOs = null;
-
-        if(courses != null){
-            courseDTOs = new ArrayList<CourseDTO>();
+        }else{
+            List<CourseDTO> courseDTOs = new ArrayList<CourseDTO>();
             for (Course course : courses){
                 courseDTOs.add(EntityToDTO.getCourseDTO(course));
             }
+            return courseDTOs;
         }
-        return courseDTOs;
     }
 
     @GET
@@ -105,16 +109,13 @@ public class MobileService {
         List<Course> courses = queryService.getCourses();
         if(courses == null){
             return null;
-        }
-        List<CourseDTO> courseDTOs = null;
-
-        if(courses != null){
-            courseDTOs = new ArrayList<CourseDTO>();
-            for (Course course : courses){
+        }else {
+            List<CourseDTO> courseDTOs = new ArrayList<CourseDTO>();
+            for (Course course : courses) {
                 courseDTOs.add(EntityToDTO.getCourseDTO(course));
             }
+            return courseDTOs;
         }
-        return courseDTOs;
     }
 
     @GET
@@ -353,7 +354,7 @@ public class MobileService {
 
     @POST
     @Path("group_evaluations")
-    public void getGroupEvaluations(GroupEvaluationDTO groupEvaluationDTO) throws Exception{
+    public void addGroupEvaluations(GroupEvaluationDTO groupEvaluationDTO) throws Exception{
         if(securityContext == null || (!securityContext.isUserInRole("ADMIN") && !securityContext.isUserInRole("USER"))){
             unauthorized();
         }

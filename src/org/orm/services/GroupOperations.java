@@ -150,8 +150,9 @@ public class GroupOperations {
 
 
     private void validateGroup(Group group) throws EntityValidationException{
-        if(group.getCourse() == null || group.getName() == null || group.getCreated_on() == null){
-            throw new EntityValidationException("Group object is missing required values!");
-        }
+		String validationError = group.getValidationError();
+		if(validationError != null){
+			throw new EntityValidationException(validationError);
+		}
     }
 }

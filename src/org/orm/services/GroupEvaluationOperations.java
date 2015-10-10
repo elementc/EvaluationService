@@ -151,8 +151,9 @@ public class GroupEvaluationOperations {
 
 
     private void validateGroupEvaluation(GroupEvaluation groupEvaluation) throws EntityValidationException{
-        if(groupEvaluation.getCreated_on() == null || groupEvaluation.getGroup() == null || groupEvaluation.getDecision_making_details() == null || groupEvaluation.getDifference_attitude_details() == null || groupEvaluation.getEvaluator() == null || groupEvaluation.getEvalutionStage() == null || groupEvaluation.getFlexibility_details() == null || groupEvaluation.getGoals_details() == null || groupEvaluation.getMutual_trust_details() == null || groupEvaluation.getDifference_attitude_details() == null || groupEvaluation.getParticipation_details() == null || groupEvaluation.getResource_use_details() == null || groupEvaluation.getResource_use_details() == null ){
-            throw new EntityValidationException("GroupEvaluation object is missing required values!");
-        }
+		String validationError = groupEvaluation.getValidationError();
+		if(validationError != null){
+			throw new EntityValidationException(validationError);
+		}
     }
 }

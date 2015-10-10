@@ -5,6 +5,8 @@ app.controller('LoginController', ['$rootScope', '$scope', '$http', '$routeParam
         $location.path( 'signup/');
     };
 
+    $scope.$parent.showLogout = false;
+
     $scope.go = function(path){
         $location.path(path);
     };
@@ -14,6 +16,7 @@ app.controller('LoginController', ['$rootScope', '$scope', '$http', '$routeParam
             $http.get(URLFactory.getUserURL()).success(function (e) {
                 $rootScope.user = e;
                 showToast('User logged in successfully!');
+                $scope.$parent.showLogout = true;
                 $location.path('home/');
             }).error(function(e){
                 if(e !== null && e.error !== undefined){

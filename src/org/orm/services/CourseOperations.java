@@ -149,8 +149,9 @@ public class CourseOperations {
 	}
 
     private void validateCourse(Course course) throws EntityValidationException{
-        if(course.getCode() == null || course.getTerm() == null || course.getCreated_on() == null || course.getTitle() == null){
-            throw new EntityValidationException("Course object is missing required values!");
-        }
+		String validationError = course.getValidationError();
+		if(validationError != null){
+			throw new EntityValidationException(validationError);
+		}
     }
 }

@@ -77,4 +77,23 @@ public class Course implements java.io.Serializable{
     public void setCreated_on(Timestamp created_on) {
         this.created_on = created_on;
     }
+
+    public String getValidationError(){
+        if(title == null || title.trim().length() == 0){
+            return "Missing course title";
+        }
+
+        if(term == null || term.trim().length() == 0){
+            return "Missing course term";
+        }
+
+        if(code == null || code.trim().length() == 0){
+            return "Missing course code";
+        }
+
+        if(created_on == null){
+            return "Missing course creation timestamp";
+        }
+        return null;
+    }
 }

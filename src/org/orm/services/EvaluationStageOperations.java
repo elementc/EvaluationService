@@ -150,8 +150,9 @@ public class EvaluationStageOperations {
 
 
     private void validateEvaluationStage(EvaluationStage evaluationStage) throws EntityValidationException{
-        if(evaluationStage.getName() == null || evaluationStage.getCourse() == null || evaluationStage.getCreated_on() == null || evaluationStage.getDescription() == null || evaluationStage.getStart_date() == null || evaluationStage.getStart_date() == null){
-            throw new EntityValidationException("EvaluationStage object is missing required values!");
-        }
+		String validationError = evaluationStage.getValidationError();
+		if(validationError != null){
+			throw new EntityValidationException(validationError);
+		}
     }
 }

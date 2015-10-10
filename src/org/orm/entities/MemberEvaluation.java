@@ -159,4 +159,47 @@ public class MemberEvaluation implements java.io.Serializable{
     public void setGroup(Group group) {
         this.group = group;
     }
+
+    public String getValidationError(){
+        if(responsibilities == null || responsibilities.trim().length() == 0){
+            return "Missing responsibilities";
+        }
+
+        if(task_completeness == null || task_completeness.trim().length() == 0){
+            return "Missing task completeness";
+        }
+
+        if(created_on == null){
+            return "Missing creation timestamp";
+        }
+
+        if(participation < '1' || participation > '5'){
+            return "Participation value must be between 1 and 5 (inclusive)";
+        }
+
+        if(!(grade == 'A' || grade == 'B' || grade == 'C' || grade == 'D' || grade == 'F')){
+            return "Invalid grade! Valid values: A,B,C,D,F";
+        }
+
+        if(percentage < 0 || percentage > 100){
+            return "Percentage must be between 0 and 100";
+        }
+
+        if(evalutionStage == null || evalutionStage.getId() == 0){
+            return "Missing evaluation stage that is evaluation belongs to";
+        }
+
+        if(evaluator == null || evaluator.getId() == 0){
+            return "Missing evaluator";
+        }
+
+        if(evaluatee == null || evaluatee.getId() == 0){
+            return "Missing evaluatee";
+        }
+
+        if(group == null || group.getId() == 0){
+            return "Missing evaluation group";
+        }
+        return null;
+    }
 }

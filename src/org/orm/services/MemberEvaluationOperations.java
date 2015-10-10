@@ -149,8 +149,9 @@ public class MemberEvaluationOperations {
 
 
     private void validateMemberEvaluation(MemberEvaluation memberEvaluation) throws EntityValidationException{
-        if(memberEvaluation.getEvaluator() == null || memberEvaluation.getEvaluatee() == null || memberEvaluation.getEvalutionStage() == null || memberEvaluation.getGroup() == null){
-            throw new EntityValidationException("MemberEvaluation object is missing required values!");
-        }
+		String validationError = memberEvaluation.getValidationError();
+		if(validationError != null){
+			throw new EntityValidationException(validationError);
+		}
     }
 }

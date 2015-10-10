@@ -278,4 +278,68 @@ public class GroupEvaluation implements java.io.Serializable {
     public void setGroup(Group group) {
         this.group = group;
     }
+
+    public String getValidationError(){
+
+        if(!(goals == '1' || goals == '2' || goals == '3' || goals == '4' || goals == '5')){
+            return "Invalid value for goals! Valid values: 1,2,3,4,5";
+        }
+
+        if(!(openness == '1' || openness == '2' || openness == '3' || openness == '4' || openness == '5')){
+            return "Invalid value for openness! Valid values: 1,2,3,4,5";
+        }
+
+        if(!(mutual_trust == '1' || mutual_trust == '2' || mutual_trust == '3' || mutual_trust == '4' || mutual_trust == '5')){
+            return "Invalid value for mutual_trust! Valid values: 1,2,3,4,5";
+        }
+
+        if(!(difference_attitude == '1' || difference_attitude == '2' || difference_attitude == '3' || difference_attitude == '4' || difference_attitude == '5')){
+            return "Invalid value for difference_attitude! Valid values: 1,2,3,4,5";
+        }
+
+        if(!(support == '1' || support == '2' || support == '3' || support == '4' || support == '5')){
+            return "Invalid value for support! Valid values: 1,2,3,4,5";
+        }
+
+        if(!(participation == '1' || participation == '2' || participation == '3' || participation == '4' || participation == '5')){
+            return "Invalid value for participation! Valid values: 1,2,3,4,5";
+        }
+
+        if(!(decision_making == '1' || decision_making == '2' || decision_making == '3' || decision_making == '4' || decision_making == '5')){
+            return "Invalid value for decision_making! Valid values: 1,2,3,4,5";
+        }
+
+        if(!(flexibility == '1' || flexibility == '2' || flexibility == '3' || flexibility == '4' || flexibility == '5')){
+            return "Invalid value for flexibility! Valid values: 1,2,3,4,5";
+        }
+
+        if(!(resource_use == '1' || resource_use == '2' || resource_use == '3' || resource_use == '4' || resource_use == '5')){
+            return "Invalid value for resource_use! Valid values: 1,2,3,4,5";
+        }
+
+        if(!(grade == 'A' || grade == 'B' || grade == 'C' || grade == 'D' || grade == 'F')){
+            return "Invalid grade! Valid values: 1,2,3,4,5";
+        }
+
+        if(percentage < 0 || percentage > 100){
+            return "Percentage must be between 0 and 100";
+        }
+
+        if(evalutionStage == null || evalutionStage.getId() == 0){
+            return "Missing evaluation stage that is evaluation belongs to";
+        }
+
+        if(evaluator == null || evaluator.getId() == 0){
+            return "Missing evaluator";
+        }
+
+        if(group == null || group.getId() == 0){
+            return "Missing evaluation group";
+        }
+
+        if(created_on == null){
+            return "Missing creation timestamp";
+        }
+        return null;
+    }
 }

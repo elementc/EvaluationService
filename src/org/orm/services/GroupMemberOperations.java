@@ -152,8 +152,9 @@ public class GroupMemberOperations {
 
 
     private void validateGroupMember(GroupMember groupMember) throws EntityValidationException{
-        if(groupMember.getUser() == null || groupMember.getGroup() == null){
-            throw new EntityValidationException("GroupMember object is missing required values!");
-        }
+		String validationError = groupMember.getValidationError();
+		if(validationError != null){
+			throw new EntityValidationException(validationError);
+		}
     }
 }

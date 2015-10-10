@@ -9,4 +9,7 @@ app.controller('IndexController', ['$scope', '$location', '$http', 'URLFactory' 
              $location.path('/');
        });
     };
+
+    $scope.showLogout = true;
+
 }]);

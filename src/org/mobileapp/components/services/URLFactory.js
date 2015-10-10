@@ -51,8 +51,12 @@ app.factory('URLFactory', [function(){
         return factory.getCourseURL(courseid) + "evaluation_stages" + '/';
     };
 
-    factory.getMemberEvaluationsURL = function(courseid){
+    factory.getMemberEvaluationsURL = function(){
         return factory.getMobileServiceURL() + "member_evaluations" + '/';
+    };
+
+    factory.getGroupEvaluationsURL = function(){
+        return factory.getMobileServiceURL() + "group_evaluations" + '/';
     };
 
     factory.getGroupURL = function(id){

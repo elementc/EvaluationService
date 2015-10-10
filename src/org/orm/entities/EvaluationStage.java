@@ -101,4 +101,31 @@ public class EvaluationStage implements java.io.Serializable{
     public void setCourse(Course course) {
         this.course = course;
     }
+
+    public String getValidationError(){
+        if(name == null || name.trim().length() == 0){
+            return "Missing evaluation stage name";
+        }
+
+        if(description == null || description.trim().length() == 0){
+            return "Missing evaluation stage description";
+        }
+
+        if(created_on == null){
+            return "Missing evaluation stage creation timestamp";
+        }
+
+        if(start_date == null){
+            return "Missing evaluation stage start date";
+        }
+
+        if(end_date == null){
+            return "Missing evaluation stage end date";
+        }
+
+        if(course == null || course.getId() == 0){
+            return "Missing course that this evaluation stage belongs to";
+        }
+        return null;
+    }
 }

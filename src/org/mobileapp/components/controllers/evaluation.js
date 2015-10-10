@@ -4,6 +4,7 @@ app.controller('EvaluationController', ['$rootScope', '$scope', '$http', '$route
 
         $scope.self = {};
         $scope.member = {};
+        $scope.groupEvaluation = {};
         $scope.selected = {};
 
         if($rootScope.stage == undefined || $rootScope.stage == null || $rootScope.group == undefined || $rootScope.group == null){
@@ -67,6 +68,22 @@ app.controller('EvaluationController', ['$rootScope', '$scope', '$http', '$route
             $scope.member.groups_id = $rootScope.group.id;
             $http.post(URLFactory.getMemberEvaluationsURL(), $scope.member).success(function(e){
                 $scope.member = {};
+                showToast("Evaluation Submitted Successfully!");
+            }).error(function(e){
+                if(e !== null && e.error !== undefined){
+                    showToast(e.error);
+                }else{
+                    showToast('Internal Server Error. Contact Administrator!');
+                }
+            });
+        };
+
+        $scope.submitGroup = function(){
+            $scope.groupEvaluation.evaluator_id = $rootScope.user.id;
+            $scope.groupEvaluation.evaluation_stage_id = $rootScope.stage.id;
+            $scope.groupEvaluation.group_id = $rootScope.group.id;
+            $http.post(URLFactory.getGroupEvaluationsURL(), $scope.groupEvaluation).success(function(e){
+                $scope.groupEvaluation = {};
                 showToast("Evaluation Submitted Successfully!");
             }).error(function(e){
                 if(e !== null && e.error !== undefined){
