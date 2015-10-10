@@ -46,9 +46,9 @@ public class LoginService {
                 }
             }
         }catch (Exception e){
-            return Response.status(Response.Status.FORBIDDEN).build();
+            return Response.status(Response.Status.FORBIDDEN).entity("{\"error\":\"Invalid username or password\"}").build();
         }
-        return Response.status(Response.Status.FORBIDDEN).build();
+        return Response.status(Response.Status.FORBIDDEN).entity("{\"error\":\"Invalid username or password\"}").build();
     }
 
     @PUT
