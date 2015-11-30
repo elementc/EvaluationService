@@ -67,5 +67,9 @@ app.factory('URLFactory', [function(){
         return factory.getGroupURL(groupid) + "users" + '/';
     };
 
+    factory.getResetPasswordURL = function(){
+        return factory.getMobileServiceURL() + "resetpassword" + '/';
+    };
+
     return factory;
 }]);

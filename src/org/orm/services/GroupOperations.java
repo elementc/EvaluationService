@@ -11,35 +11,27 @@ import java.util.List;
 
 public class GroupOperations {
 
-	private Session session;
-	private Transaction transaction;
-
 	public void addOrUpdateGroup(Group group)
 			throws HibernateException, EntityValidationException ,Exception {
 
-        validateGroup(group);
+		validateGroup(group);
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
 		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
 			transaction = session.beginTransaction();
-            if(group.getId() != 0){
-                session.update(group);
-            }else{
-                session.save(group);
-            }
-			transaction.commit();
-		} catch (HibernateException e) {
-
-			if (transaction != null){
-                transaction.rollback();
-            }
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			if (transaction != null){
-                transaction.rollback();
-            }
-			throw new Exception(e);
-		} finally {
+			if(group.getId() != 0){
+				session.update(group);
+			}else{
+				session.save(group);
+			}
+			session.getTransaction().commit();
+		} catch (RuntimeException e){
+			if(transaction != null){
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		} finally{
+			session.flush();
 			session.close();
 		}
 	}
@@ -47,26 +39,19 @@ public class GroupOperations {
 	public void deleteGroup(int groupID)
 			throws HibernateException, Exception {
 
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
 		try {
-			Group group = getGroup(groupID);
-			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
 			transaction = session.beginTransaction();
-			session.delete(group);
-			transaction.commit();
-		} catch (HibernateException e) {
-			if (transaction != null){
-                transaction.rollback();
-            }
-
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			if (transaction != null){
-                transaction.rollback();
-            }
-
-			throw new Exception(e);
-		} finally {
+			session.delete(getGroup(groupID));
+			session.getTransaction().commit();
+		} catch (RuntimeException e){
+			if(transaction != null){
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		} finally{
+			session.flush();
 			session.close();
 		}
 	}
@@ -74,10 +59,11 @@ public class GroupOperations {
 	public List<Group> getAllGroups() throws HibernateException,
 			Exception {
 
+		Session session = null;
 		List<Group> groupsList = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
+			session.beginTransaction();
 			Criteria criteria = session.createCriteria(Group.class);
 
 			//criteria.addOrder(Order.asc("id"));
@@ -88,12 +74,8 @@ public class GroupOperations {
                 groupsList = null;
             }
 
-		} catch (HibernateException e) {
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			throw new Exception(e);
 		} finally {
-			session.close();
+			session.flush(); session.close();
 		}
 		return groupsList;
 	}
@@ -101,10 +83,11 @@ public class GroupOperations {
 	public List<Group> getTopGroups(int maxRows)
 			throws HibernateException, Exception {
 
+		Session session = null;
 		List<Group> groupsList = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
+			session.beginTransaction();
 			Criteria criteria = session.createCriteria(Group.class);
 
 			if (maxRows > 0)
@@ -118,12 +101,8 @@ public class GroupOperations {
                 groupsList = null;
             }
 
-		} catch (HibernateException e) {
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			throw new Exception(e);
 		} finally {
-			session.close();
+			session.flush(); session.close();
 		}
 		return groupsList;
 	}
@@ -131,19 +110,16 @@ public class GroupOperations {
 	public Group getGroup(int groupID)
 			throws HibernateException, Exception {
 
+		Session session = null;
 		Group group = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
+			session.beginTransaction();
 			group = (Group) session.get(Group.class,
 					groupID);
 
-		} catch (HibernateException e) {
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			throw new Exception(e);
 		} finally {
-			session.close();
+			session.flush(); session.close();
 		}
 		return group;
 	}

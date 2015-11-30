@@ -11,35 +11,27 @@ import java.util.List;
 
 public class MemberEvaluationOperations {
 
-	private Session session;
-	private Transaction transaction;
-
 	public void addOrUpdateMemberEvaluation(MemberEvaluation memberEvaluation)
 			throws HibernateException, EntityValidationException ,Exception {
 
-        validateMemberEvaluation(memberEvaluation);
+		validateMemberEvaluation(memberEvaluation);
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
 		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
 			transaction = session.beginTransaction();
-            if(memberEvaluation.getId() != 0){
-                session.update(memberEvaluation);
-            }else{
-                session.save(memberEvaluation);
-            }
-			transaction.commit();
-		} catch (HibernateException e) {
-
-			if (transaction != null){
-                transaction.rollback();
-            }
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			if (transaction != null){
-                transaction.rollback();
-            }
-			throw new Exception(e);
-		} finally {
+			if(memberEvaluation.getId() != 0){
+				session.update(memberEvaluation);
+			}else{
+				session.save(memberEvaluation);
+			}
+			session.getTransaction().commit();
+		} catch (RuntimeException e){
+			if(transaction != null){
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		} finally{
+			session.flush();
 			session.close();
 		}
 	}
@@ -47,26 +39,19 @@ public class MemberEvaluationOperations {
 	public void deleteMemberEvaluation(int memberEvaluationID)
 			throws HibernateException, Exception {
 
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
 		try {
-			MemberEvaluation memberEvaluation = getMemberEvaluation(memberEvaluationID);
-			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
 			transaction = session.beginTransaction();
-			session.delete(memberEvaluation);
-			transaction.commit();
-		} catch (HibernateException e) {
-			if (transaction != null){
-                transaction.rollback();
-            }
-
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			if (transaction != null){
-                transaction.rollback();
-            }
-
-			throw new Exception(e);
-		} finally {
+			session.delete(getMemberEvaluation(memberEvaluationID));
+			session.getTransaction().commit();
+		} catch (RuntimeException e){
+			if(transaction != null){
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		} finally{
+			session.flush();
 			session.close();
 		}
 	}
@@ -74,10 +59,11 @@ public class MemberEvaluationOperations {
 	public List<MemberEvaluation> getAllMemberEvaluations() throws HibernateException,
 			Exception {
 
+		Session session = null;
 		List<MemberEvaluation> memberEvaluationsList = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
+			session.beginTransaction();
 			Criteria criteria = session.createCriteria(MemberEvaluation.class);
 
 			criteria.addOrder(Order.asc("id"));
@@ -87,12 +73,8 @@ public class MemberEvaluationOperations {
             }catch (ObjectNotFoundException e){
                 memberEvaluationsList = null;
             }
-		} catch (HibernateException e) {
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			throw new Exception(e);
 		} finally {
-			session.close();
+			session.flush(); session.close();
 		}
 		return memberEvaluationsList;
 	}
@@ -100,10 +82,11 @@ public class MemberEvaluationOperations {
 	public List<MemberEvaluation> getTopMemberEvaluations(int maxRows)
 			throws HibernateException, Exception {
 
+		Session session = null;
 		List<MemberEvaluation> memberEvaluationsList = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
+			session.beginTransaction();
 			Criteria criteria = session.createCriteria(MemberEvaluation.class);
 
 			if (maxRows > 0)
@@ -116,12 +99,8 @@ public class MemberEvaluationOperations {
             }catch (ObjectNotFoundException e){
                 memberEvaluationsList = null;
             }
-		} catch (HibernateException e) {
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			throw new Exception(e);
 		} finally {
-			session.close();
+			session.flush(); session.close();
 		}
 		return memberEvaluationsList;
 	}
@@ -129,20 +108,17 @@ public class MemberEvaluationOperations {
 	public MemberEvaluation getMemberEvaluation(int memberEvaluationID)
 			throws HibernateException, Exception {
 
+		Session session = null;
 		MemberEvaluation memberEvaluation = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
+			session.beginTransaction();
 
 			memberEvaluation = (MemberEvaluation) session.get(MemberEvaluation.class,
 					memberEvaluationID);
 
-		} catch (HibernateException e) {
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			throw new Exception(e);
 		} finally {
-			session.close();
+			session.flush(); session.close();
 		}
 		return memberEvaluation;
 	}

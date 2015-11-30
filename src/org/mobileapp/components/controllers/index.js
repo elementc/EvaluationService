@@ -12,4 +12,7 @@ app.controller('IndexController', ['$scope', '$location', '$http', 'URLFactory' 
 
     $scope.showLogout = true;
 
+    $scope.resetPassword = function(){
+        $location.path('/resetpassword');
+    }
 }]);

@@ -11,62 +11,48 @@ import java.util.List;
 
 public class CourseOperations {
 
-	private Session session;
-	private Transaction transaction;
-
 	public void addOrUpdateCourse(Course course)
 			throws HibernateException, EntityValidationException, Exception {
 
         validateCourse(course);
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
 		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
+			/*session.clear();*/
 			transaction = session.beginTransaction();
             if(course.getId() != 0){
                 session.update(course);
             }else{
                 session.save(course);
             }
-			transaction.commit();
-		} catch (HibernateException e) {
-
-			if (transaction != null){
-                transaction.rollback();
-            }
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			if (transaction != null){
-                transaction.rollback();
-            }
-			throw new Exception(e);
-		} finally {
+			session.getTransaction().commit();
+		} catch (RuntimeException e){
+			if(transaction != null){
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		} finally{
+			session.flush();
 			session.close();
 		}
 	}
 
 	public void deleteCourse(int courseID)
 			throws HibernateException, Exception {
-
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
 		try {
-			Course course = getCourse(courseID);
-			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
+			/*session.clear();*/
 			transaction = session.beginTransaction();
-			session.delete(course);
-			transaction.commit();
-		} catch (HibernateException e) {
-			if (transaction != null){
-                transaction.rollback();
-            }
-
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			if (transaction != null){
-                transaction.rollback();
-            }
-
-			throw new Exception(e);
-		} finally {
+			session.delete(getCourse(courseID));
+			session.getTransaction().commit();
+		} catch (RuntimeException e){
+			if(transaction != null){
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		} finally{
+			session.flush();
 			session.close();
 		}
 	}
@@ -75,9 +61,10 @@ public class CourseOperations {
 			Exception {
 
 		List<Course> courseList = null;
+		Session session = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
+			session.beginTransaction();
 			Criteria criteria = session.createCriteria(Course.class);
 
 			criteria.addOrder(Order.asc("id"));
@@ -88,11 +75,8 @@ public class CourseOperations {
                 courseList = null;
             }
 
-		} catch (HibernateException e) {
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			throw new Exception(e);
 		} finally {
+			session.flush();
 			session.close();
 		}
 		return courseList;
@@ -101,10 +85,11 @@ public class CourseOperations {
 	public List<Course> getTopCourses(int maxRows)
 			throws HibernateException, Exception {
 
+		Session session = null;
 		List<Course> courseList = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
+			session.beginTransaction();
 			Criteria criteria = session.createCriteria(Course.class);
 
 			if (maxRows > 0)
@@ -118,11 +103,8 @@ public class CourseOperations {
                 courseList = null;
             }
 
-		} catch (HibernateException e) {
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			throw new Exception(e);
 		} finally {
+			session.flush();
 			session.close();
 		}
 		return courseList;
@@ -131,18 +113,16 @@ public class CourseOperations {
 	public Course getCourse(int courseID)
 			throws HibernateException, Exception {
 
+		Session session = null;
 		Course course = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
+			session.beginTransaction();
 
 			course = (Course) session.get(Course.class, courseID);
 
-		} catch (HibernateException e) {
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			throw new Exception(e);
 		} finally {
+			session.flush();
 			session.close();
 		}
 		return course;

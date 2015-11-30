@@ -2,8 +2,7 @@ package org.rest.services;
 
 import org.orm.entities.Course;
 import org.orm.services.CourseOperations;
-import org.orm.services.QueryService;
-import org.rest.dtos.CourseDTO;
+import org.rest.services.dtos.CourseDTO;
 import org.rest.util.DTOToEntity;
 import org.rest.util.EntityToDTO;
 import org.rest.util.URIConstants;

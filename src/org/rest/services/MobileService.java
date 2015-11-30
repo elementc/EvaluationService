@@ -3,7 +3,7 @@ package org.rest.services;
 import org.orm.entities.*;
 import org.orm.services.QueryService;
 import org.orm.services.UserOperations;
-import org.rest.dtos.*;
+import org.rest.services.dtos.*;
 import org.rest.util.DTOToEntity;
 import org.rest.util.EntityToDTO;
 import org.rest.util.URIConstants;
@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Path(URIConstants.KEY_MOBILE_SERVICE)
@@ -29,6 +30,31 @@ public class MobileService {
 
     public MobileService(){
         queryService = new QueryService();
+    }
+
+    @POST
+    @Path("resetpassword")
+    public void updateUser(HashMap<String, String> resetForm) throws Exception{
+        if(securityContext == null || (!securityContext.isUserInRole("USER") && !securityContext.isUserInRole("ADMIN"))){
+            unauthorized();
+        }
+        String email = getUser().getEmail();
+        String password = resetForm.get("password");
+        String newPassword = resetForm.get("newPassword");
+
+        if(email != null && password != null && newPassword != null && newPassword.trim().length() > 0){
+            UserOperations userOperations = new UserOperations();
+            User user = userOperations.getUserByEmailAndPassword(email, UsersService.passwordDigest(password));
+            if(user != null){
+                user.setPassword(UsersService.passwordDigest(newPassword));
+                user.setNeed_password_reset(false);
+                userOperations.addOrUpdateUser(user);
+            }else {
+                throw new WebApplicationException(Response.notModified().build());
+            }
+        }else {
+            throw new WebApplicationException(Response.notModified().build());
+        }
     }
 
     @GET
@@ -354,7 +380,7 @@ public class MobileService {
 
     @POST
     @Path("group_evaluations")
-    public void addGroupEvaluations(GroupEvaluationDTO groupEvaluationDTO) throws Exception{
+    public void addOrUpdateGroupEvaluations(GroupEvaluationDTO groupEvaluationDTO) throws Exception{
         if(securityContext == null || (!securityContext.isUserInRole("ADMIN") && !securityContext.isUserInRole("USER"))){
             unauthorized();
         }
@@ -364,7 +390,7 @@ public class MobileService {
             GroupDTO group = getGroup(groupEvaluationDTO.getGroup_id());
             if(group != null){
                 groupEvaluationDTO.setCreated_on(new Timestamp(System.currentTimeMillis()));
-                queryService.addGroupEvaluation(DTOToEntity.getGroupEvaluationEntity(groupEvaluationDTO));
+                queryService.addOrUpdateGroupEvaluation(DTOToEntity.getGroupEvaluationEntity(groupEvaluationDTO));
             }else{
                 invalidRequest("User does not belong to the given group!");
             }

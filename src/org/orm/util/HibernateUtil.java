@@ -7,7 +7,7 @@ import org.hibernate.cfg.AnnotationConfiguration;
 public class HibernateUtil {
 
 	// Declare SessionFactory object and assign value to it.
-	private static SessionFactory sessionFactory;
+	private static SessionFactory sessionFactory = buildSessionFactory();
 
 	private static SessionFactory buildSessionFactory() {
 		try {
@@ -16,16 +16,6 @@ public class HibernateUtil {
 			// default path(src/hibernate.cfg.xml )
             return new AnnotationConfiguration().configure("/org/orm/util/hibernate.cfg.xml").buildSessionFactory();
 
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			// Log the exception
-			System.err.println("SessionFactory creation failed." + e);
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			e.printStackTrace();
-			// Log the exception
-			System.err.println("SessionFactory creation failed." + e);
-			throw new HibernateException(e);
 		} catch (Throwable ex) {
 			ex.printStackTrace();
 			// Log the exception
@@ -37,9 +27,6 @@ public class HibernateUtil {
 
 	public static SessionFactory getSessionFactory() throws HibernateException,
 			Exception {
-        if(sessionFactory == null || sessionFactory.isClosed()){
-            sessionFactory = buildSessionFactory();
-        }
 		return sessionFactory;
 	}
 

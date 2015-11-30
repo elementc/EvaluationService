@@ -2,11 +2,14 @@ package org.rest.util;
 
 
 import org.orm.entities.*;
-import org.rest.dtos.*;
+import org.rest.services.dtos.*;
 
 public class EntityToDTO {
 
     public static CourseDTO getCourseDTO(Course course){
+        if(course == null){
+            return null;
+        }
         CourseDTO courseDTO = new CourseDTO();
 
         courseDTO.setId(course.getId());
@@ -20,6 +23,9 @@ public class EntityToDTO {
     }
 
     public static UserDTO getUserDTO(User user){
+        if(user == null){
+            return null;
+        }
         UserDTO userDTO = new UserDTO();
 
         userDTO.setCreated_on(user.getCreated_on());
@@ -33,6 +39,9 @@ public class EntityToDTO {
     }
 
     public static GroupDTO getGroupDTO(Group group){
+        if(group == null){
+            return null;
+        }
         GroupDTO groupDTO = new GroupDTO();
 
         groupDTO.setId(group.getId());
@@ -44,6 +53,9 @@ public class EntityToDTO {
     }
 
     public static GroupMemberDTO getGroupMemberDTO(GroupMember groupMember){
+        if(groupMember == null){
+            return null;
+        }
         GroupMemberDTO groupMemberDTO = new GroupMemberDTO();
         groupMemberDTO.setId(groupMember.getId());
         groupMemberDTO.setGroup_id(groupMember.getGroup().getId());
@@ -52,6 +64,9 @@ public class EntityToDTO {
     }
 
     public static EvaluationStageDTO getEvaluationStageDTO(EvaluationStage evaluationStage){
+        if(evaluationStage == null){
+            return null;
+        }
         EvaluationStageDTO evaluationStageDTO = new EvaluationStageDTO();
         evaluationStageDTO.setId(evaluationStage.getId());
         evaluationStageDTO.setName(evaluationStage.getName());
@@ -65,6 +80,9 @@ public class EntityToDTO {
     }
 
     public static MemberEvaluationDTO getMemberEvaluationDTO(MemberEvaluation memberEvaluation){
+        if(memberEvaluation == null){
+            return null;
+        }
         MemberEvaluationDTO memberEvaluationDTO = new MemberEvaluationDTO();
         memberEvaluationDTO.setId(memberEvaluation.getId());
         memberEvaluationDTO.setResponsibilities(memberEvaluation.getResponsibilities());
@@ -83,6 +101,9 @@ public class EntityToDTO {
     }
 
     public static GroupEvaluationDTO getGroupEvaluationDTO(GroupEvaluation groupEvaluation){
+        if(groupEvaluation == null){
+            return null;
+        }
         GroupEvaluationDTO groupEvaluationDTO = new GroupEvaluationDTO();
         groupEvaluationDTO.setId(groupEvaluation.getId());
         groupEvaluationDTO.setGoals(groupEvaluation.getGoals());

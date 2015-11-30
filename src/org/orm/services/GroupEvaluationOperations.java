@@ -12,35 +12,27 @@ import java.util.List;
 
 public class GroupEvaluationOperations {
 
-	private Session session;
-	private Transaction transaction;
-
 	public void addOrUpdateGroupEvaluation(GroupEvaluation groupEvaluation)
 			throws HibernateException, EntityValidationException ,Exception {
 
-        validateGroupEvaluation(groupEvaluation);
+		validateGroupEvaluation(groupEvaluation);
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
 		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
 			transaction = session.beginTransaction();
-            if(groupEvaluation.getId() != 0){
-                session.update(groupEvaluation);
-            }else{
-                session.save(groupEvaluation);
-            }
-			transaction.commit();
-		} catch (HibernateException e) {
-
-			if (transaction != null){
-                transaction.rollback();
-            }
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			if (transaction != null){
-                transaction.rollback();
-            }
-			throw new Exception(e);
-		} finally {
+			if(groupEvaluation.getId() != 0){
+				session.update(groupEvaluation);
+			}else{
+				session.save(groupEvaluation);
+			}
+			session.getTransaction().commit();
+		} catch (RuntimeException e){
+			if(transaction != null){
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		} finally{
+			session.flush();
 			session.close();
 		}
 	}
@@ -48,26 +40,19 @@ public class GroupEvaluationOperations {
 	public void deleteGroupEvaluation(int groupEvaluationID)
 			throws HibernateException, Exception {
 
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
 		try {
-			GroupEvaluation groupEvaluation = getGroupEvaluation(groupEvaluationID);
-			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
 			transaction = session.beginTransaction();
-			session.delete(groupEvaluation);
-			transaction.commit();
-		} catch (HibernateException e) {
-			if (transaction != null){
-                transaction.rollback();
-            }
-
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			if (transaction != null){
-                transaction.rollback();
-            }
-
-			throw new Exception(e);
-		} finally {
+			session.delete(getGroupEvaluation(groupEvaluationID));
+			session.getTransaction().commit();
+		} catch (RuntimeException e){
+			if(transaction != null){
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		} finally{
+			session.flush();
 			session.close();
 		}
 	}
@@ -75,10 +60,11 @@ public class GroupEvaluationOperations {
 	public List<GroupEvaluation> getAllGroupEvaluations() throws HibernateException,
 			Exception {
 
+		Session session = null;
 		List<GroupEvaluation> groupEvaluationsList = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
+			session.beginTransaction();
 			Criteria criteria = session.createCriteria(GroupEvaluation.class);
 
 			criteria.addOrder(Order.asc("id"));
@@ -89,12 +75,8 @@ public class GroupEvaluationOperations {
                 groupEvaluationsList = null;
             }
 
-		} catch (HibernateException e) {
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			throw new Exception(e);
 		} finally {
-			session.close();
+			session.flush(); session.close();
 		}
 		return groupEvaluationsList;
 	}
@@ -102,10 +84,11 @@ public class GroupEvaluationOperations {
 	public List<GroupEvaluation> getTopGroupEvaluations(int maxRows)
 			throws HibernateException, Exception {
 
+		Session session = null;
 		List<GroupEvaluation> groupEvaluationsList = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
+			session.beginTransaction();
 			Criteria criteria = session.createCriteria(GroupEvaluation.class);
 
 			if (maxRows > 0)
@@ -119,12 +102,8 @@ public class GroupEvaluationOperations {
                 groupEvaluationsList = null;
             }
 
-		} catch (HibernateException e) {
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			throw new Exception(e);
 		} finally {
-			session.close();
+			session.flush(); session.close();
 		}
 		return groupEvaluationsList;
 	}
@@ -132,19 +111,16 @@ public class GroupEvaluationOperations {
 	public GroupEvaluation getGroupEvaluation(int groupEvaluationID)
 			throws HibernateException, Exception {
 
+		Session session = null;
 		GroupEvaluation groupEvaluation = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
+			session.beginTransaction();
 			groupEvaluation = (GroupEvaluation) session.get(GroupEvaluation.class,
 					groupEvaluationID);
 
-		} catch (HibernateException e) {
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			throw new Exception(e);
 		} finally {
-			session.close();
+			session.flush(); session.close();
 		}
 		return groupEvaluation;
 	}

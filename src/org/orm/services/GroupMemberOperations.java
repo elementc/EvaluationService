@@ -13,35 +13,27 @@ import java.util.List;
 
 public class GroupMemberOperations {
 
-	private Session session;
-	private Transaction transaction;
-
 	public void addOrUpdateGroupMember(GroupMember groupMember)
 			throws HibernateException, EntityValidationException ,Exception {
 
         validateGroupMember(groupMember);
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
 		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
 			transaction = session.beginTransaction();
-            if(groupMember.getId() != 0){
-                session.update(groupMember);
-            }else{
-                session.save(groupMember);
-            }
-			transaction.commit();
-		} catch (HibernateException e) {
-
-			if (transaction != null){
-                transaction.rollback();
-            }
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			if (transaction != null){
-                transaction.rollback();
-            }
-			throw new Exception(e);
-		} finally {
+			if(groupMember.getId() != 0){
+				session.update(groupMember);
+			}else{
+				session.save(groupMember);
+			}
+			session.getTransaction().commit();
+		} catch (RuntimeException e){
+			if(transaction != null){
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		} finally{
+			session.flush();
 			session.close();
 		}
 	}
@@ -49,26 +41,19 @@ public class GroupMemberOperations {
 	public void deleteGroupMember(int groupMemberID)
 			throws HibernateException, Exception {
 
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
 		try {
-            GroupMember groupMember = getGroupMember(groupMemberID);
-			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
 			transaction = session.beginTransaction();
-			session.delete(groupMember);
-			transaction.commit();
-		} catch (HibernateException e) {
-			if (transaction != null){
-                transaction.rollback();
-            }
-
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			if (transaction != null){
-                transaction.rollback();
-            }
-
-			throw new Exception(e);
-		} finally {
+			session.delete(getGroupMember(groupMemberID));
+			session.getTransaction().commit();
+		} catch (RuntimeException e){
+			if(transaction != null){
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		} finally{
+			session.flush();
 			session.close();
 		}
 	}
@@ -76,10 +61,11 @@ public class GroupMemberOperations {
 	public List<GroupMember> getAllGroupMember() throws HibernateException,
 			Exception {
 
+		Session session = null;
 		List<GroupMember> groupMemberList = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
+			session.beginTransaction();
 			Criteria criteria = session.createCriteria(GroupMember.class);
 
 			criteria.addOrder(Order.asc("id"));
@@ -90,12 +76,8 @@ public class GroupMemberOperations {
                 groupMemberList = null;
             }
 
-		} catch (HibernateException e) {
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			throw new Exception(e);
 		} finally {
-			session.close();
+			session.flush(); session.close();
 		}
 		return groupMemberList;
 	}
@@ -103,10 +85,11 @@ public class GroupMemberOperations {
 	public List<GroupMember> getTopGroupMembers(int maxRows)
 			throws HibernateException, Exception {
 
+		Session session = null;
 		List<GroupMember> groupMemberList = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
+			session.beginTransaction();
 			Criteria criteria = session.createCriteria(GroupMember.class);
 
 			if (maxRows > 0)
@@ -120,12 +103,8 @@ public class GroupMemberOperations {
                 groupMemberList = null;
             }
 
-		} catch (HibernateException e) {
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			throw new Exception(e);
 		} finally {
-			session.close();
+			session.flush(); session.close();
 		}
 		return groupMemberList;
 	}
@@ -133,19 +112,16 @@ public class GroupMemberOperations {
 	public GroupMember getGroupMember(int groupMemberID)
 			throws HibernateException, Exception {
 
-        GroupMember groupMember = null;
+		Session session = null;
+		GroupMember groupMember = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
+			session.beginTransaction();
             groupMember = (GroupMember) session.get(GroupMember.class,
                     groupMemberID);
 
-		} catch (HibernateException e) {
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			throw new Exception(e);
 		} finally {
-			session.close();
+			session.flush(); session.close();
 		}
 		return groupMember;
 	}

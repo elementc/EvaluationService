@@ -43,7 +43,11 @@ app.config(['$routeProvider' , '$locationProvider', '$httpProvider', '$mdTheming
     {
         templateUrl: 'components/views/evaluation.html',
         controller: 'EvaluationController'
-    }).otherwise(
+    }).when('/resetpassword',
+        {
+            templateUrl: 'components/views/resetPassword.html',
+            controller: 'ResetPasswordController'
+        }).otherwise(
     {
         redirectTo: '/'
     });

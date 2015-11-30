@@ -17,6 +17,9 @@
             <span class="title" style="cursor: pointer;" ng-click="go('/home')">Student Evaluations</span>
             <span flex></span>
             <span class="title" style="cursor: pointer;" ng-click="logout()" ng-show="showLogout">Logout</span>
+            <span class="title" style="cursor: pointer; margin-right: 10px;" ng-click="resetPassword()" ng-show="showLogout">&nbsp; &nbsp;
+              <md-tooltip>Reset Password</md-tooltip>
+              <img src="./fonts/password.png" style="width:50px;height:50px;"/> </span>
         </div>
     </md-toolbar>
     <div layout="row" flex>
@@ -36,6 +39,7 @@
     <script src="components/controllers/evaluation.js"></script>
     <script src="components/controllers/managegroup.js"></script>
     <script src="components/controllers/home.js"></script>
+    <script src="components/controllers/resetPassword.js"></script>
     <script src="./components/services/URLFactory.js"></script>
   </body>
 </html>

@@ -3,7 +3,7 @@ package org.rest.services;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 import org.orm.entities.User;
 import org.orm.services.UserOperations;
-import org.rest.dtos.UserDTO;
+import org.rest.services.dtos.UserDTO;
 import org.rest.util.DTOToEntity;
 import org.rest.util.EntityToDTO;
 import org.rest.util.URIConstants;

@@ -12,14 +12,12 @@ import java.util.List;
 
 public class QueryService {
 
-	private Session session;
-
-
     public List<Group> getGroupsByUserID(int userID) throws Exception{
         ArrayList<Group> groups = null;
+        Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-            session.clear();
+            session.beginTransaction();
             Criteria criteria = session.createCriteria(GroupMember.class);
 
             criteria.add(Expression.eq("user.id", userID));
@@ -43,7 +41,7 @@ public class QueryService {
         } catch (Exception e) {
             throw new Exception(e);
         } finally {
-            session.clear();session.close();
+            session.flush();session.close();
         }
 
         return groups;
@@ -65,7 +63,7 @@ public class QueryService {
        new MemberEvaluationOperations().addOrUpdateMemberEvaluation(memberEvaluation);
     }
 
-    public void addGroupEvaluation(GroupEvaluation groupEvaluation) throws Exception{
+    public void addOrUpdateGroupEvaluation(GroupEvaluation groupEvaluation) throws Exception{
         new GroupEvaluationOperations().addOrUpdateGroupEvaluation(groupEvaluation);
     }
 
@@ -78,10 +76,11 @@ public class QueryService {
     }
 
     public List<User> getUsersByGroupID(int groupID) throws Exception{
+        Session session = null;
         ArrayList<User> users = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-            session.clear();
+            session.beginTransaction();
 
             Criteria criteria = session.createCriteria(GroupMember.class);
 
@@ -107,7 +106,7 @@ public class QueryService {
         } catch (Exception e) {
             throw new Exception(e);
         } finally {
-            session.clear();session.close();
+            session.flush();session.close();
         }
 
         return users;
@@ -116,9 +115,10 @@ public class QueryService {
     public List<MemberEvaluation> getMemberEvaluationsByUserID(int userID) throws Exception{
         List<MemberEvaluation> memberEvaluations = null;
 
+        Session session = null;
         try{
             session = HibernateUtil.getSessionFactory().openSession();
-            session.clear();
+            session.beginTransaction();
 
             Criteria criteria = session.createCriteria(MemberEvaluation.class);
 
@@ -135,7 +135,7 @@ public class QueryService {
         } catch (Exception e) {
             throw new Exception(e);
         } finally {
-            session.clear();session.close();
+            session.flush();session.close();
         }
 
         return memberEvaluations;
@@ -144,9 +144,10 @@ public class QueryService {
     public List<GroupEvaluation> getGroupEvaluationsByUserID(int userID) throws Exception{
         List<GroupEvaluation> groupEvaluations = null;
 
+        Session session = null;
         try{
             session = HibernateUtil.getSessionFactory().openSession();
-            session.clear();
+            session.beginTransaction();
 
             Criteria criteria = session.createCriteria(GroupEvaluation.class);
 
@@ -163,7 +164,7 @@ public class QueryService {
         } catch (Exception e) {
             throw new Exception(e);
         } finally {
-            session.clear();session.close();
+            session.flush();session.close();
         }
 
         return groupEvaluations;
@@ -171,9 +172,10 @@ public class QueryService {
 
     public List<Course> getCourses() throws Exception{
         List<Course> courseList = null;
+        Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-            session.clear();
+            session.beginTransaction();
             Criteria criteria = session.createCriteria(Course.class);
 
             criteria.addOrder(Order.asc("id"));
@@ -189,16 +191,17 @@ public class QueryService {
         } catch (Exception e) {
             throw new Exception(e);
         } finally {
-            session.close();
+            session.flush(); session.close();
         }
         return courseList;
     }
 
     public List<Group> getGroupsByCouseID(int courseID) throws Exception{
         List<Group> groups = null;
+        Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-            session.clear();
+            session.beginTransaction();
 
             Criteria criteria = session.createCriteria(Group.class);
 
@@ -216,7 +219,7 @@ public class QueryService {
         } catch (Exception e) {
             throw new Exception(e);
         } finally {
-            session.clear();session.close();
+            session.flush(); session.close();
         }
 
         return groups;
@@ -224,9 +227,10 @@ public class QueryService {
 
     public List<Course> getCoursesByUserID(int userID) throws Exception{
         ArrayList<Course> courses = null;
+        Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-            session.clear();
+            session.beginTransaction();
 
             Criteria criteria = session.createCriteria(GroupMember.class);
 
@@ -253,7 +257,7 @@ public class QueryService {
         } catch (Exception e) {
             throw new Exception(e);
         } finally {
-            session.clear();session.close();
+            session.flush(); session.close();
         }
 
         return courses;
@@ -261,9 +265,10 @@ public class QueryService {
 
 
     public List<EvaluationStage> getEvaluationStagesByCourseID(int courseID) throws Exception{
+        Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-            session.clear();
+            session.beginTransaction();
 
             Criteria criteria = session.createCriteria(EvaluationStage.class);
 
@@ -283,7 +288,7 @@ public class QueryService {
         } catch (Exception e) {
             throw new Exception(e);
         } finally {
-            session.clear();session.close();
+            session.flush(); session.close();
         }
     }
 

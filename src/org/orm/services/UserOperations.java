@@ -17,36 +17,27 @@ import java.util.List;
 
 public class UserOperations {
 
-	private Session session;
-	private Transaction transaction;
-
 	public void addOrUpdateUser(User user)
 			throws HibernateException, EntityValidationException ,Exception {
 
         validateUser(user);
-
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
 		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
 			transaction = session.beginTransaction();
-            if(user.getId() != 0){
-                session.update(user);
-            }else{
-                session.save(user);
-            }
-			transaction.commit();
-		} catch (HibernateException e) {
-
-			if (transaction != null){
-                transaction.rollback();
-            }
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			if (transaction != null){
-                transaction.rollback();
-            }
-			throw new Exception(e);
-		} finally {
+			if(user.getId() != 0){
+				session.update(user);
+			}else{
+				session.save(user);
+			}
+			session.getTransaction().commit();
+		} catch (RuntimeException e){
+			if(transaction != null){
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		} finally{
+			session.flush();
 			session.close();
 		}
 	}
@@ -54,26 +45,19 @@ public class UserOperations {
 	public void deleteUser(int userID)
 			throws HibernateException, Exception {
 
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
 		try {
-			User user = getUser(userID);
-			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
 			transaction = session.beginTransaction();
-			session.delete(user);
-			transaction.commit();
-		} catch (HibernateException e) {
-			if (transaction != null){
-                transaction.rollback();
-            }
-
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			if (transaction != null){
-                transaction.rollback();
-            }
-
-			throw new Exception(e);
-		} finally {
+			session.delete(getUser(userID));
+			session.getTransaction().commit();
+		} catch (RuntimeException e){
+			if(transaction != null){
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		} finally{
+			session.flush();
 			session.close();
 		}
 	}
@@ -82,24 +66,18 @@ public class UserOperations {
 			Exception {
 
 		List<User> usersList = null;
+		Session session = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
+			session.beginTransaction();
 			Criteria criteria = session.createCriteria(User.class);
 
 			criteria.addOrder(Order.asc("id"));
 
 			usersList = criteria.list();
 
-		} catch (HibernateException e) {
-			e.printStackTrace();
-
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			e.printStackTrace();
-
-			throw new Exception(e);
 		} finally {
+			session.flush();
 			session.close();
 		}
 		return usersList;
@@ -109,9 +87,10 @@ public class UserOperations {
 			throws HibernateException, Exception {
 
 		List<User> usersList = null;
+		Session session = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
+			session.beginTransaction();
 			Criteria criteria = session.createCriteria(User.class);
 
 			if (maxRows > 0)
@@ -121,15 +100,8 @@ public class UserOperations {
 
 			usersList = criteria.list();
 
-		} catch (HibernateException e) {
-			e.printStackTrace();
-
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			e.printStackTrace();
-
-			throw new Exception(e);
 		} finally {
+			session.flush();
 			session.close();
 		}
 		return usersList;
@@ -139,9 +111,10 @@ public class UserOperations {
 			throws HibernateException, Exception {
 
 		User userAccount = null;
+		Session session = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
+			session.beginTransaction();
 			userAccount = (User) session.get(User.class,
 					userID);
 
@@ -150,6 +123,7 @@ public class UserOperations {
 		} catch (Exception e) {
 			throw new Exception(e);
 		} finally {
+			session.flush();
 			session.close();
 		}
 		return userAccount;
@@ -157,9 +131,10 @@ public class UserOperations {
 
     public User getUserByEmail(String email) throws Exception{
         List<User> users = null;
-        try {
+		Session session = null;
+		try {
             session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
+			session.beginTransaction();
             Criteria criteria = session.createCriteria(User.class);
 
 
@@ -174,7 +149,8 @@ public class UserOperations {
         } catch (Exception e) {
             throw new Exception(e);
         } finally {
-            session.close();
+			session.flush();
+			session.close();
         }
 
         if(users != null && users.size() > 0){
@@ -186,9 +162,10 @@ public class UserOperations {
 
     public User getUserByEmailAndPassword(String email, String password) throws Exception{
         List<User> users = null;
-        try {
+		Session session = null;
+		try {
             session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
+			session.beginTransaction();
             Criteria criteria = session.createCriteria(User.class);
 
 
@@ -201,12 +178,9 @@ public class UserOperations {
 
             users = criteria.list();
 
-        } catch (HibernateException e) {
-            throw new HibernateException(e);
-        } catch (Exception e) {
-            throw new Exception(e);
         } finally {
-            session.close();
+			session.flush();
+			session.close();
         }
 
         if(users != null && users.size() > 0){

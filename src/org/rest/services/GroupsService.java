@@ -1,11 +1,9 @@
 package org.rest.services;
 
 import org.orm.entities.Group;
-import org.orm.entities.User;
 import org.orm.services.GroupOperations;
 import org.orm.services.QueryService;
-import org.rest.dtos.GroupDTO;
-import org.rest.dtos.UserDTO;
+import org.rest.services.dtos.GroupDTO;
 import org.rest.util.DTOToEntity;
 import org.rest.util.EntityToDTO;
 import org.rest.util.URIConstants;

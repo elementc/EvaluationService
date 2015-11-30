@@ -2,7 +2,7 @@ package org.rest.util;
 
 
 import org.orm.entities.*;
-import org.rest.dtos.*;
+import org.rest.services.dtos.*;
 
 public class DTOToEntity {
 

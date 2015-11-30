@@ -1,6 +1,5 @@
 app.controller('EvaluationController', ['$rootScope', '$scope', '$http', '$routeParams', '$mdToast', '$location', 'URLFactory',
     function ($rootScope, $scope, $http, $routeParams, $mdToast, $location, URLFactory) {
-        $scope.members = [{name: 'Member-A', id: 1}, {name: 'Member-B', id: 2}, {name: 'Member-C', id: 3}];
 
         $scope.self = {};
         $scope.member = {};
@@ -11,6 +10,31 @@ app.controller('EvaluationController', ['$rootScope', '$scope', '$http', '$route
             $location.path("/home");
             return;
         }
+
+        $http.get(URLFactory.getGroupEvaluationsURL()).success(function (evaluations) {
+            if(evaluations){
+                for(var i = 0; i < evaluations.length; i++){
+                    if(evaluations[i].evaluation_stage_id == $rootScope.stage.id){
+                        $scope.groupEvaluation = evaluations[i];
+                        break;
+                    }
+                }
+            }
+        });
+
+        $http.get(URLFactory.getMemberEvaluationsURL()).success(function (evaluations) {
+            if(evaluations){
+                for(var i = 0; i < evaluations.length; i++){
+                    var evaluation = evaluations[i];
+                    if(evaluation.evaluation_stage_id == $rootScope.stage.id){
+                        if(evaluation.evaluator_id == evaluation.evaluatee_id){
+                            $scope.self = evaluation;
+                            break;
+                        }
+                    }
+                }
+            }
+        });
 
         $http.get(URLFactory.getGroupMembersURL($rootScope.group.id)).success(function(e){
             $scope.groupMembers = e;

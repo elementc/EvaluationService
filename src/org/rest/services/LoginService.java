@@ -2,7 +2,7 @@ package org.rest.services;
 
 import org.orm.entities.User;
 import org.orm.services.UserOperations;
-import org.rest.dtos.AuthForm;
+import org.rest.services.dtos.AuthForm;
 import org.rest.util.EntityToDTO;
 import org.rest.util.URIConstants;
 
@@ -12,8 +12,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
 import java.util.HashMap;
 

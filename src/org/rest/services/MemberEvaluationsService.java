@@ -1,12 +1,8 @@
 package org.rest.services;
 
-import org.orm.entities.Group;
 import org.orm.entities.MemberEvaluation;
 import org.orm.services.MemberEvaluationOperations;
-import org.orm.services.QueryService;
-import org.rest.dtos.GroupDTO;
-import org.rest.dtos.GroupEvaluationDTO;
-import org.rest.dtos.MemberEvaluationDTO;
+import org.rest.services.dtos.MemberEvaluationDTO;
 import org.rest.util.DTOToEntity;
 import org.rest.util.EntityToDTO;
 import org.rest.util.URIConstants;

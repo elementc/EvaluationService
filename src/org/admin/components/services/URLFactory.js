@@ -9,6 +9,10 @@ app.factory('URLFactory', [function(){
     factory.getUserURL = function(id){
         return factory.getUsersURL() + id + '/';
     };
+
+    factory.getResetPasswordURL = function(email){
+        return factory.getUsersURL() + 'resetpassword/' + email;
+    };
     
     factory.getCoursesURL = function(){
         return baseURL + "courses/";

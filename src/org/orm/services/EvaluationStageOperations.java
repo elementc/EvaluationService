@@ -12,35 +12,29 @@ import java.util.List;
 
 public class EvaluationStageOperations {
 
-	private Session session;
-	private Transaction transaction;
-
 	public void addOrUpdateEvaluationStage(EvaluationStage evaluationStage)
 			throws HibernateException, EntityValidationException ,Exception {
 
-        validateEvaluationStage(evaluationStage);
-		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
-			transaction = session.beginTransaction();
-            if(evaluationStage.getId() != 0){
-                session.update(evaluationStage);
-            }else{
-                session.save(evaluationStage);
-            }
-			transaction.commit();
-		} catch (HibernateException e) {
+		validateEvaluationStage(evaluationStage);
 
-			if (transaction != null){
-                transaction.rollback();
-            }
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			if (transaction != null){
-                transaction.rollback();
-            }
-			throw new Exception(e);
-		} finally {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
+		try {
+			/*session.clear();*/
+			transaction = session.beginTransaction();
+			if(evaluationStage.getId() != 0){
+				session.update(evaluationStage);
+			}else{
+				session.save(evaluationStage);
+			}
+			session.getTransaction().commit();
+		} catch (RuntimeException e){
+			if(transaction != null){
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		} finally{
+			session.flush();
 			session.close();
 		}
 	}
@@ -48,26 +42,20 @@ public class EvaluationStageOperations {
 	public void deleteEvaluationStage(int evaluationStageID)
 			throws HibernateException, Exception {
 
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
 		try {
-			EvaluationStage evaluationStage = getEvaluationStage(evaluationStageID);
-			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
+			/*session.clear();*/
 			transaction = session.beginTransaction();
-			session.delete(evaluationStage);
-			transaction.commit();
-		} catch (HibernateException e) {
-			if (transaction != null){
-                transaction.rollback();
-            }
-
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			if (transaction != null){
-                transaction.rollback();
-            }
-
-			throw new Exception(e);
-		} finally {
+			session.delete(getEvaluationStage(evaluationStageID));
+			session.getTransaction().commit();
+		} catch (RuntimeException e){
+			if(transaction != null){
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		} finally{
+			session.flush();
 			session.close();
 		}
 	}
@@ -75,10 +63,11 @@ public class EvaluationStageOperations {
 	public List<EvaluationStage> getAllEvaluationStages() throws HibernateException,
 			Exception {
 
+		Session session = null;
 		List<EvaluationStage> evaluationStageList = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
+			session.beginTransaction();
 			Criteria criteria = session.createCriteria(EvaluationStage.class);
 
 			criteria.addOrder(Order.asc("id"));
@@ -89,12 +78,8 @@ public class EvaluationStageOperations {
                 evaluationStageList = null;
             }
 
-		} catch (HibernateException e) {
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			throw new Exception(e);
 		} finally {
-			session.close();
+			session.flush(); session.close();
 		}
 		return evaluationStageList;
 	}
@@ -102,10 +87,11 @@ public class EvaluationStageOperations {
 	public List<EvaluationStage> getTopEvaluationStages(int maxRows)
 			throws HibernateException, Exception {
 
+		Session session = null;
 		List<EvaluationStage> evaluationStageList = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
+			session.beginTransaction();
 			Criteria criteria = session.createCriteria(EvaluationStage.class);
 
 			if (maxRows > 0)
@@ -119,12 +105,8 @@ public class EvaluationStageOperations {
                 evaluationStageList = null;
             }
 
-		} catch (HibernateException e) {
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			throw new Exception(e);
 		} finally {
-			session.close();
+			session.flush(); session.close();
 		}
 		return evaluationStageList;
 	}
@@ -132,18 +114,15 @@ public class EvaluationStageOperations {
 	public EvaluationStage getEvaluationStage(int evaluationStageID)
 			throws HibernateException, Exception {
 
+		Session session = null;
 		EvaluationStage evaluationStage = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			session.clear();
+			session.beginTransaction();
 			evaluationStage = (EvaluationStage) session.get(EvaluationStage.class, evaluationStageID);
 
-		} catch (HibernateException e) {
-			throw new HibernateException(e);
-		} catch (Exception e) {
-			throw new Exception(e);
 		} finally {
-			session.close();
+			session.flush(); session.close();
 		}
 		return evaluationStage;
 	}

@@ -2,7 +2,7 @@ package org.rest.services;
 
 import org.orm.entities.GroupMember;
 import org.orm.services.GroupMemberOperations;
-import org.rest.dtos.GroupMemberDTO;
+import org.rest.services.dtos.GroupMemberDTO;
 import org.rest.util.DTOToEntity;
 import org.rest.util.EntityToDTO;
 import org.rest.util.URIConstants;
