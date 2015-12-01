@@ -75,6 +75,9 @@ body {
 		border-right: 0;
 		border-radius: 0 5px 5px 0;
 	}
+	md-card{
+	     width: 500px !important;
+	}
 }
 
 /* Responsive: Portrait tablets and up */
@@ -86,4 +89,5 @@ body {
 		padding-right: 0;
 		padding-left: 0;
 	}
+
 }
