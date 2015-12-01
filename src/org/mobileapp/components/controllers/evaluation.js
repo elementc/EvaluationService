@@ -5,6 +5,7 @@ app.controller('EvaluationController', ['$rootScope', '$scope', '$http', '$route
         $scope.member = {};
         $scope.groupEvaluation = {};
         $scope.selected = {};
+        $scope.userEvaluations = [];
 
         if($rootScope.stage == undefined || $rootScope.stage == null || $rootScope.group == undefined || $rootScope.group == null){
             $location.path("/home");
@@ -24,6 +25,7 @@ app.controller('EvaluationController', ['$rootScope', '$scope', '$http', '$route
 
         $http.get(URLFactory.getMemberEvaluationsURL()).success(function (evaluations) {
             if(evaluations){
+                $scope.userEvaluations = evaluations;
                 for(var i = 0; i < evaluations.length; i++){
                     var evaluation = evaluations[i];
                     if(evaluation.evaluation_stage_id == $rootScope.stage.id){
@@ -35,6 +37,48 @@ app.controller('EvaluationController', ['$rootScope', '$scope', '$http', '$route
                 }
             }
         });
+
+        $scope.refreshMember = function(memberID){
+            $scope.member = {};
+            for(var i = 0; i < $scope.userEvaluations.length; i++){
+                var evaluation = $scope.userEvaluations[i];
+                if(evaluation.evaluation_stage_id == $rootScope.stage.id){
+                    if(memberID == evaluation.evaluatee_id){
+                        $scope.member = evaluation;
+                        break;
+                    }
+                }
+            }
+        };
+
+        $scope.refreshAll = function(){
+            $http.get(URLFactory.getGroupEvaluationsURL()).success(function (evaluations) {
+                if(evaluations){
+                    for(var i = 0; i < evaluations.length; i++){
+                        if(evaluations[i].evaluation_stage_id == $rootScope.stage.id){
+                            $scope.groupEvaluation = evaluations[i];
+                            $scope.refreshMember($scope.selected.groupMember.id);
+                            break;
+                        }
+                    }
+                }
+            });
+
+            $http.get(URLFactory.getMemberEvaluationsURL()).success(function (evaluations) {
+                if(evaluations){
+                    $scope.userEvaluations = evaluations;
+                    for(var i = 0; i < evaluations.length; i++){
+                        var evaluation = evaluations[i];
+                        if(evaluation.evaluation_stage_id == $rootScope.stage.id){
+                            if(evaluation.evaluator_id == evaluation.evaluatee_id){
+                                $scope.self = evaluation;
+                                break;
+                            }
+                        }
+                    }
+                }
+            });
+        };
 
         $http.get(URLFactory.getGroupMembersURL($rootScope.group.id)).success(function(e){
             $scope.groupMembers = e;
@@ -74,7 +118,7 @@ app.controller('EvaluationController', ['$rootScope', '$scope', '$http', '$route
             $scope.self.evaluation_stage_id = $rootScope.stage.id;
             $scope.self.groups_id = $rootScope.group.id;
             $http.post(URLFactory.getMemberEvaluationsURL(), $scope.self).success(function(e){
-                $scope.self = {};
+                $scope.refreshAll();
                 showToast("Evaluation Submitted Successfully!");
             }).error(function(e){
                 if(e !== null && e.error !== undefined){
@@ -91,7 +135,7 @@ app.controller('EvaluationController', ['$rootScope', '$scope', '$http', '$route
             $scope.member.evaluation_stage_id = $rootScope.stage.id;
             $scope.member.groups_id = $rootScope.group.id;
             $http.post(URLFactory.getMemberEvaluationsURL(), $scope.member).success(function(e){
-                $scope.member = {};
+                $scope.refreshAll();
                 showToast("Evaluation Submitted Successfully!");
             }).error(function(e){
                 if(e !== null && e.error !== undefined){
@@ -107,7 +151,7 @@ app.controller('EvaluationController', ['$rootScope', '$scope', '$http', '$route
             $scope.groupEvaluation.evaluation_stage_id = $rootScope.stage.id;
             $scope.groupEvaluation.group_id = $rootScope.group.id;
             $http.post(URLFactory.getGroupEvaluationsURL(), $scope.groupEvaluation).success(function(e){
-                $scope.groupEvaluation = {};
+                $scope.refreshAll();
                 showToast("Evaluation Submitted Successfully!");
             }).error(function(e){
                 if(e !== null && e.error !== undefined){

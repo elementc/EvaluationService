@@ -65,7 +65,7 @@
                     <md-content class="md-padding">
                         <form name="memberForm" style="overflow: auto; height:100%;">
                             <label>Member:</label>
-                            <md-select ng-model="selected.groupMember" required>
+                            <md-select ng-model="selected.groupMember" ng-change="refreshMember(selected.groupMember.id)" required>
                                 <md-option ng-repeat="groupMember in groupMembers" ng-value="groupMember" ng-if="groupMember.email !== user.email">
                                     {{groupMember.fullname}}
                                 </md-option>
