@@ -1,7 +1,6 @@
 app.factory('URLFactory', [function(){
     var factory = {};
-    //var baseURL = "http://" + window.location.host +"/evaluationsapi/";
-    var baseURL = "http://localhost:48484/evaluationsapi/";
+    var baseURL = "http://" + window.location.hostname +":48484/evaluationsapi/";
 
     factory.getMobileServiceURL = function(){
         return baseURL + "mobile_service/"
