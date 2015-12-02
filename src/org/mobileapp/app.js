@@ -45,7 +45,7 @@ app.config(['$routeProvider' , '$locationProvider', '$httpProvider', '$mdTheming
         controller: 'EvaluationController'
     }).when('/resetpassword',
         {
-            templateUrl: 'components/views/resetPassword.html',
+            templateUrl: 'components/views/resetpassword.html',
             controller: 'ResetPasswordController'
         }).otherwise(
     {
