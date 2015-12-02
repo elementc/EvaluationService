@@ -1,6 +1,6 @@
 app.factory('URLFactory', [function(){
     var factory = {};
-    var baseURL = "http://" + window.location.host +"/evaluationsapi/";
+    var baseURL = "http://" + window.location.hostname +":48484/evaluationsapi/";
     
     factory.getUsersURL = function(){
         return baseURL + "users/";

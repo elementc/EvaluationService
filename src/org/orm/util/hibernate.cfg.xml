@@ -9,7 +9,7 @@
         <property name="hbm2ddl.auto">update</property>  
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>        
-        <property name="connection.url">jdbc:mysql://163.118.135.60:3306/gallagher?autoReconnect=true</property>
+        <property name="connection.url">jdbc:mysql://163.118.135.60:3306/evaluations?autoReconnect=true</property>
         <property name="connection.username">gallagher</property>
         <property name="connection.password">ULjfM8vj4JulcpfzxBWS</property>
     	<property name="show_sql">false</property>
