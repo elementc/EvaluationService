@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 public class EvaluationStage implements java.io.Serializable{
 
 	@Id
-	@GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
 

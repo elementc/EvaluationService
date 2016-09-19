@@ -8,7 +8,7 @@ import javax.persistence.*;
 public class GroupMember implements java.io.Serializable{
 
 	@Id
-	@GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
 
