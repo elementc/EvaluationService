@@ -1,7 +1,13 @@
 app.factory('URLFactory', [function(){
     var factory = {};
-    var baseURL = "http://" + window.location.hostname +":48484/evaluationsapi/";
-    
+    if (window.location.hostname.includes("localhost")){
+        var baseURL = "http://" + window.location.hostname +":8080/evaluationsapi/";
+    }
+    else{
+        var baseURL = "http://" + window.location.hostname +"/evaluationsapi/";
+    }
+
+
     factory.getUsersURL = function(){
         return baseURL + "users/";
     };
