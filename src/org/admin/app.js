@@ -16,7 +16,7 @@ app.config(['$routeProvider' , '$locationProvider', '$httpProvider', '$mdTheming
              };
          });
 
-    $mdThemingProvider.theme('default').primaryPalette('teal').accentPalette('blue');
+    $mdThemingProvider.theme('default').primaryPalette('red').accentPalette('deep-purple');
 
 
 	   //$locationProvider.html5Mode(true);
