@@ -1,10 +1,10 @@
 app.factory('URLFactory', [function(){
     var factory = {};
     if (window.location.hostname.includes("localhost")){
-        var baseURL = "http://" + window.location.hostname +":8080/evaluationsapi/";
+        var baseURL = window.location.protocol + "//" + window.location.hostname +":8080/evaluationsapi/";
     }
     else{
-        var baseURL = "http://" + window.location.hostname +"/evaluationsapi/";
+        var baseURL = window.location.protocol + "//" + window.location.hostname +"/evaluationsapi/";
     }
 
 
